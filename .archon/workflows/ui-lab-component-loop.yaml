@@ -1,0 +1,196 @@
+name: ui-lab-component-loop
+description: |
+  Use when: The Archon UI-lab component queue should be drained continuously.
+  Triggers: "ui-lab component loop", "run ui-lab component automation", "implement ui-lab variants".
+  Does: Uses BMAD route constraints and a Ralph-style loop to implement one queued shadcn/Radix component at a time, validate it, record evidence, and continue until the queue is drained.
+  NOT for: One-off UI edits outside packages/ui-lab, unofficial MCP installation, or broad app refactors.
+
+provider: codex
+model: gpt-5.5
+modelReasoningEffort: high
+worktree:
+  enabled: false
+mutates_checkout: true
+tags: [BMAD, Ralph, UI Lab, Automation]
+
+nodes:
+  - id: preflight
+    bash: |
+      set -euo pipefail
+      test -f .archon/bmad/ui-lab-components.queue.json
+      test -d packages/ui-lab
+      test -f .archon/mcp/ui-stack-official.json
+      if [ -f .archon/bmad/ui-lab-components.queue.lock ]; then
+        echo "Queue lock exists. Inspect .archon/bmad/ui-lab-components.queue.lock before starting a new run."
+        exit 1
+      fi
+      bun .archon/scripts/ui-lab/status.ts
+      bun .archon/scripts/ui-lab/pick.ts --dry-run --workflow-id "$WORKFLOW_ID"
+
+  - id: route-introspection
+    depends_on: [preflight]
+    context: fresh
+    prompt: |
+      # BMAD UI-Stack Route Introspection
+
+      Read the local capability evidence and return the route constraints for the UI-lab loop.
+
+      Required local evidence:
+      - `.archon/mcp/ui-stack-official.json`
+      - `.archon/bmad/capability-profile-registry.ui-stack.json`
+      - `.archon/bmad/evidence/ui-stack-mcp-official.md`
+      - `.archon/bmad/evidence/ui-stack-radix-tailwind-boundary.md`
+      - `.archon/bmad/evidence/ui-stack-storybook-components.md`
+      - `.archon/ralph/ui-lab/prd.json`
+
+      Return only JSON matching the output schema. Do not write files.
+    output_format:
+      type: object
+      additionalProperties: false
+      properties:
+        status:
+          type: string
+          enum: [ready, blocked]
+        route:
+          type: string
+        officialMcpClaims:
+          type: array
+          items:
+            type: string
+        docsOnlyClaims:
+          type: array
+          items:
+            type: string
+        guardrails:
+          type: array
+          items:
+            type: string
+        blockedClaims:
+          type: array
+          items:
+            type: string
+      required: [status, route, officialMcpClaims, docsOnlyClaims, guardrails, blockedClaims]
+
+  - id: component-loop
+    depends_on: [route-introspection]
+    when: "$route-introspection.output.status == 'ready'"
+    idle_timeout: 900000
+    loop:
+      prompt: |
+        # UI-Lab Component Ralph Loop
+
+        You are in a fresh context. Process exactly one queue item, then end this iteration.
+
+        BMAD route constraints:
+        $route-introspection.output
+
+        User request:
+        $ARGUMENTS
+
+        ## Required Control Flow
+
+        1. Read current queue status:
+           `bun .archon/scripts/ui-lab/status.ts`
+        2. Pick or resume one item:
+           `bun .archon/scripts/ui-lab/pick.ts --workflow-id "$WORKFLOW_ID"`
+        3. If pick returns `empty`, output `UI_LAB_QUEUE_DRAINED` and stop.
+        4. Read the returned `currentItemArtifactPath`, Ralph component contract, and relevant `packages/ui-lab` component/story/test files.
+        5. Implement only the selected component and its Storybook/Playwright coverage.
+        6. Run BMAD route introspection mentally before coding:
+           - Storybook and Playwright MCP claims are official capability claims.
+           - shadcn is official CLI/MCP setup awareness.
+           - Radix and Tailwind are docs/source capability claims only.
+           - Do not add unofficial Radix or Tailwind MCP claims.
+        7. Use a Ralph retry loop inside this iteration:
+           - attempt implementation
+           - run validation
+           - triage failures
+           - retry up to 2 times
+           - after the third failed validation attempt, mark the item blocked
+
+        ## Component Done Definition
+
+        The selected item can be marked `done` only when all variant families are covered:
+        - density: compact, default, comfortable
+        - surface: flat, outline, elevated, ghost
+        - state: default, focus, disabled, invalid, loading, empty
+        - mode: dark, high-contrast, reduced-motion, responsive
+
+        Required evidence:
+        - Storybook story coverage for the selected component.
+        - One interaction test where component behavior changes, when applicable.
+        - Playwright coverage for visible Storybook canvas/root.
+        - Console errors fail the tested story.
+        - Axe/a11y check for the rendered story canvas.
+        - Keyboard flow coverage for Radix-backed interactive components.
+
+        ## Required Validation Commands
+
+        Run at minimum:
+        - `bun --filter @archon/ui-lab type-check`
+        - `bun --filter @archon/ui-lab test-storybook`
+
+        Also run the most targeted Playwright command available for the selected component. If component-level filtering is not available yet, add it as part of the selected component work or run `bun --filter @archon/ui-lab test:e2e` and document why it was the narrowest available gate.
+
+        ## Completion Recording
+
+        Before ending, write `$ARTIFACTS_DIR/ui-lab/current-result.json`:
+
+        ```json
+        {
+          "component": "selected-component-id",
+          "status": "done",
+          "summary": "short factual implementation and validation summary",
+          "variantMatrix": {
+            "density": "covered",
+            "surface": "covered",
+            "state": "covered",
+            "mode": "covered"
+          },
+          "validation": [
+            {"command": "bun --filter @archon/ui-lab type-check", "status": "pass", "notes": "..."}
+          ],
+          "artifacts": ["paths to changed stories/tests or generated evidence"],
+          "failureReason": null
+        }
+        ```
+
+        For a blocked item, use `"status": "blocked"` and include a non-empty `failureReason`.
+
+        Then run:
+        `bun .archon/scripts/ui-lab/complete.ts --workflow-id "$WORKFLOW_ID"`
+
+        Do not hand-edit `.archon/bmad/ui-lab-components.queue.json`.
+      until: UI_LAB_QUEUE_DRAINED
+      until_bash: |
+        bun .archon/scripts/ui-lab/status.ts --complete-when-drained
+      max_iterations: 40
+      fresh_context: true
+
+  - id: final-gate
+    depends_on: [component-loop]
+    trigger_rule: all_done
+    bash: |
+      set -euo pipefail
+      bun .archon/scripts/ui-lab/status.ts --require-all-done
+
+  - id: final-report
+    depends_on: [route-introspection, component-loop, final-gate]
+    trigger_rule: all_done
+    context: fresh
+    prompt: |
+      Summarize the UI-lab component loop.
+
+      Read:
+      - `.archon/bmad/ui-lab-components.queue.json`
+      - `.archon/bmad/evidence/ui-lab-component-runs/`
+      - `.archon/ralph/ui-lab/components/`
+
+      Include:
+      - queue counts by status
+      - completed components
+      - blocked components and failure reasons
+      - validation evidence paths
+      - launch command for continuing or rerunning the loop
+
+      Keep the report factual. Do not mark success if any queue item is blocked or in_progress.

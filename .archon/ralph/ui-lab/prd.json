@@ -1,0 +1,53 @@
+{
+  "id": "archon-ui-lab",
+  "title": "Archon UI Stack Capability + Storybook Lab",
+  "objective": "Create a dedicated @archon/ui-lab workspace package for reusable UI primitives, Storybook matrices, page templates, shadcn registry artifacts, and Playwright validation.",
+  "stories": [
+    {
+      "id": "ui-lab-1",
+      "title": "Package scaffold + dependency wiring",
+      "acceptance": ["packages/ui-lab exists", "@archon/web depends on @archon/ui-lab", "package exports components, templates, and styles"]
+    },
+    {
+      "id": "ui-lab-2",
+      "title": "Storybook + MCP endpoint",
+      "acceptance": ["React Vite Storybook configured", "Storybook MCP addon installed", "a11y and Vitest addons installed"]
+    },
+    {
+      "id": "ui-lab-3",
+      "title": "Component extraction/re-export bridge",
+      "acceptance": ["13 primitives live in ui-lab", "web UI files re-export ui-lab components", "existing app imports remain stable"]
+    },
+    {
+      "id": "ui-lab-4",
+      "title": "Primitive story matrix",
+      "acceptance": ["density variants represented", "surface variants represented", "state variants represented", "mode variants represented"]
+    },
+    {
+      "id": "ui-lab-5",
+      "title": "Interactive Radix stories",
+      "acceptance": ["dialog play function", "alert-dialog play function", "collapsible play function", "tabs play function", "tooltip play function"]
+    },
+    {
+      "id": "ui-lab-6",
+      "title": "Template registry",
+      "acceptance": ["AgentCommandCenterTemplate exists", "WorkflowReviewTemplate exists", "registry.json exists", "public/r artifacts exist"]
+    },
+    {
+      "id": "ui-lab-7",
+      "title": "Playwright/a11y/browser matrix",
+      "acceptance": ["Storybook index.json is enumerated", "Chromium project configured", "Firefox project configured", "WebKit project configured", "axe scans run"]
+    },
+    {
+      "id": "ui-lab-8",
+      "title": "Forge/capability docs + final validation",
+      "acceptance": ["official MCP config exists", "Forge request exists", "Radix/Tailwind unofficial MCP claims are blocked", "targeted gates documented"]
+    }
+  ],
+  "guardrails": [
+    "Official MCP only for Storybook and Playwright.",
+    "shadcn MCP setup must use official CLI init.",
+    "Radix and Tailwind are docs/source capability profiles only.",
+    "Do not claim live MCP validation unless a workflow records it."
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "schemaVersion": 1,
+  "profiles": [
+    {
+      "profileId": "archon.ui-stack.storybook.mcp",
+      "capabilityId": "host.mcp.storybook.local-preview",
+      "toolName": "Storybook MCP",
+      "supportState": "official-mcp-configured-local",
+      "trustBoundary": "Advisory until a workflow records live output from http://127.0.0.1:6006/mcp.",
+      "evidenceRefs": [
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/evidence/ui-stack-mcp-official.md",
+        "/Users/edam/Documents/TODA/Archon/packages/ui-lab/.storybook/main.ts",
+        "https://storybook.js.org/docs/ai/mcp/overview"
+      ],
+      "repairHint": "Run bun --filter @archon/ui-lab storybook, then verify http://127.0.0.1:6006/mcp."
+    },
+    {
+      "profileId": "archon.ui-stack.playwright.mcp",
+      "capabilityId": "host.mcp.playwright.official",
+      "toolName": "Playwright MCP",
+      "supportState": "official-mcp-configured",
+      "trustBoundary": "Advisory until a Claude node invokes the configured MCP server and stores run evidence.",
+      "evidenceRefs": [
+        "/Users/edam/Documents/TODA/Archon/.archon/mcp/ui-stack-official.json",
+        "/Users/edam/Documents/TODA/Archon/packages/ui-lab/playwright.config.ts",
+        "https://playwright.dev/docs/getting-started-mcp"
+      ],
+      "repairHint": "Use npx -y @playwright/mcp@latest --headless --isolated and keep browser tests deterministic."
+    },
+    {
+      "profileId": "archon.ui-stack.shadcn.mcp",
+      "capabilityId": "host.mcp.shadcn.registry",
+      "toolName": "shadcn CLI/MCP init",
+      "supportState": "official-cli-and-registry-configured",
+      "trustBoundary": "shadcn MCP setup must be performed through the official CLI init command, not a hand-written server command.",
+      "evidenceRefs": [
+        "/Users/edam/Documents/TODA/Archon/packages/ui-lab/components.json",
+        "/Users/edam/Documents/TODA/Archon/packages/ui-lab/registry.json",
+        "https://ui.shadcn.com/docs/registry/mcp"
+      ],
+      "repairHint": "Run bunx shadcn@latest info --cwd packages/ui-lab and the official mcp init command when user-approved."
+    },
+    {
+      "profileId": "archon.ui-stack.radix.docs",
+      "capabilityId": "docs.radix.primitives.accessibility",
+      "toolName": "Radix Primitives docs",
+      "supportState": "docs-source-only-no-official-mcp",
+      "trustBoundary": "No official Radix MCP is claimed; use source/docs evidence and Storybook interaction tests.",
+      "evidenceRefs": [
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/evidence/ui-stack-radix-tailwind-boundary.md",
+        "https://www.radix-ui.com/primitives/docs/overview/introduction"
+      ],
+      "repairHint": "Do not add a Radix MCP profile unless an official Radix MCP exists and is verified."
+    },
+    {
+      "profileId": "archon.ui-stack.tailwind.docs",
+      "capabilityId": "docs.tailwind.v4.theme-variables",
+      "toolName": "Tailwind CSS docs",
+      "supportState": "docs-source-only-no-official-mcp",
+      "trustBoundary": "No official Tailwind MCP is claimed; use source/docs evidence and CSS/theme validation.",
+      "evidenceRefs": [
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/evidence/ui-stack-radix-tailwind-boundary.md",
+        "/Users/edam/Documents/TODA/Archon/packages/ui-lab/src/styles.css",
+        "https://tailwindcss.com/docs/theme"
+      ],
+      "repairHint": "Do not add a Tailwind MCP profile unless an official Tailwind MCP exists and is verified."
+    }
+  ]
+}

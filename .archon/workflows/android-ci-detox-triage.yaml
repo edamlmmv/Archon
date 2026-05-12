@@ -1,0 +1,289 @@
+name: android-ci-detox-triage
+description: |
+  Use when: Android GitHub Actions Detox E2E release tests fail and the operator
+  wants read-only CI evidence plus local harness mapping before fixing code.
+  Triggers: "android ci detox triage", "triage android e2e", "debug android detox ci",
+            "github actions android e2e failed", "detox has-window-focus".
+  Does: Parses the requested run, fetches read-only GitHub Actions evidence via MCP,
+        scans the TODA-Experience-APP Android E2E harness, classifies known failure
+        signatures, and produces a target-file triage report.
+  NOT for: Installing unofficial Android/ADB MCPs, running Detox locally, mutating
+           target app code, or creating PRs.
+
+provider: claude
+model: sonnet
+worktree:
+  enabled: false
+
+nodes:
+  - id: parse-request
+    prompt: |
+      Extract the GitHub Actions run target from this request.
+
+      Request:
+      $ARGUMENTS
+
+      Rules:
+      - If a GitHub Actions URL is present, extract owner, repo, and run_id from it.
+      - If only a run id is present, set run_id and leave owner/repo empty.
+      - If no run id is present, set run_id to an empty string and describe what is missing.
+      - Default target_repo_path to `/Users/edam/TODA-Experience-APP`.
+      - Output JSON only.
+    allowed_tools: []
+    output_format:
+      type: object
+      additionalProperties: false
+      properties:
+        owner:
+          type: string
+        repo:
+          type: string
+        run_id:
+          type: string
+        run_url:
+          type: string
+        target_repo_path:
+          type: string
+        missing:
+          type: array
+          items:
+            type: string
+        notes:
+          type: string
+      required: [owner, repo, run_id, run_url, target_repo_path, missing, notes]
+
+  - id: fetch-ci-evidence
+    depends_on: [parse-request]
+    mcp: .archon/mcp/github-actions-readonly.json
+    allowed_tools: []
+    prompt: |
+      Fetch read-only GitHub Actions evidence for Android Detox E2E triage.
+
+      Parsed request:
+      $parse-request.output
+
+      Use the GitHub MCP server only. Do not mutate issues, PRs, runs, artifacts,
+      branches, or repository files.
+
+      If owner, repo, or run_id is missing, do not guess. Return mcp_available=true
+      only if tools are available, but explain missing inputs and include fallback
+      commands.
+
+      If run_id is present:
+      - Fetch workflow run metadata.
+      - Fetch failed job logs, preferring direct log content over URLs when available.
+      - List/download artifact metadata when available.
+      - Extract compact log excerpts containing:
+        - has-window-focus=false
+        - root of the view hierarchy
+        - sign-in-email-input
+        - sign-in-password-input
+        - ps -A
+        - com.coresee
+        - /sdcard
+        - Transport endpoint is not connected
+        - Permission denied
+        - DeadObjectException
+        - ready message
+      - Keep each excerpt short enough for downstream analysis.
+
+      Output JSON only.
+    output_format:
+      type: object
+      additionalProperties: false
+      properties:
+        mcp_available:
+          type: boolean
+        owner:
+          type: string
+        repo:
+          type: string
+        run_id:
+          type: string
+        workflow:
+          type: string
+        run_status:
+          type: string
+        run_conclusion:
+          type: string
+        failed_jobs:
+          type: array
+          items:
+            type: string
+        artifacts:
+          type: array
+          items:
+            type: string
+        log_excerpts:
+          type: array
+          items:
+            type: string
+        fallback_commands:
+          type: array
+          items:
+            type: string
+        errors:
+          type: array
+          items:
+            type: string
+      required:
+        - mcp_available
+        - owner
+        - repo
+        - run_id
+        - workflow
+        - run_status
+        - run_conclusion
+        - failed_jobs
+        - artifacts
+        - log_excerpts
+        - fallback_commands
+        - errors
+
+  - id: local-harness-scan
+    depends_on: [parse-request]
+    script: |
+      import { existsSync, readFileSync } from 'fs';
+      import { join } from 'path';
+
+      const request = $parse-request.output;
+      const targetRepoPath = request.target_repo_path || '/Users/edam/TODA-Experience-APP';
+      const files = [
+        'scripts/ci/e2e-android.sh',
+        'e2e/helpers.ts',
+        'e2e/actions.ts',
+        'e2e/signIn.test.ts',
+        '.detoxrc.js',
+        'src/components/organisms/forms/SignInForm.tsx',
+      ];
+      const patterns = [
+        'has-window-focus',
+        'root of the view hierarchy',
+        'recoverAndroidWindowFocus',
+        'waitForElement',
+        'focusElement',
+        'replaceText',
+        'sign-in-email-input',
+        'sign-in-password-input',
+        'prime_emulator_app_focus',
+        'ps -A',
+        '/sdcard',
+        'record-logs',
+        'record-videos',
+        'DeadObjectException',
+      ];
+
+      function matchingLines(path: string): string[] {
+        const fullPath = join(targetRepoPath, path);
+        if (!existsSync(fullPath)) {
+          return [`MISSING ${path}`];
+        }
+
+        const lines = readFileSync(fullPath, 'utf8').split(/\r?\n/);
+        const matches: string[] = [];
+        lines.forEach((line, index) => {
+          if (patterns.some((pattern) => line.includes(pattern))) {
+            matches.push(`${path}:${index + 1}: ${line.trim()}`);
+          }
+        });
+        return matches.slice(0, 80);
+      }
+
+      const gitStatus = Bun.spawnSync({
+        cmd: ['git', '-C', targetRepoPath, 'status', '--short', '--branch'],
+        stdout: 'pipe',
+        stderr: 'pipe',
+      });
+
+      console.log(JSON.stringify({
+        targetRepoPath,
+        gitStatus: gitStatus.stdout.toString().trim(),
+        files: Object.fromEntries(files.map((file) => [file, matchingLines(file)])),
+      }));
+    runtime: bun
+    timeout: 30000
+
+  - id: parse-signatures
+    depends_on: [fetch-ci-evidence, local-harness-scan]
+    script: |
+      const ci = $fetch-ci-evidence.output;
+      const local = $local-harness-scan.output;
+      const excerpts = Array.isArray(ci.log_excerpts) ? ci.log_excerpts : [];
+      const haystack = excerpts.join('\n');
+      const signaturePatterns = [
+        ['window_focus', /has-window-focus=false|root of the view hierarchy|window focus/i],
+        ['sign_in_email_wait', /sign-in-email-input/i],
+        ['sign_in_password_wait', /sign-in-password-input/i],
+        ['process_missing', /ps -A|com\.coresee/i],
+        ['sdcard_io', /\/sdcard|Transport endpoint is not connected|Input\/output error|Permission denied/i],
+        ['instrumentation_dead_object', /DeadObjectException|startInstrumentation/i],
+        ['detox_ready_timeout', /ready message|Failed to run application on the device|app disconnected/i],
+      ];
+
+      const signatures = signaturePatterns.map(([id, pattern]) => {
+        const regex = pattern as RegExp;
+        const matches = excerpts.filter((excerpt) => regex.test(excerpt));
+        return {
+          id,
+          present: matches.length > 0,
+          count: matches.length,
+          evidence: matches.slice(0, 5),
+        };
+      });
+
+      const targetFiles = [
+        'e2e/helpers.ts',
+        'e2e/actions.ts',
+        'e2e/signIn.test.ts',
+        'scripts/ci/e2e-android.sh',
+        '.detoxrc.js',
+        'src/components/organisms/forms/SignInForm.tsx',
+      ];
+
+      console.log(JSON.stringify({
+        mcpAvailable: Boolean(ci.mcp_available),
+        workflow: ci.workflow || '',
+        runStatus: ci.run_status || '',
+        runConclusion: ci.run_conclusion || '',
+        failedJobs: ci.failed_jobs || [],
+        artifacts: ci.artifacts || [],
+        signatures,
+        dominantFinding:
+          signatures.find((signature) => signature.id === 'window_focus' && signature.present)
+            ? 'Android Detox/Espresso window focus and input sequencing failure'
+            : 'No known Android Detox focus signature found in fetched excerpts',
+        targetFiles,
+        fallbackCommands: ci.fallback_commands || [],
+        mcpErrors: ci.errors || [],
+        localScan: local,
+        rawExcerptBytes: haystack.length,
+      }));
+    runtime: bun
+    timeout: 30000
+
+  - id: synthesize-report
+    depends_on: [parse-signatures, local-harness-scan]
+    prompt: |
+      Produce a compact Android CI Detox triage report.
+
+      Parsed signatures:
+      $parse-signatures.output
+
+      Local harness scan:
+      $local-harness-scan.output
+
+      Required report sections:
+      - Verdict
+      - Evidence From CI
+      - Local Files To Inspect First
+      - MCP Status
+      - Fallback Commands
+      - Next Fix Plan
+
+      Constraints:
+      - Do not claim a fix was made.
+      - Do not recommend Android/ADB or Detox MCPs.
+      - Treat GitHub MCP as read-only evidence source only.
+      - Focus on Android E2E harness and input focus sequencing before app UI component changes.
+    allowed_tools: []
+    context: fresh

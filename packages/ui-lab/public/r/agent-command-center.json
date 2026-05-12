@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "agent-command-center",
+  "type": "registry:block",
+  "title": "Agent Command Center",
+  "description": "Page template for launching, routing, and validating an agent workflow.",
+  "registryDependencies": ["archon-ui-core"],
+  "files": [
+    {
+      "path": "src/templates/agent-command-center.tsx",
+      "type": "registry:block",
+      "target": "components/templates/agent-command-center.tsx"
+    }
+  ]
+}

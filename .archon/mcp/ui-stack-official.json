@@ -1,0 +1,26 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schemas/mcp-server-config.schema.json",
+  "name": "archon-ui-stack-official",
+  "description": "Official-only MCP configuration for Archon UI stack validation. Radix and Tailwind remain docs/source capability profiles, not MCP servers.",
+  "servers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest", "--headless", "--isolated"]
+    },
+    "storybook": {
+      "type": "http",
+      "url": "http://127.0.0.1:6006/mcp"
+    }
+  },
+  "shadcn": {
+    "officialCliInit": "bunx shadcn@latest mcp init --client codex --cwd packages/ui-lab",
+    "info": "bunx shadcn@latest info --cwd packages/ui-lab",
+    "dryRun": "bunx shadcn@latest add button --dry-run --cwd packages/ui-lab"
+  },
+  "blockedTools": ["unofficial Radix MCP", "unofficial Tailwind MCP"],
+  "guardrails": [
+    "MCP names are advisory route context unless a workflow node invokes the live MCP server.",
+    "Do not hand-write an unverified shadcn MCP server command.",
+    "Use docs evidence for Radix and Tailwind capability claims until official MCP servers exist."
+  ]
+}

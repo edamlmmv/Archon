@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "workflow-review",
+  "type": "registry:block",
+  "title": "Workflow Review",
+  "description": "Page template for reviewing workflow evidence and browser validation gates.",
+  "registryDependencies": ["archon-ui-core"],
+  "files": [
+    {
+      "path": "src/templates/workflow-review.tsx",
+      "type": "registry:block",
+      "target": "components/templates/workflow-review.tsx"
+    }
+  ]
+}

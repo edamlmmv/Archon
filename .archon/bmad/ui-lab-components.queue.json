@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-05-12T00:00:00.000Z",
+  "items": [
+    {
+      "id": "alert-dialog",
+      "component": "alert-dialog",
+      "variants": {
+        "density": ["compact", "default", "comfortable"],
+        "surface": ["flat", "outline", "elevated", "ghost"],
+        "state": ["default", "focus", "disabled", "invalid", "loading", "empty"],
+        "mode": ["dark", "high-contrast", "reduced-motion", "responsive"]
+      },
+      "status": "pending",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [],
+      "lastUpdated": "2026-05-12T00:00:00.000Z"
+    },
+    {
+      "id": "badge",
+      "component": "badge",
+      "variants": {
+        "density": ["compact", "default", "comfortable"],
+        "surface": ["flat", "outline", "elevated", "ghost"],
+        "state": ["default", "focus", "disabled", "invalid", "loading", "empty"],
+        "mode": ["dark", "high-contrast", "reduced-motion", "responsive"]
+      },
+      "status": "pending",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [],
+      "lastUpdated": "2026-05-12T00:00:00.000Z"
+    },
+    {
+      "id": "button",
+      "component": "button",
+      "variants": {
+        "density": ["compact", "default", "comfortable"],
+        "surface": ["flat", "outline", "elevated", "ghost"],
+        "state": ["default", "focus", "disabled", "invalid", "loading", "empty"],
+        "mode": ["dark", "high-contrast", "reduced-motion", "responsive"]
+      },
+      "status": "pending",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [],
+      "lastUpdated": "2026-05-12T00:00:00.000Z"
+    },
+    {
+      "id": "card",
+      "component": "card",
+      "variants": {
+        "density": ["compact", "default", "comfortable"],
+        "surface": ["flat", "outline", "elevated", "ghost"],
+        "state": ["default", "focus", "disabled", "invalid", "loading", "empty"],
+        "mode": ["dark", "high-contrast", "reduced-motion", "responsive"]
+      },
+      "status": "pending",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [],
+      "lastUpdated": "2026-05-12T00:00:00.000Z"
+    },
+    {
+      "id": "collapsible",
+      "component": "collapsible",
+      "variants": {
+        "density": ["compact", "default", "comfortable"],
+        "surface": ["flat", "outline", "elevated", "ghost"],
+        "state": ["default", "focus", "disabled", "invalid", "loading", "empty"],
+        "mode": ["dark", "high-contrast", "reduced-motion", "responsive"]
+      },
+      "status": "pending",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [],
+      "lastUpdated": "2026-05-12T00:00:00.000Z"
+    },
+    {
+      "id": "dialog",
+      "component": "dialog",
+      "variants": {
+        "density": ["compact", "default", "comfortable"],
+        "surface": ["flat", "outline", "elevated", "ghost"],
+        "state": ["default", "focus", "disabled", "invalid", "loading", "empty"],
+        "mode": ["dark", "high-contrast", "reduced-motion", "responsive"]
+      },
+      "status": "pending",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [],
+      "lastUpdated": "2026-05-12T00:00:00.000Z"
+    },
+    {
+      "id": "input",
+      "component": "input",
+      "variants": {
+        "density": ["compact", "default", "comfortable"],
+        "surface": ["flat", "outline", "elevated", "ghost"],
+        "state": ["default", "focus", "disabled", "invalid", "loading", "empty"],
+        "mode": ["dark", "high-contrast", "reduced-motion", "responsive"]
+      },
+      "status": "pending",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [],
+      "lastUpdated": "2026-05-12T00:00:00.000Z"
+    },
+    {
+      "id": "resizable",
+      "component": "resizable",
+      "variants": {
+        "density": ["compact", "default", "comfortable"],
+        "surface": ["flat", "outline", "elevated", "ghost"],
+        "state": ["default", "focus", "disabled", "invalid", "loading", "empty"],
+        "mode": ["dark", "high-contrast", "reduced-motion", "responsive"]
+      },
+      "status": "pending",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [],
+      "lastUpdated": "2026-05-12T00:00:00.000Z"
+    },
+    {
+      "id": "scroll-area",
+      "component": "scroll-area",
+      "variants": {
+        "density": ["compact", "default", "comfortable"],
+        "surface": ["flat", "outline", "elevated", "ghost"],
+        "state": ["default", "focus", "disabled", "invalid", "loading", "empty"],
+        "mode": ["dark", "high-contrast", "reduced-motion", "responsive"]
+      },
+      "status": "pending",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [],
+      "lastUpdated": "2026-05-12T00:00:00.000Z"
+    },
+    {
+      "id": "separator",
+      "component": "separator",
+      "variants": {
+        "density": ["compact", "default", "comfortable"],
+        "surface": ["flat", "outline", "elevated", "ghost"],
+        "state": ["default", "focus", "disabled", "invalid", "loading", "empty"],
+        "mode": ["dark", "high-contrast", "reduced-motion", "responsive"]
+      },
+      "status": "pending",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [],
+      "lastUpdated": "2026-05-12T00:00:00.000Z"
+    },
+    {
+      "id": "tabs",
+      "component": "tabs",
+      "variants": {
+        "density": ["compact", "default", "comfortable"],
+        "surface": ["flat", "outline", "elevated", "ghost"],
+        "state": ["default", "focus", "disabled", "invalid", "loading", "empty"],
+        "mode": ["dark", "high-contrast", "reduced-motion", "responsive"]
+      },
+      "status": "pending",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [],
+      "lastUpdated": "2026-05-12T00:00:00.000Z"
+    },
+    {
+      "id": "textarea",
+      "component": "textarea",
+      "variants": {
+        "density": ["compact", "default", "comfortable"],
+        "surface": ["flat", "outline", "elevated", "ghost"],
+        "state": ["default", "focus", "disabled", "invalid", "loading", "empty"],
+        "mode": ["dark", "high-contrast", "reduced-motion", "responsive"]
+      },
+      "status": "pending",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [],
+      "lastUpdated": "2026-05-12T00:00:00.000Z"
+    },
+    {
+      "id": "tooltip",
+      "component": "tooltip",
+      "variants": {
+        "density": ["compact", "default", "comfortable"],
+        "surface": ["flat", "outline", "elevated", "ghost"],
+        "state": ["default", "focus", "disabled", "invalid", "loading", "empty"],
+        "mode": ["dark", "high-contrast", "reduced-motion", "responsive"]
+      },
+      "status": "pending",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [],
+      "lastUpdated": "2026-05-12T00:00:00.000Z"
+    }
+  ]
+}

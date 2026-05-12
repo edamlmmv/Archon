@@ -1,0 +1,599 @@
+name: bmad-route-first
+description: |
+  Use when: User wants BMAD-aware route planning from inside Archon.
+  Triggers: "bmad route", "archon bmad", "plan with bmad", "choose BMAD workflow".
+  Does: Intake -> MCP awareness -> evidence scan -> route classify -> optional Forge draft -> compact report.
+  NOT for: Direct code implementation or full BMAD runtime cloning.
+
+provider: codex
+modelReasoningEffort: medium
+webSearchMode: cached
+additionalDirectories:
+  - /Users/edam/Documents/TODA/BMAD-METHOD
+worktree:
+  enabled: false
+tags: [BMAD, Planning, Codex]
+
+nodes:
+  - id: intake
+    command: bmad-intake
+    output_format:
+      type: object
+      additionalProperties: false
+      properties:
+        goal:
+          type: string
+        doneCondition:
+          type: string
+        repoRoots:
+          type: object
+          additionalProperties: false
+          properties:
+            bmad:
+              type: string
+            archon:
+              type: string
+            target:
+              type: string
+          required: [bmad, archon, target]
+        constraints:
+          type: array
+          items:
+            type: string
+        mcpAwareness:
+          type: object
+          additionalProperties: false
+          properties:
+            mentionMode:
+              type: string
+              enum: [none, single, multiple]
+            requestedMcps:
+              type: array
+              items:
+                type: string
+            advisoryOnly:
+              type: boolean
+            boundary:
+              type: string
+          required: [mentionMode, requestedMcps, advisoryOnly, boundary]
+        moduleAwareness:
+          type: object
+          additionalProperties: false
+          properties:
+            mentionMode:
+              type: string
+              enum: [none, single, multiple]
+            requestedModules:
+              type: array
+              items:
+                type: string
+            matchedFamilies:
+              type: array
+              items:
+                type: object
+                additionalProperties: false
+                properties:
+                  family:
+                    type: string
+                  sourceSlug:
+                    type: string
+                  matchedTerms:
+                    type: array
+                    items:
+                      type: string
+                required: [family, sourceSlug, matchedTerms]
+            advisoryOnly:
+              type: boolean
+            boundary:
+              type: string
+          required: [mentionMode, requestedModules, matchedFamilies, advisoryOnly, boundary]
+        desiredLane:
+          type: string
+          enum: [planning, implementation, ralph, review, capability-pack]
+        needsForgeDraft:
+          type: boolean
+        needsRalphLoop:
+          type: boolean
+        tokenBudgetMode:
+          type: string
+      required:
+        - goal
+        - doneCondition
+        - repoRoots
+        - constraints
+        - mcpAwareness
+        - moduleAwareness
+        - desiredLane
+        - needsForgeDraft
+        - needsRalphLoop
+        - tokenBudgetMode
+
+  - id: deterministic-scan
+    bash: |
+      set -e
+      mkdir -p "$ARTIFACTS_DIR"
+      {
+        echo "ARCHON_ROOT=$(pwd)"
+        echo "BMAD_ROOT=/Users/edam/Documents/TODA/BMAD-METHOD"
+        echo "ARCHON_GIT_STATUS_START"
+        git status --short
+        echo "ARCHON_GIT_STATUS_END"
+        echo "BMAD_GIT_STATUS_START"
+        git -C /Users/edam/Documents/TODA/BMAD-METHOD status --short
+        echo "BMAD_GIT_STATUS_END"
+        echo "ARCHON_COMMANDS_START"
+        find .archon/commands -maxdepth 2 -type f -name '*.md' | sort
+        echo "ARCHON_COMMANDS_END"
+        echo "ARCHON_WORKFLOWS_START"
+        find .archon/workflows -maxdepth 3 -type f \( -name '*.yaml' -o -name '*.yml' \) | sort
+        echo "ARCHON_WORKFLOWS_END"
+        echo "BMAD_CLI_START"
+        bmad --version 2>/dev/null || true
+        bmad --help 2>/dev/null | sed -n '1,80p' || true
+        echo "BMAD_CLI_END"
+        echo "GRAPHIFY_START"
+        command -v graphify || true
+        graphify --help 2>/dev/null | sed -n '1,80p' || true
+        echo "GRAPHIFY_END"
+        echo "BMAD_VENDOR_START"
+        find .archon/bmad/vendor -maxdepth 3 -type f -name 'source.json' -print 2>/dev/null | sort || true
+        echo "BMAD_VENDOR_END"
+      } > "$ARTIFACTS_DIR/deterministic-scan.txt"
+      cat "$ARTIFACTS_DIR/deterministic-scan.txt"
+    depends_on: [intake]
+
+  - id: evidence-scan
+    script: |
+      const { existsSync } = await import('fs');
+
+      const refs = [
+        {
+          path: '.archon/bmad/evidence/bmad-route-first.md',
+          sourceType: 'local_docs',
+          authority: 'source',
+          claim:
+            'BMAD route-first requires local evidence first, distinct BMAD and target repo boundaries, Codex /goal as outer objective, and BMAD Loop only for bounded autonomous work.',
+        },
+        {
+          path: '.archon/bmad/evidence/bmad-catalog-snapshot.md',
+          sourceType: 'local_docs',
+          authority: 'source',
+          claim:
+            'BMAD CLI exposes workspace lifecycle commands and installed route skills; workspace status/evidence needs explicit session id.',
+        },
+        {
+          path: '.archon/bmad/evidence/bmad-capability-contract.md',
+          sourceType: 'manual_contract',
+          authority: 'source',
+          claim:
+            'Capability verification is declared-contract only and does not inspect advisory tools or grant runtime authority.',
+        },
+        {
+          path: '.archon/bmad/evidence/bmad-forge-contract.md',
+          sourceType: 'manual_contract',
+          authority: 'draft-only',
+          claim:
+            'Forge can emit reviewable draft artifacts only; customization drafts are inactive until BMAD customization/promotion.',
+        },
+        {
+          path: '.archon/bmad/evidence/bmad-agentic-search.md',
+          sourceType: 'local_docs',
+          authority: 'advisory',
+          claim:
+            'Agentic Search metadata guides planning; only captured declared evidence artifacts can become verifier input.',
+        },
+        {
+          path: '.archon/bmad/evidence/archon-workflow-capabilities.md',
+          sourceType: 'repo_template',
+          authority: 'source',
+          claim:
+            'Archon commands and DAG workflows support artifact handoff; Codex provider supports provider/model options but not Archon skills, MCP, agents, hooks, or tool restrictions.',
+        },
+        {
+          path: '.archon/bmad/evidence/graphify-notes.md',
+          sourceType: 'other',
+          authority: 'advisory',
+          claim:
+            'Graphify CLI can provide advisory repo-graph evidence; codex install should wait for AGENTS.md impact review.',
+        },
+        {
+          path: '.archon/bmad/evidence/codex-slash-and-config.md',
+          sourceType: 'other',
+          authority: 'source',
+          claim:
+            'Codex /goal is the outer launcher/objective surface; Archon owns the BMAD workflow body and Codex config/MCP setup must use Codex config paths.',
+        },
+        {
+          path: '.archon/bmad/evidence/codex-slash-and-config.md',
+          sourceType: 'local_docs',
+          authority: 'advisory',
+          claim:
+            'User-mentioned MCP names are preserved as route context in mcpAwareness for none/single/multiple prompt modes, but do not prove install, authorization, or live runtime configuration.',
+        },
+        {
+          path: '.archon/bmad/evidence/context7-notes.md',
+          sourceType: 'context7',
+          authority: 'advisory',
+          claim:
+            'Context7 is advisory docs MCP evidence unless granted, available, and captured into a local artifact; Archon Codex nodes ignore mcp settings.',
+        },
+        {
+          path: '.archon/bmad/evidence/context7-webgl-fundamentals.md',
+          sourceType: 'context7',
+          authority: 'advisory',
+          claim:
+            'WebGL2 MCP awareness routes to BMAD capability host.mcp.context7.webgl-fundamentals.docs with /websites/webglfundamentals as canonical Context7 source and https://webgl2fundamentals.org as caveat only.',
+        },
+        {
+          path: '.archon/bmad/evidence/mcp-google-apps-script-officejs.md',
+          sourceType: 'local_docs',
+          authority: 'advisory',
+          claim:
+            'Google Apps Script and OfficeJS/Outlook add-in MCP awareness routes to BMAD capabilities host.mcp.context7.google-apps-script.docs, host.mcp.context7.office-js-live.docs, and host.mcp.office-js.live while preserving no-live-proof boundaries.',
+        },
+        {
+          path: '.archon/bmad/evidence/ui-stack-mcp-official.md',
+          sourceType: 'local_docs',
+          authority: 'advisory',
+          claim:
+            'UI-stack MCP awareness routes Storybook, Playwright, and shadcn to official-only capability claims while preserving no-live-proof boundaries.',
+        },
+        {
+          path: '.archon/bmad/evidence/ui-stack-storybook-components.md',
+          sourceType: 'local_docs',
+          authority: 'source',
+          claim:
+            'Archon ui-lab covers the initial shadcn/Radix primitive set, Storybook variant matrices, and reusable page templates.',
+        },
+        {
+          path: '.archon/bmad/evidence/ui-stack-radix-tailwind-boundary.md',
+          sourceType: 'local_docs',
+          authority: 'source',
+          claim:
+            'Radix and Tailwind remain docs/source capability claims only; no unofficial MCP is approved.',
+        },
+        {
+          path: '.archon/bmad/capability-profile-registry.ui-stack.json',
+          sourceType: 'manual_contract',
+          authority: 'advisory',
+          claim:
+            'Archon supplemental capability profiles map Storybook, Playwright, shadcn, Radix, and Tailwind route terms to evidence refs and trust boundaries.',
+        },
+        {
+          path: '.archon/bmad/ui-stack-forge.request.json',
+          sourceType: 'manual_contract',
+          authority: 'draft-only',
+          claim:
+            'UI-stack Forge request can generate reviewable draft capability-pack artifacts and does not grant MCP runtime authority.',
+        },
+        {
+          path: '.archon/mcp/ui-stack-official.json',
+          sourceType: 'manual_contract',
+          authority: 'runtime-check',
+          claim:
+            'Archon declares official-only Storybook and Playwright MCP server configuration plus shadcn official CLI commands; live use still requires captured runtime evidence.',
+        },
+        {
+          path: 'packages/ui-lab/registry.json',
+          sourceType: 'repo_template',
+          authority: 'source',
+          claim:
+            'shadcn-compatible registry metadata exposes reusable Archon UI primitives and templates for official shadcn tooling.',
+        },
+        {
+          path: '.archon/bmad/evidence/upstream-bmad-vendor.md',
+          sourceType: 'local_docs',
+          authority: 'advisory',
+          claim:
+            'Archon vendors upstream BMAD Method, BMad Builder, Test Architect Enterprise, and WDS snapshots as advisory route evidence only; MissionCTL paths and MCP docs are excluded.',
+        },
+        {
+          path: '.archon/bmad/vendor/bmad-method/source.json',
+          sourceType: 'repo_template',
+          authority: 'advisory',
+          claim:
+            'Vendored BMAD Method snapshot pins upstream URL, branch, commit, copied paths, refresh command, and advisory route boundary.',
+        },
+        {
+          path: '.archon/bmad/vendor/bmad-builder/source.json',
+          sourceType: 'repo_template',
+          authority: 'advisory',
+          claim:
+            'Vendored BMad Builder snapshot supports agent, workflow, module, setup, and validation route awareness without installing skills.',
+        },
+        {
+          path: '.archon/bmad/vendor/bmad-method-test-architecture-enterprise/source.json',
+          sourceType: 'repo_template',
+          authority: 'advisory',
+          claim:
+            'Vendored Test Architect Enterprise snapshot supports ATDD, NFR, traceability, CI, framework, automation, and Playwright route awareness without installing skills.',
+        },
+        {
+          path: '.archon/bmad/vendor/bmad-method-wds-expansion/source.json',
+          sourceType: 'repo_template',
+          authority: 'advisory',
+          claim:
+            'Vendored WDS snapshot supports design-first, trigger map, UX scenarios, design system, and product evolution route awareness without installing skills.',
+        },
+        {
+          path: '/Users/edam/Documents/TODA/BMAD-METHOD/docs/workspace/mcp/context7-webgl-fundamentals-planning.md',
+          sourceType: 'local_docs',
+          authority: 'source',
+          claim:
+            'BMAD Workspace declares Context7 WebGL Fundamentals planning boundaries: no live MCP proof, no WebGL runtime proof, no browser GPU state proof, and no separate WebGL2 Context7 source.',
+        },
+        {
+          path: '/Users/edam/Documents/TODA/BMAD-METHOD/docs/workspace/mcp/context7-google-apps-script-planning.md',
+          sourceType: 'local_docs',
+          authority: 'source',
+          claim:
+            'BMAD Workspace declares Google Apps Script Context7 docs boundaries including Apps Script guide/reference/samples, REST API, and @google/clasp mcp source refs without live runtime proof.',
+        },
+        {
+          path: '/Users/edam/Documents/TODA/BMAD-METHOD/docs/workspace/mcp/context7-office-js-live-planning.md',
+          sourceType: 'local_docs',
+          authority: 'source',
+          claim:
+            'BMAD Workspace declares OfficeJS/Outlook add-in Context7 docs and live Office MCP candidate boundaries, keeping docs evidence separate from live Office document or mailbox proof.',
+        },
+        {
+          path: '/Users/edam/Documents/TODA/BMAD-METHOD/docs/workspace/templates/capability-request.context7-google-apps-script.example.json',
+          sourceType: 'manual_contract',
+          authority: 'source',
+          claim:
+            'BMAD capability request verifies host.mcp.context7.google-apps-script.docs offline and records context7-google-apps-script-operator-evidence.json as the scoped output.',
+        },
+        {
+          path: '/Users/edam/Documents/TODA/BMAD-METHOD/docs/workspace/templates/capability-request.context7-office-js-live.example.json',
+          sourceType: 'manual_contract',
+          authority: 'source',
+          claim:
+            'BMAD capability request verifies host.mcp.context7.office-js-live.docs offline and records context7-office-js-live-operator-evidence.json as the scoped output.',
+        },
+        {
+          path: '/Users/edam/Documents/TODA/BMAD-METHOD/docs/workspace/templates/capability-request.office-js-live-mcp.example.json',
+          sourceType: 'manual_contract',
+          authority: 'source',
+          claim:
+            'BMAD capability request verifies host.mcp.office-js.live offline and records office-js-live-mcp-operator-evidence.json as the scoped output.',
+        },
+        {
+          path: '/Users/edam/Documents/TODA/BMAD-METHOD/docs/workspace/templates/capability-request.context7-webgl-fundamentals.example.json',
+          sourceType: 'manual_contract',
+          authority: 'source',
+          claim:
+            'BMAD capability request verifies host.mcp.context7.webgl-fundamentals.docs offline and records context7-webgl-fundamentals-operator-evidence.json as the scoped output.',
+        },
+        {
+          path: '/Users/edam/Documents/TODA/BMAD-METHOD/test/fixtures/cpf/context7-webgl-fundamentals/forge-request.json',
+          sourceType: 'manual_contract',
+          authority: 'draft-only',
+          claim:
+            'BMAD Forge fixture can generate draft Context7 WebGL Fundamentals capability-pack artifacts while preserving the WebGL2 upstream caveat.',
+        },
+      ];
+
+      const evidenceRefs = refs.filter(ref => existsSync(ref.path));
+      const missingEvidence = refs.filter(ref => !existsSync(ref.path)).map(ref => ref.path);
+
+      console.log(
+        JSON.stringify({
+          evidenceRefs,
+          missingEvidence,
+          runtimeChecks: [
+            'Before using BMAD workspace status/evidence, require explicit workspace session id; do not assume active session discovery.',
+            'Before relying on Context7, Graphify, Agentic Search, or Forge as verifier evidence, capture output into a declared local artifact.',
+            'Before invoking Ralph, confirm the route artifact says implementation remains and names tests/checkpoints.',
+            'Before using a named MCP, confirm Codex config or runtime availability outside the route artifact; mcpAwareness is not a grant.',
+            'Before claiming WebGL2 MCP runtime support, require live MCP config/call evidence outside the Context7 WebGL Fundamentals docs capability.',
+            'Before claiming Google Apps Script MCP runtime support, require live @google/clasp mcp config, clasp login, Apps Script API enablement, and captured operator evidence.',
+            'Before claiming OfficeJS live MCP support, require live office4ai or equivalent MCP config, Office Add-in install, certificate trust, Office host state, Outlook mailbox state, and captured operator evidence.',
+            'Before claiming a vendored upstream BMAD is installed or executable, require separate runtime installation evidence outside moduleAwareness.',
+            'Before claiming Storybook MCP support, require a running Storybook server and captured reachability evidence for http://127.0.0.1:6006/mcp.',
+            'Before claiming Playwright MCP runtime support, require captured MCP server invocation evidence and browser availability evidence.',
+            'Before claiming shadcn MCP runtime support, require captured official CLI init/info output for packages/ui-lab.',
+            'Before claiming Radix or Tailwind MCP support, require official MCP source proof; current UI-stack route keeps them docs/source-only.',
+          ],
+          blockedClaims: [
+            'Cannot claim Forge output approves or installs anything; it is draft-only until human review and BMAD customization/promotion.',
+            'Cannot claim Context7, Graphify, Agentic Search, or memory evidence has verifier authority without captured declared artifacts.',
+            'Cannot claim Archon Codex nodes support MCP, skills, agents, hooks, or tool restrictions.',
+            'Cannot claim requested MCPs are installed, authorized, or called only because the user mentioned them.',
+            'Cannot claim a separate WebGL2 Context7 source or host.mcp.context7.webgl2-fundamentals.docs capability from WebGL2 route language.',
+            'Cannot claim WebGL runtime proof, browser GPU state proof, or secret access from Context7 WebGL Fundamentals docs evidence.',
+            'Cannot claim vendored upstream BMAD source loads Codex skills, MCP, agents, hooks, or tool restrictions.',
+            'Cannot use MissionCTL paths as upstream BMAD source evidence.',
+            'Cannot route Google Apps Script or OfficeJS MCP docs through moduleAwareness; keep them under MCP awareness.',
+            'Cannot claim @google/clasp mcp config, clasp login, Apps Script API enablement, Apps Script trigger install, push, deploy, or runtime proof from docs evidence.',
+            'Cannot claim office4ai install, Office Add-in install, certificate trust, Microsoft Graph permissions, OAuth state, Office host state, Outlook mailbox state, Office document mutation, or official Microsoft support proof from docs evidence.',
+            'Cannot claim unofficial Radix MCP or unofficial Tailwind MCP support from UI-stack evidence.',
+            'Cannot claim Storybook MCP reachability unless Storybook is running and the /mcp endpoint is probed.',
+            'Cannot claim Playwright browsers are installed or that the MCP server was called without captured runtime output.',
+            'Cannot claim shadcn mcp init completed without captured official CLI output.',
+          ],
+        })
+      );
+    runtime: bun
+    depends_on: [intake, deterministic-scan]
+
+  - id: rubric
+    command: bmad-karpathy-brain
+    depends_on: [intake, evidence-scan]
+    context: fresh
+    output_format:
+      type: object
+      additionalProperties: false
+      properties:
+        rubricDecision:
+          type: string
+          enum: [accept, change, block]
+        firstPrinciplesSummary:
+          type: string
+        smallestBaseline:
+          type: string
+        firstFailingCheck:
+          type: string
+        tokenDiscipline:
+          type: string
+        requiredChanges:
+          type: array
+          items:
+            type: string
+        deferredDecisions:
+          type: array
+          items:
+            type: string
+      required:
+        - rubricDecision
+        - firstPrinciplesSummary
+        - smallestBaseline
+        - firstFailingCheck
+        - tokenDiscipline
+        - requiredChanges
+        - deferredDecisions
+
+  - id: route-classify
+    command: bmad-route-first
+    depends_on: [intake, evidence-scan, rubric]
+    context: fresh
+    output_format:
+      type: object
+      additionalProperties: false
+      properties:
+        goal:
+          type: string
+        repoRoots:
+          type: object
+          additionalProperties: false
+          properties:
+            bmad:
+              type: string
+            archon:
+              type: string
+            target:
+              type: string
+          required: [bmad, archon, target]
+        evidenceRefs:
+          type: array
+          items:
+            type: string
+        mcpAwareness:
+          type: object
+          additionalProperties: false
+          properties:
+            mentionMode:
+              type: string
+              enum: [none, single, multiple]
+            requestedMcps:
+              type: array
+              items:
+                type: string
+            advisoryOnly:
+              type: boolean
+            boundary:
+              type: string
+          required: [mentionMode, requestedMcps, advisoryOnly, boundary]
+        moduleAwareness:
+          type: object
+          additionalProperties: false
+          properties:
+            mentionMode:
+              type: string
+              enum: [none, single, multiple]
+            requestedModules:
+              type: array
+              items:
+                type: string
+            matchedFamilies:
+              type: array
+              items:
+                type: object
+                additionalProperties: false
+                properties:
+                  family:
+                    type: string
+                  sourceSlug:
+                    type: string
+                  matchedTerms:
+                    type: array
+                    items:
+                      type: string
+                required: [family, sourceSlug, matchedTerms]
+            advisoryOnly:
+              type: boolean
+            boundary:
+              type: string
+          required: [mentionMode, requestedModules, matchedFamilies, advisoryOnly, boundary]
+        capabilityClaims:
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              capability:
+                type: string
+              support:
+                type: string
+                enum: [source, advisory, runtime-check, draft-only]
+              evidenceRef:
+                type: string
+            required: [capability, support, evidenceRef]
+        recommendedRoute:
+          type: object
+          additionalProperties: false
+          properties:
+            skill:
+              type: string
+            archonWorkflow:
+              type: string
+            reason:
+              type: string
+          required: [skill, archonWorkflow, reason]
+        blockedBy:
+          type: array
+          items:
+            type: string
+        nextAction:
+          type: string
+        validation:
+          type: array
+          items:
+            type: string
+        tokenBudgetMode:
+          type: string
+      required:
+        - goal
+        - repoRoots
+        - evidenceRefs
+        - mcpAwareness
+        - moduleAwareness
+        - capabilityClaims
+        - recommendedRoute
+        - blockedBy
+        - nextAction
+        - validation
+        - tokenBudgetMode
+
+  - id: optional-forge
+    bash: |
+      set -e
+      REQUEST=".archon/bmad/bmad-archon-codex-pilot.request.json"
+      OUT="$ARTIFACTS_DIR/forge"
+      if [ "$intake.output.needsForgeDraft" != "true" ]; then
+        echo "Forge skipped: intake did not request draft."
+        exit 0
+      fi
+      if [ ! -f "$REQUEST" ]; then
+        echo "Forge skipped: $REQUEST missing."
+        exit 0
+      fi
+      mkdir -p "$OUT"
+      node /Users/edam/Documents/TODA/BMAD-METHOD/tools/capability-pack-forge.js --input "$REQUEST" --output "$OUT"
+      find "$OUT" -maxdepth 1 -type f -print | sort
+    depends_on: [intake, route-classify]
+
+  - id: report
+    command: bmad-plan-report
+    depends_on: [route-classify, optional-forge]
+    trigger_rule: all_done
+    context: fresh

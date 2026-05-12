@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "requestId": "archon-ui-stack-capability-pack",
+  "title": "Archon UI Stack Capability Pack",
+  "selectedCapability": "bmad-capability-pack-forge + bmad-loop/Ralph",
+  "task": "Archon UI stack capability, component, template, and test lab",
+  "chosenTools": [
+    "Archon workflows",
+    "Storybook MCP",
+    "Playwright MCP",
+    "shadcn CLI/MCP init",
+    "Storybook Vitest",
+    "Playwright"
+  ],
+  "decision": "enough",
+  "blockedTools": ["unofficial Radix MCP", "unofficial Tailwind MCP"],
+  "fallback": "official docs evidence + Storybook manifests + Playwright tests",
+  "nextAction": "implement package scaffold, capability evidence, then Ralph story loop",
+  "evidenceRefs": [
+    ".archon/bmad/evidence/ui-stack-mcp-official.md",
+    ".archon/bmad/evidence/ui-stack-storybook-components.md",
+    ".archon/bmad/evidence/ui-stack-radix-tailwind-boundary.md",
+    ".archon/mcp/ui-stack-official.json",
+    "packages/ui-lab/registry.json"
+  ],
+  "guardrails": [
+    "Official MCP only for Storybook and Playwright.",
+    "Use shadcn official CLI init; do not hand-write an unverified shadcn server command.",
+    "Radix and Tailwind are docs/source capability profiles only.",
+    "MCP profile names are advisory route context unless workflow execution records live MCP output."
+  ]
+}

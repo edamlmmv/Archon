@@ -1,0 +1,125 @@
+name: bmad-ralph-dag
+description: |
+  Use when: A BMAD route artifact should seed a Ralph one-story-per-iteration loop.
+  Triggers: "bmad ralph", "run bmad ralph", "implement from bmad route".
+  Does: Reads bmad-route.json -> prepares Ralph PRD state -> runs fresh-context loop.
+  NOT for: Initial route selection; run bmad-route-first first.
+
+provider: claude
+worktree:
+  enabled: true
+tags: [BMAD, Ralph, Implementation]
+
+nodes:
+  - id: detect-route
+    prompt: |
+      # Detect BMAD Route Artifact
+
+      **Input**: $ARGUMENTS
+
+      Find a BMAD route artifact. Try these in order:
+
+      1. Path provided in input.
+      2. `$ARTIFACTS_DIR/bmad-route.json`.
+      3. `.archon/bmad/latest/bmad-route.json`.
+
+      Return exactly one JSON object:
+
+      ```json
+      {"route_path": "string", "status": "ready|missing", "reason": "string"}
+      ```
+    output_format:
+      type: object
+      additionalProperties: false
+      properties:
+        route_path:
+          type: string
+        status:
+          type: string
+          enum: [ready, missing]
+        reason:
+          type: string
+      required: [route_path, status, reason]
+
+  - id: prepare-prd
+    prompt: |
+      # Prepare Ralph PRD From BMAD Route
+
+      Use the route artifact from detect-route:
+
+      $detect-route.output
+
+      If status is `missing`, stop and explain that `bmad-route-first` must run first.
+
+      If ready:
+      1. Read the route JSON.
+      2. Create `.archon/ralph/bmad-route/prd.md`.
+      3. Create `.archon/ralph/bmad-route/prd.json`.
+      4. Use small stories, each completable in one Ralph iteration.
+      5. Include validation commands from route JSON.
+
+      Return exactly one JSON object:
+
+      ```json
+      {"prd_dir": ".archon/ralph/bmad-route", "status": "ready|blocked", "reason": "string"}
+      ```
+    depends_on: [detect-route]
+    context: fresh
+    output_format:
+      type: object
+      additionalProperties: false
+      properties:
+        prd_dir:
+          type: string
+        status:
+          type: string
+          enum: [ready, blocked]
+        reason:
+          type: string
+      required: [prd_dir, status, reason]
+
+  - id: implement
+    depends_on: [prepare-prd]
+    when: "$prepare-prd.output.status == 'ready'"
+    idle_timeout: 600000
+    loop:
+      prompt: |
+        # BMAD Ralph Iteration
+
+        You are in a fresh context. Read state from disk; implement one story only.
+
+        PRD directory:
+
+        $prepare-prd.output.prd_dir
+
+        Required steps:
+
+        1. Read `prd.md`, `prd.json`, and `progress.txt` if present.
+        2. Pick the first unfinished story.
+        3. Write one failing public behavior test or validation check first.
+        4. Implement smallest change to pass.
+        5. Run story validation.
+        6. Update `prd.json` and `progress.txt`.
+        7. Commit only when validation passes.
+        8. If all stories pass, output `BMAD_RALPH_COMPLETE`.
+
+        Do not use per-loop MCP, skills, hooks, or tool restrictions; this loop is disk-state driven.
+      until: BMAD_RALPH_COMPLETE
+      max_iterations: 15
+      fresh_context: true
+
+  - id: final-report
+    prompt: |
+      Summarize the BMAD Ralph run from:
+
+      $prepare-prd.output
+
+      Include:
+      - PRD directory
+      - completed stories
+      - validation evidence
+      - commits created
+      - remaining blockers
+    depends_on: [prepare-prd, implement]
+    trigger_rule: all_done
+    context: fresh

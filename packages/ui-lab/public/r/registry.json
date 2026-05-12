@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "archon-ui-lab",
+  "homepage": "http://127.0.0.1:6006",
+  "items": [
+    {
+      "name": "archon-ui-core",
+      "type": "registry:component",
+      "title": "Archon UI Core",
+      "description": "Reusable shadcn/Radix primitives extracted from the Archon web UI."
+    },
+    {
+      "name": "agent-command-center",
+      "type": "registry:block",
+      "title": "Agent Command Center",
+      "description": "Page template for launching, routing, and validating an agent workflow."
+    },
+    {
+      "name": "workflow-review",
+      "type": "registry:block",
+      "title": "Workflow Review",
+      "description": "Page template for reviewing workflow evidence and browser validation gates."
+    }
+  ]
+}

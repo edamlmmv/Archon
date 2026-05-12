@@ -15,6 +15,7 @@ How-to guides for building and running AI coding workflows with Archon.
 
 - [Authoring Workflows](/guides/authoring-workflows/) — Create multi-step YAML workflows with DAG nodes, conditional branching, and parallel execution
 - [Authoring Commands](/guides/authoring-commands/) — Write prompt templates that serve as building blocks for workflow nodes
+- [Archon Team Setup](/guides/archon-team-setup/) — Share repo-local Archon config through Git while keeping runtime state local
 
 ## Node Types
 
