@@ -1,0 +1,8 @@
+.env
+archon.db
+archon.db-*
+state/
+workspaces/
+logs/
+artifacts/
+backups/
