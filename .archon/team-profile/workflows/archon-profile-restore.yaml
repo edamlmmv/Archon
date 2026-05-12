@@ -1,0 +1,16 @@
+name: archon-profile-restore
+description: |
+  Use when: A teammate wants to roll back local ~/.archon workflows, commands, scripts, and safe config from a profile sync backup.
+  Triggers: restore archon profile, rollback archon profile, undo team profile sync.
+  Does: Restores only safe ~/.archon profile surfaces from a named backup id.
+  NOT for: Restoring secrets, databases, logs, artifacts, or workspaces.
+
+nodes:
+  - id: restore-profile
+    bash: |
+      set -euo pipefail
+      if [ -z "$ARGUMENTS" ]; then
+        echo "Usage: bun run cli workflow run archon-profile-restore --no-worktree \"<backup-id>\""
+        exit 1
+      fi
+      bun run cli --cwd "$PWD" profile restore "$ARGUMENTS"

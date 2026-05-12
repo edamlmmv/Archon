@@ -1,0 +1,16 @@
+# Safe team defaults only. Sync writes only these allowlisted fields.
+defaultAssistant: codex
+
+assistants:
+  codex:
+    model: gpt-5.5
+    modelReasoningEffort: high
+    webSearchMode: live
+
+streaming:
+  slack: batch
+  telegram: stream
+  discord: batch
+
+concurrency:
+  maxConversations: 10
