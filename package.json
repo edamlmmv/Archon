@@ -18,6 +18,7 @@
     "check:bundled": "bun run scripts/generate-bundled-defaults.ts --check",
     "check:bundled-skill": "bun run scripts/check-bundled-skill.ts --check",
     "test": "bun --filter '*' --parallel test",
+    "test:mcp": "bun test .archon/scripts/__tests__/mcp-usage-report.test.ts .archon/scripts/__tests__/capability-lab.test.ts packages/workflows/src/validator.test.ts",
     "test:watch": "bun --filter @archon/server test:watch",
     "type-check": "bun --filter '*' type-check && bun x tsc --noEmit -p scripts/tsconfig.json",
     "lint": "bun x eslint . --cache",
@@ -29,6 +30,7 @@
     "dev:docs": "bun --filter @archon/docs-web dev",
     "build:docs": "bun --filter @archon/docs-web build",
     "validate": "bun run check:bundled && bun run check:bundled-skill && bun run type-check && bun run lint --max-warnings 0 && bun run format:check && bun run test",
+    "mcp:usage": "bun .archon/scripts/mcp-usage-report.ts",
     "prepare": "husky",
     "setup-auth": "bun --filter @archon/server setup-auth"
   },
