@@ -33,6 +33,8 @@ import type {
   JiraCreatedIssue,
   JiraIssue,
   JiraIssueDetails,
+  JiraIssueSearchResult,
+  JiraIssueTypeDetails,
   JiraTransition,
   JiraUser,
   JiraWebhookPayload,
@@ -46,6 +48,10 @@ function getLog(): ReturnType<typeof createLogger> {
 
 const MAX_LENGTH = 32000;
 const BOT_RESPONSE_MARKER = '<!-- archon-bot-response -->';
+
+function quoteJqlString(value: string): string {
+  return `"${value.replace(/\\/g, '\\\\').replace(/"/g, '\\"')}"`;
+}
 
 interface JiraAdapterOptions {
   retryDelayMs?: (attempt: number) => number;
@@ -87,6 +93,22 @@ interface JiraTransitionsResponse {
 
 interface JiraSprintIssuesResponse {
   issues?: { key?: string }[];
+}
+
+interface JiraSearchResponse {
+  issues?: JiraIssue[];
+}
+
+interface JiraCreateMetaIssueTypesResponse {
+  values?: JiraCreateMetaIssueType[];
+  issueTypes?: JiraCreateMetaIssueType[];
+}
+
+interface JiraCreateMetaIssueType {
+  id?: string;
+  name?: string;
+  subtask?: boolean;
+  hierarchyLevel?: number;
 }
 
 export class JiraAdapter implements IPlatformAdapter {
@@ -246,6 +268,53 @@ export class JiraAdapter implements IPlatformAdapter {
       parentKey: fields?.parent?.key ?? null,
       labels: fields?.labels ?? [],
     };
+  }
+
+  async getProjectIssueTypes(projectKey: string): Promise<JiraIssueTypeDetails[]> {
+    const result = await this.jiraRequest<JiraCreateMetaIssueTypesResponse>(
+      `/rest/api/3/issue/createmeta/${encodeURIComponent(projectKey)}/issuetypes`
+    );
+
+    const issueTypes: JiraIssueTypeDetails[] = [];
+    for (const issueType of result.values ?? result.issueTypes ?? []) {
+      if (!issueType.id || !issueType.name) continue;
+      issueTypes.push({
+        id: issueType.id,
+        name: issueType.name,
+        subtask: issueType.subtask ?? false,
+        ...(issueType.hierarchyLevel !== undefined
+          ? { hierarchyLevel: issueType.hierarchyLevel }
+          : {}),
+      });
+    }
+    return issueTypes;
+  }
+
+  async searchIssuesByLabel(projectKey: string, label: string): Promise<JiraIssueSearchResult[]> {
+    const result = await this.jiraRequest<JiraSearchResponse>('/rest/api/3/search/jql', {
+      method: 'POST',
+      body: JSON.stringify({
+        jql: `project = ${quoteJqlString(projectKey)} AND labels = ${quoteJqlString(label)} ORDER BY created ASC`,
+        fields: ['summary', 'issuetype', 'status', 'parent', 'labels'],
+        maxResults: 100,
+      }),
+    });
+
+    const issues: JiraIssueSearchResult[] = [];
+    for (const issue of result.issues ?? []) {
+      const fields = issue.fields;
+      issues.push({
+        id: issue.id ?? issue.key,
+        key: issue.key,
+        url: `${this.siteUrl}/browse/${issue.key}`,
+        summary: fields?.summary ?? '',
+        issueType: fields?.issuetype?.name ?? '',
+        status: fields?.status?.name ?? '',
+        parentKey: fields?.parent?.key ?? null,
+        labels: fields?.labels ?? [],
+      });
+    }
+    return issues;
   }
 
   async getAvailableTransitions(issueKey: string): Promise<JiraTransition[]> {

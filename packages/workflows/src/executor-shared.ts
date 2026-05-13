@@ -342,6 +342,39 @@ export async function loadCommandPrompt(
 export const CONTEXT_VAR_PATTERN_STR =
   '\\$(?:CONTEXT|EXTERNAL_CONTEXT|ISSUE_CONTEXT)(?![A-Za-z0-9_])';
 
+export interface WorkflowVariableSubstitutionOptions {
+  /**
+   * Leave user-controlled values as shell environment variable references.
+   * Bash/script source must not inline values that came from user input,
+   * approval feedback, loop feedback, or external issue context.
+   */
+  shellSafe?: boolean;
+}
+
+/**
+ * Build environment variables for shell-safe workflow variable handling.
+ * Values returned here are expanded by the child shell as env vars, so shell
+ * metacharacters inside the value are data rather than new `bash -c` source.
+ */
+export function buildShellSafeWorkflowEnv(
+  userMessage: string,
+  issueContext?: string,
+  loopUserInput?: string,
+  rejectionReason?: string,
+  loopPrevOutput?: string
+): NodeJS.ProcessEnv {
+  return {
+    USER_MESSAGE: userMessage,
+    ARGUMENTS: userMessage,
+    CONTEXT: issueContext ?? '',
+    EXTERNAL_CONTEXT: issueContext ?? '',
+    ISSUE_CONTEXT: issueContext ?? '',
+    LOOP_USER_INPUT: loopUserInput ?? '',
+    REJECTION_REASON: rejectionReason ?? '',
+    LOOP_PREV_OUTPUT: loopPrevOutput ?? '',
+  };
+}
+
 /**
  * Substitute workflow variables in a prompt.
  *
@@ -372,7 +405,8 @@ export function substituteWorkflowVariables(
   issueContext?: string,
   loopUserInput?: string,
   rejectionReason?: string,
-  loopPrevOutput?: string
+  loopPrevOutput?: string,
+  options?: WorkflowVariableSubstitutionOptions
 ): { prompt: string; contextSubstituted: boolean } {
   // Fail fast if the prompt references $BASE_BRANCH but no base branch could be resolved
   if (!baseBranch && prompt.includes('$BASE_BRANCH')) {
@@ -384,6 +418,19 @@ export function substituteWorkflowVariables(
 
   // Defensive: ensure docsDir always has a value (callers should resolve, but guard here)
   const resolvedDocsDir = docsDir || 'docs/';
+
+  if (options?.shellSafe) {
+    const result = prompt
+      .replace(/\$WORKFLOW_ID/g, workflowId)
+      .replace(/\$ARTIFACTS_DIR/g, artifactsDir)
+      .replace(/\$BASE_BRANCH/g, baseBranch)
+      .replace(/\$DOCS_DIR/g, resolvedDocsDir);
+
+    return {
+      prompt: result,
+      contextSubstituted: false,
+    };
+  }
 
   // Substitute basic variables
   let result = prompt

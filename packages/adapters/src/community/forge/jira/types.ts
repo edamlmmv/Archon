@@ -69,6 +69,11 @@ export interface JiraIssueDetails {
   labels: string[];
 }
 
+export interface JiraIssueSearchResult extends JiraIssueDetails {
+  id: string;
+  url: string;
+}
+
 export interface JiraCreateIssueInput {
   projectKey: string;
   issueTypeId: string;
@@ -83,6 +88,13 @@ export interface JiraTransition {
   name: string;
   to: string;
   statusCategory?: string;
+}
+
+export interface JiraIssueTypeDetails {
+  id: string;
+  name: string;
+  subtask: boolean;
+  hierarchyLevel?: number;
 }
 
 export interface JiraBmadSprintExerciseOptions {

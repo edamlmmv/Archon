@@ -8,6 +8,17 @@ describe('UI-lab queue and registry contract', () => {
     expect(new Set(officialComponents.map(component => component.id)).size).toBe(59);
   });
 
+  it('blocks component-loop launch when no pending queue items remain', () => {
+    const result = Bun.spawnSync(['bun', '.archon/scripts/ui-lab/status.ts', '--require-pending'], {
+      cwd: process.cwd(),
+      stdout: 'pipe',
+      stderr: 'pipe',
+    });
+
+    expect(result.exitCode).toBe(1);
+    expect(new TextDecoder().decode(result.stdout)).toContain('UI_LAB_QUEUE_NO_PENDING');
+  });
+
   it('validates queue, registry, and Forge awareness surfaces', () => {
     expect(() => validateUiLab()).not.toThrow();
   });

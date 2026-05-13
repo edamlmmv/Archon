@@ -67,6 +67,8 @@ export interface WorkflowRunOptions {
   verbose?: boolean;
   /** Platform conversation ID (e.g. `cli-{ts}-{rand}`), NOT a DB UUID. */
   conversationId?: string;
+  /** Original cwd used to discover project-scoped workflow files on resume/approve. */
+  workflowSourceCwd?: string;
 }
 
 /**
@@ -127,6 +129,13 @@ function buildRegistrationFailureError(action: string, error: Error): Error {
   return new Error(
     `Cannot ${action}: repository registration failed.\nError: ${error.message}\n${hint}`
   );
+}
+
+function getWorkflowSourceCwd(
+  metadata: Record<string, unknown> | null | undefined
+): string | undefined {
+  const raw = metadata?.workflow_source_cwd;
+  return typeof raw === 'string' && raw.trim() ? raw : undefined;
 }
 
 /** Render a workflow event to stderr as a progress line. Called only when --quiet is not set. */
@@ -260,7 +269,8 @@ export async function workflowRunCommand(
   userMessage: string,
   options: WorkflowRunOptions = {}
 ): Promise<void> {
-  const { workflows: workflowEntries, errors } = await loadWorkflows(cwd);
+  const workflowSourceCwd = options.workflowSourceCwd ?? cwd;
+  const { workflows: workflowEntries, errors } = await loadWorkflows(workflowSourceCwd);
 
   if (workflowEntries.length === 0 && errors.length === 0) {
     throw new Error('No workflows found in .archon/workflows/');
@@ -346,6 +356,9 @@ export async function workflowRunCommand(
 
   console.log(`Running workflow: ${workflowName}`);
   console.log(`Working directory: ${cwd}`);
+  if (workflowSourceCwd !== cwd) {
+    console.log(`Workflow source: ${workflowSourceCwd}`);
+  }
   console.log('');
 
   // Create CLI adapter
@@ -715,7 +728,12 @@ export async function workflowRunCommand(
       workflow,
       userMessage,
       conversation.id,
-      codebase?.id
+      codebase?.id,
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      { workflow_source_cwd: workflowSourceCwd }
     );
   } finally {
     unsubscribe?.();
@@ -949,6 +967,7 @@ export async function workflowResumeCommand(runId: string): Promise<void> {
     await workflowRunCommand(run.working_path, run.workflow_name, run.user_message ?? '', {
       resume: true,
       codebaseId: run.codebase_id ?? undefined,
+      workflowSourceCwd: getWorkflowSourceCwd(run.metadata),
     });
   } catch (error) {
     const err = error as Error;
@@ -1012,6 +1031,7 @@ export async function workflowApproveCommand(runId: string, comment?: string): P
       resume: true,
       codebaseId: result.codebaseId ?? undefined,
       conversationId: platformConversationId,
+      workflowSourceCwd: result.workflowSourceCwd ?? undefined,
     });
   } catch (error) {
     const err = error as Error;
@@ -1072,6 +1092,7 @@ export async function workflowRejectCommand(runId: string, reason?: string): Pro
       resume: true,
       codebaseId: result.codebaseId ?? undefined,
       conversationId: platformConversationId,
+      workflowSourceCwd: result.workflowSourceCwd ?? undefined,
     });
   } catch (error) {
     const err = error as Error;

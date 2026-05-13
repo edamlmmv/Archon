@@ -20,7 +20,7 @@
     "check:ui-lab": "bun .archon/scripts/ui-lab/validate.ts",
     "ui-lab:forge-ready": "bun .archon/scripts/ui-lab/write-forge-ready-evidence.ts",
     "test": "bun --filter '*' --parallel test",
-    "test:mcp": "bun test ./.archon/scripts/__tests__/mcp-usage-report.test.ts ./.archon/scripts/__tests__/capability-lab.test.ts ./.archon/scripts/__tests__/context7-capabilities.test.ts ./.archon/scripts/__tests__/agentic-search-capabilities.test.ts ./.archon/scripts/__tests__/ui-lab-web-adoption.test.ts ./.archon/scripts/__tests__/ui-lab-queue.test.ts packages/workflows/src/validator.test.ts",
+    "test:mcp": "bun test ./.archon/scripts/__tests__/mcp-usage-report.test.ts ./.archon/scripts/__tests__/capability-lab.test.ts ./.archon/scripts/__tests__/context7-capabilities.test.ts ./.archon/scripts/__tests__/agentic-search-capabilities.test.ts ./.archon/scripts/__tests__/ui-lab-web-adoption.test.ts ./.archon/scripts/__tests__/ui-lab-queue.test.ts ./.archon/scripts/__tests__/dag-adoption-report.test.ts ./.archon/scripts/__tests__/jira-follow-through.test.ts ./.archon/scripts/__tests__/party-mode-plan.test.ts ./.archon/scripts/__tests__/party-mode-rotation-contract.test.ts ./.archon/scripts/__tests__/party-mode-roster.test.ts packages/workflows/src/validator.test.ts",
     "test:watch": "bun --filter @archon/server test:watch",
     "type-check": "bun --filter '*' type-check && bun x tsc --noEmit -p scripts/tsconfig.json",
     "lint": "bun x eslint . --cache",

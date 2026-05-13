@@ -32,6 +32,7 @@ export interface WorkflowStatusData {
 export interface ApprovalOperationResult {
   workflowName: string;
   workingPath: string | null;
+  workflowSourceCwd: string | null;
   userMessage: string | null;
   codebaseId: string | null;
   /** Internal DB UUID — resolve via getConversationById() to get platform_conversation_id. */
@@ -42,6 +43,7 @@ export interface ApprovalOperationResult {
 export interface RejectionOperationResult {
   workflowName: string;
   workingPath: string | null;
+  workflowSourceCwd: string | null;
   userMessage: string | null;
   codebaseId: string | null;
   /** Internal DB UUID — resolve via getConversationById() to get platform_conversation_id. */
@@ -69,6 +71,11 @@ async function getRunOrThrow(runId: string, logEvent: string): Promise<WorkflowR
     throw new Error(`Workflow run not found: ${runId}`);
   }
   return run;
+}
+
+function getWorkflowSourceCwd(run: WorkflowRun): string | null {
+  const raw = run.metadata.workflow_source_cwd;
+  return typeof raw === 'string' && raw.trim() ? raw : null;
 }
 
 // ---------------------------------------------------------------------------
@@ -170,6 +177,7 @@ export async function approveWorkflow(
       return {
         workflowName: run.workflow_name,
         workingPath: run.working_path,
+        workflowSourceCwd: getWorkflowSourceCwd(run),
         userMessage: run.user_message,
         codebaseId: run.codebase_id,
         conversationId: run.conversation_id,
@@ -207,6 +215,7 @@ export async function approveWorkflow(
   return {
     workflowName: run.workflow_name,
     workingPath: run.working_path,
+    workflowSourceCwd: getWorkflowSourceCwd(run),
     userMessage: run.user_message,
     codebaseId: run.codebase_id,
     conversationId: run.conversation_id,
@@ -252,6 +261,7 @@ export async function rejectWorkflow(
         return {
           workflowName: run.workflow_name,
           workingPath: run.working_path,
+          workflowSourceCwd: getWorkflowSourceCwd(run),
           userMessage: run.user_message,
           codebaseId: run.codebase_id,
           conversationId: run.conversation_id,
@@ -266,6 +276,7 @@ export async function rejectWorkflow(
       return {
         workflowName: run.workflow_name,
         workingPath: run.working_path,
+        workflowSourceCwd: getWorkflowSourceCwd(run),
         userMessage: run.user_message,
         codebaseId: run.codebase_id,
         conversationId: run.conversation_id,
@@ -286,6 +297,7 @@ export async function rejectWorkflow(
   return {
     workflowName: run.workflow_name,
     workingPath: run.working_path,
+    workflowSourceCwd: getWorkflowSourceCwd(run),
     userMessage: run.user_message,
     codebaseId: run.codebase_id,
     conversationId: run.conversation_id,

@@ -25,6 +25,7 @@ nodes:
         exit 1
       fi
       bun .archon/scripts/ui-lab/status.ts
+      bun .archon/scripts/ui-lab/status.ts --require-pending
       bun .archon/scripts/ui-lab/pick.ts --dry-run --workflow-id "$WORKFLOW_ID"
 
   - id: route-introspection

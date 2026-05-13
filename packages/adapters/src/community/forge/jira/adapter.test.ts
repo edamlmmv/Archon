@@ -486,6 +486,77 @@ describe('JiraAdapter', () => {
     expect(JSON.parse(options.body as string)).toEqual({ issues: ['SCRUM-7', 'SCRUM-9'] });
   });
 
+  test('lists project issue types from create metadata', async () => {
+    mockFetch = mock(() =>
+      jsonResponse({
+        values: [
+          { id: '10001', name: 'Epic', subtask: false, hierarchyLevel: 1 },
+          { id: '10003', name: 'Task', subtask: false, hierarchyLevel: 0 },
+          { id: undefined, name: 'Broken', subtask: false },
+        ],
+      })
+    );
+    globalThis.fetch = mockFetch as typeof fetch;
+    const adapter = createAdapter();
+
+    const issueTypes = await adapter.getProjectIssueTypes('SCRUM');
+
+    expect(issueTypes).toEqual([
+      { id: '10001', name: 'Epic', subtask: false, hierarchyLevel: 1 },
+      { id: '10003', name: 'Task', subtask: false, hierarchyLevel: 0 },
+    ]);
+    const [url, options] = mockFetch.mock.calls[0] as [string, RequestInit];
+    expect(url).toBe(
+      'https://sylvainedamtheodore.atlassian.net/rest/api/3/issue/createmeta/SCRUM/issuetypes'
+    );
+    expect(options.method ?? 'GET').toBe('GET');
+  });
+
+  test('searches issues by label through Jira JQL search endpoint', async () => {
+    mockFetch = mock(() =>
+      jsonResponse({
+        issues: [
+          {
+            id: '10013',
+            key: 'SCRUM-13',
+            fields: {
+              summary: 'Archon BMAD/Jira Enhancement Plan',
+              issuetype: { name: 'Epic' },
+              status: { name: 'To Do' },
+              parent: undefined,
+              labels: ['archon-bmad-jira-enhancement-plan'],
+            },
+          },
+        ],
+      })
+    );
+    globalThis.fetch = mockFetch as typeof fetch;
+    const adapter = createAdapter();
+
+    const issues = await adapter.searchIssuesByLabel('SCRUM', 'archon-bmad-jira-enhancement-plan');
+
+    expect(issues).toEqual([
+      {
+        id: '10013',
+        key: 'SCRUM-13',
+        url: 'https://sylvainedamtheodore.atlassian.net/browse/SCRUM-13',
+        summary: 'Archon BMAD/Jira Enhancement Plan',
+        issueType: 'Epic',
+        status: 'To Do',
+        parentKey: null,
+        labels: ['archon-bmad-jira-enhancement-plan'],
+      },
+    ]);
+    const [url, options] = mockFetch.mock.calls[0] as [string, RequestInit];
+    expect(url).toBe('https://sylvainedamtheodore.atlassian.net/rest/api/3/search/jql');
+    expect(options.method).toBe('POST');
+    expect(JSON.parse(options.body as string)).toEqual({
+      jql: 'project = "SCRUM" AND labels = "archon-bmad-jira-enhancement-plan" ORDER BY created ASC',
+      fields: ['summary', 'issuetype', 'status', 'parent', 'labels'],
+      maxResults: 100,
+    });
+  });
+
   test('transitions issue by resolving available transition name first', async () => {
     mockFetch = mock((url: string, options?: RequestInit) => {
       if (url.endsWith('/transitions?expand=transitions.fields')) {

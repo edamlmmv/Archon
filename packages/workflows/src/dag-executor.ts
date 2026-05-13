@@ -67,6 +67,7 @@ import {
 import { withIdleTimeout, STEP_IDLE_TIMEOUT_MS } from './utils/idle-timeout';
 import {
   classifyError,
+  buildShellSafeWorkflowEnv,
   detectCreditExhaustion,
   loadCommandPrompt,
   substituteWorkflowVariables,
@@ -1312,7 +1313,11 @@ async function executeBashNode(
     artifactsDir,
     baseBranch,
     docsDir,
-    issueContext
+    issueContext,
+    undefined,
+    undefined,
+    undefined,
+    { shellSafe: true }
   );
   const finalScript = substituteNodeOutputRefs(substitutedScript, nodeOutputs, true);
 
@@ -1323,6 +1328,7 @@ async function executeBashNode(
     LOG_DIR: logDir,
     BASE_BRANCH: baseBranch,
     ...(envVars ?? {}),
+    ...buildShellSafeWorkflowEnv(workflowRun.user_message, issueContext),
   };
 
   try {
@@ -2127,14 +2133,31 @@ async function executeLoopNode(
           artifactsDir,
           baseBranch,
           docsDir,
-          issueContext
+          issueContext,
+          i === startIteration ? loopUserInput : '',
+          undefined,
+          i === startIteration ? '' : lastIterationOutput,
+          { shellSafe: true }
         );
         const substitutedBash = substituteNodeOutputRefs(
           bashPrompt,
           nodeOutputs,
           true // escapedForBash
         );
-        await execFileAsync('bash', ['-c', substitutedBash], { cwd });
+        const subprocessEnv: NodeJS.ProcessEnv = {
+          ...process.env,
+          ARTIFACTS_DIR: artifactsDir,
+          LOG_DIR: logDir,
+          BASE_BRANCH: baseBranch,
+          ...buildShellSafeWorkflowEnv(
+            workflowRun.user_message,
+            issueContext,
+            i === startIteration ? loopUserInput : '',
+            undefined,
+            i === startIteration ? '' : lastIterationOutput
+          ),
+        };
+        await execFileAsync('bash', ['-c', substitutedBash], { cwd, env: subprocessEnv });
         bashComplete = true; // exit 0 = complete
       } catch (e) {
         const bashErr = e as NodeJS.ErrnoException;

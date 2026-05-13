@@ -244,7 +244,8 @@ export async function executeWorkflow(
     prBranch?: string;
   },
   parentConversationId?: string,
-  preCreatedRun?: WorkflowRun
+  preCreatedRun?: WorkflowRun,
+  initialMetadata?: Record<string, unknown>
 ): Promise<WorkflowExecutionResult> {
   // Load config once for the entire workflow execution
   const fileConfig = await deps.loadConfig(cwd);
@@ -445,13 +446,17 @@ export async function executeWorkflow(
   if (!workflowRun) {
     // Create workflow run record
     try {
+      const metadata = {
+        ...(initialMetadata ?? {}),
+        ...(issueContext ? { github_context: issueContext } : {}),
+      };
       workflowRun = await deps.store.createWorkflowRun({
         workflow_name: workflow.name,
         conversation_id: conversationDbId,
         codebase_id: codebaseId,
         user_message: userMessage,
         working_path: cwd,
-        metadata: issueContext ? { github_context: issueContext } : {},
+        metadata,
         parent_conversation_id: parentConversationId,
       });
     } catch (error) {

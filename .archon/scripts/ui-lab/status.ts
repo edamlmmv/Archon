@@ -25,7 +25,23 @@ function main(): void {
   const argv = Bun.argv.slice(2);
   const completeWhenDrained = argv.includes('--complete-when-drained');
   const requireAllDone = argv.includes('--require-all-done');
+  const requirePending = argv.includes('--require-pending');
   const payload = buildPayload();
+
+  if (requirePending) {
+    if (payload.lock) {
+      process.stdout.write(`UI_LAB_QUEUE_LOCKED\n${JSON.stringify(payload, null, 2)}\n`);
+      process.exitCode = 1;
+      return;
+    }
+    if (payload.counts.pending > 0) {
+      process.stdout.write(`UI_LAB_QUEUE_HAS_PENDING\n${JSON.stringify(payload, null, 2)}\n`);
+      return;
+    }
+    process.stdout.write(`UI_LAB_QUEUE_NO_PENDING\n${JSON.stringify(payload, null, 2)}\n`);
+    process.exitCode = 1;
+    return;
+  }
 
   if (completeWhenDrained) {
     const activeCount =

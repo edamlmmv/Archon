@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, mock, spyOn, type Mock } from 'bun:test';
+import { existsSync } from 'fs';
 import { mkdir, writeFile, rm } from 'fs/promises';
 import { join } from 'path';
 import { tmpdir } from 'os';
@@ -1300,7 +1301,62 @@ describe('executeDagWorkflow -- bash nodes', () => {
       minimalConfig
     );
 
-    // Should complete without error (no AI calls)
+    const eventCalls = (mockDeps.store.createWorkflowEvent as ReturnType<typeof mock>).mock.calls;
+    const completedEvent = eventCalls.find(
+      (call: unknown[]) =>
+        (call[0] as { event_type: string }).event_type === 'node_completed' &&
+        (call[0] as { step_name: string }).step_name === 'vars'
+    );
+    expect(completedEvent).toBeDefined();
+    expect((completedEvent![0] as { data: { node_output: string } }).data.node_output).toBe(
+      'bash test message'
+    );
+    expect(mockSendQueryDag.mock.calls.length).toBe(0);
+  });
+
+  it('passes $ARGUMENTS through env so shell metacharacters are inert in bash scripts', async () => {
+    const mockDeps = createMockDeps();
+    const platform = createMockPlatform();
+    const markerPath = join(testDir, 'argument-injection-marker');
+    const userMessage = `quoted "value"\n$(touch ${markerPath})\n\`touch ${markerPath}\``;
+    const workflowRun = makeWorkflowRun('bash-shell-safe-run-id', {
+      workflow_name: 'bash-shell-safe-test',
+      conversation_id: 'conv-bash-shell-safe',
+      user_message: userMessage,
+    });
+
+    const bashNode: BashNode = {
+      id: 'vars',
+      bash: 'printf "%s" "$ARGUMENTS"',
+    };
+
+    await executeDagWorkflow(
+      mockDeps,
+      platform,
+      'conv-bash-shell-safe',
+      testDir,
+      { name: 'bash-shell-safe-test', nodes: [bashNode] },
+      workflowRun,
+      'claude',
+      undefined,
+      join(testDir, 'artifacts'),
+      join(testDir, 'logs'),
+      'main',
+      'docs/',
+      minimalConfig
+    );
+
+    expect(existsSync(markerPath)).toBe(false);
+    const eventCalls = (mockDeps.store.createWorkflowEvent as ReturnType<typeof mock>).mock.calls;
+    const completedEvent = eventCalls.find(
+      (call: unknown[]) =>
+        (call[0] as { event_type: string }).event_type === 'node_completed' &&
+        (call[0] as { step_name: string }).step_name === 'vars'
+    );
+    expect(completedEvent).toBeDefined();
+    expect((completedEvent![0] as { data: { node_output: string } }).data.node_output).toBe(
+      userMessage
+    );
     expect(mockSendQueryDag.mock.calls.length).toBe(0);
   });
 

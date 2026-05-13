@@ -118,6 +118,7 @@ mock.module('@archon/core/db/codebases', () => ({
 
 mock.module('@archon/core/db/isolation-environments', () => ({
   findActiveByWorkflow: mock(() => Promise.resolve(null)),
+  listByCodebase: mock(() => Promise.resolve([])),
   create: mock(() => Promise.resolve({ id: 'iso-123' })),
 }));
 
@@ -1770,6 +1771,51 @@ describe('workflowResumeCommand', () => {
     expect(codebaseDb.getCodebase).toHaveBeenCalledWith('cb-existing');
   });
 
+  it('should rediscover resumed workflows from original project cwd', async () => {
+    const workflowDb = await import('@archon/core/db/workflows');
+    const codebaseDb = await import('@archon/core/db/codebases');
+    const workflowDiscovery = await import('@archon/workflows/workflow-discovery');
+    const workflowsExecutor = await import('@archon/workflows/executor');
+
+    const workingPath = process.cwd();
+    const run = {
+      id: 'run-project-cwd',
+      workflow_name: 'implement',
+      status: 'failed',
+      user_message: 'add auth',
+      working_path: workingPath,
+      codebase_id: 'cb-existing',
+      metadata: { workflow_source_cwd: '/original/project-checkout' },
+    };
+
+    (workflowDiscovery.discoverWorkflowsWithConfig as ReturnType<typeof mock>).mockReset();
+    (workflowDb.getWorkflowRun as ReturnType<typeof mock>).mockResolvedValueOnce(run);
+    (workflowDb.findResumableRun as ReturnType<typeof mock>).mockResolvedValueOnce(run);
+    (codebaseDb.getCodebase as ReturnType<typeof mock>).mockResolvedValueOnce({
+      id: 'cb-existing',
+      name: 'owner/repo',
+      default_cwd: workingPath,
+    });
+    (workflowsExecutor.executeWorkflow as ReturnType<typeof mock>).mockClear();
+    (
+      workflowDiscovery.discoverWorkflowsWithConfig as ReturnType<typeof mock>
+    ).mockResolvedValueOnce({
+      workflows: [makeTestWorkflowWithSource({ name: 'implement' })],
+      errors: [],
+    });
+
+    await workflowResumeCommand('run-project-cwd');
+
+    expect(workflowDiscovery.discoverWorkflowsWithConfig).toHaveBeenCalledWith(
+      '/original/project-checkout',
+      expect.any(Function)
+    );
+    const executeCall = (workflowsExecutor.executeWorkflow as ReturnType<typeof mock>).mock
+      .calls[0];
+    expect(executeCall[3]).toBe(workingPath);
+    expect(executeCall[12]).toEqual({ workflow_source_cwd: '/original/project-checkout' });
+  });
+
   it('should fall through to auto-registration when getCodebase throws', async () => {
     const workflowDb = await import('@archon/core/db/workflows');
     const codebaseDb = await import('@archon/core/db/codebases');
@@ -1870,6 +1916,52 @@ describe('workflowApproveCommand', () => {
     }
 
     expect(codebaseDb.getCodebase).toHaveBeenCalledWith('cb-existing');
+  });
+
+  it('should rediscover approved workflows from original project cwd', async () => {
+    const workflowDb = await import('@archon/core/db/workflows');
+    const codebaseDb = await import('@archon/core/db/codebases');
+    const workflowDiscovery = await import('@archon/workflows/workflow-discovery');
+
+    const workingPath = process.cwd();
+    const run = {
+      id: 'run-approve-project-cwd',
+      workflow_name: 'implement',
+      conversation_id: 'conv-original',
+      status: 'paused',
+      user_message: 'add auth',
+      working_path: workingPath,
+      codebase_id: 'cb-existing',
+      metadata: {
+        workflow_source_cwd: '/original/project-checkout',
+        approval: { nodeId: 'review-node', message: 'Approve?' },
+      },
+    };
+
+    (workflowDiscovery.discoverWorkflowsWithConfig as ReturnType<typeof mock>).mockReset();
+    (workflowDb.getWorkflowRun as ReturnType<typeof mock>).mockResolvedValueOnce(run);
+    (workflowDb.findResumableRun as ReturnType<typeof mock>).mockResolvedValueOnce({
+      ...run,
+      status: 'failed',
+    });
+    (codebaseDb.getCodebase as ReturnType<typeof mock>).mockResolvedValueOnce({
+      id: 'cb-existing',
+      name: 'owner/repo',
+      default_cwd: workingPath,
+    });
+    (
+      workflowDiscovery.discoverWorkflowsWithConfig as ReturnType<typeof mock>
+    ).mockResolvedValueOnce({
+      workflows: [makeTestWorkflowWithSource({ name: 'implement' })],
+      errors: [],
+    });
+
+    await workflowApproveCommand('run-approve-project-cwd');
+
+    expect(workflowDiscovery.discoverWorkflowsWithConfig).toHaveBeenCalledWith(
+      '/original/project-checkout',
+      expect.any(Function)
+    );
   });
 
   it('should pass original platform conversation ID through to workflowRunCommand', async () => {
@@ -2110,16 +2202,18 @@ describe('workflowRejectCommand', () => {
 
   it('should pass original platform conversation ID through on reject-resume', async () => {
     const workflowDb = await import('@archon/core/db/workflows');
+    const codebaseDb = await import('@archon/core/db/codebases');
     const conversationsDb = await import('@archon/core/db/conversations');
     const workflowDiscovery = await import('@archon/workflows/workflow-discovery');
 
+    const workingPath = process.cwd();
     const runData = {
       id: 'run-reject-conv',
       workflow_name: 'my-wf',
       status: 'paused',
       user_message: 'build it',
-      working_path: '/repo',
-      codebase_id: null,
+      working_path: workingPath,
+      codebase_id: 'cb-existing',
       conversation_id: 'db-uuid-reject',
       metadata: {
         approval: {
@@ -2133,7 +2227,17 @@ describe('workflowRejectCommand', () => {
       },
     };
     // rejectWorkflow reads the run twice internally (getRunOrThrow + updateWorkflowRun check)
+    (workflowDiscovery.discoverWorkflowsWithConfig as ReturnType<typeof mock>).mockReset();
     (workflowDb.getWorkflowRun as ReturnType<typeof mock>).mockResolvedValueOnce(runData);
+    (workflowDb.findResumableRun as ReturnType<typeof mock>).mockResolvedValueOnce({
+      ...runData,
+      status: 'failed',
+    });
+    (codebaseDb.getCodebase as ReturnType<typeof mock>).mockResolvedValueOnce({
+      id: 'cb-existing',
+      name: 'owner/repo',
+      default_cwd: workingPath,
+    });
 
     // Return a conversation with the original platform ID
     (conversationsDb.getConversationById as ReturnType<typeof mock>).mockResolvedValueOnce({
@@ -2234,6 +2338,7 @@ describe('workflowRunCommand — progress rendering', () => {
     // These need to be set up for each test since workflowRunCommand has many dependencies
     const discoverMock = require('@archon/workflows/workflow-discovery')
       .discoverWorkflowsWithConfig as ReturnType<typeof mock>;
+    discoverMock.mockReset();
     discoverMock.mockResolvedValueOnce({
       workflows: [makeTestWorkflowWithSource({ name: 'plan', description: 'Plan work' })],
       errors: [],

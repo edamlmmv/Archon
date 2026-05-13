@@ -20,6 +20,7 @@ mock.module('@archon/paths', () => ({
 
 import {
   substituteWorkflowVariables,
+  buildShellSafeWorkflowEnv,
   buildPromptWithContext,
   detectCreditExhaustion,
   detectCompletionSignal,
@@ -297,6 +298,74 @@ describe('substituteWorkflowVariables', () => {
       'unused previous output'
     );
     expect(prompt).toBe('Plain prompt with no loop variable.');
+  });
+
+  it('keeps user-controlled variables as env references in shell-safe mode', () => {
+    const { prompt, contextSubstituted } = substituteWorkflowVariables(
+      [
+        '$WORKFLOW_ID',
+        '$ARGUMENTS',
+        '$USER_MESSAGE',
+        '$CONTEXT',
+        '$EXTERNAL_CONTEXT',
+        '$ISSUE_CONTEXT',
+        '$LOOP_USER_INPUT',
+        '$REJECTION_REASON',
+        '$LOOP_PREV_OUTPUT',
+        '$ARTIFACTS_DIR',
+        '$BASE_BRANCH',
+        '$DOCS_DIR',
+      ].join('|'),
+      'run-1',
+      '$(touch pwned)',
+      '/tmp/artifacts',
+      'main',
+      'docs/',
+      'issue context',
+      'loop input',
+      'rejected',
+      'previous',
+      { shellSafe: true }
+    );
+
+    expect(prompt).toBe(
+      [
+        'run-1',
+        '$ARGUMENTS',
+        '$USER_MESSAGE',
+        '$CONTEXT',
+        '$EXTERNAL_CONTEXT',
+        '$ISSUE_CONTEXT',
+        '$LOOP_USER_INPUT',
+        '$REJECTION_REASON',
+        '$LOOP_PREV_OUTPUT',
+        '/tmp/artifacts',
+        'main',
+        'docs/',
+      ].join('|')
+    );
+    expect(contextSubstituted).toBe(false);
+  });
+
+  it('builds shell-safe env values for workflow variables', () => {
+    const env = buildShellSafeWorkflowEnv(
+      '$(touch pwned) "quotes"\nline',
+      'issue context',
+      'loop input',
+      'rejected',
+      'previous'
+    );
+
+    expect(env).toMatchObject({
+      USER_MESSAGE: '$(touch pwned) "quotes"\nline',
+      ARGUMENTS: '$(touch pwned) "quotes"\nline',
+      CONTEXT: 'issue context',
+      EXTERNAL_CONTEXT: 'issue context',
+      ISSUE_CONTEXT: 'issue context',
+      LOOP_USER_INPUT: 'loop input',
+      REJECTION_REASON: 'rejected',
+      LOOP_PREV_OUTPUT: 'previous',
+    });
   });
 });
 

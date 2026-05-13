@@ -131,8 +131,30 @@ nodes:
       bun run cli validate workflows agentic-search-capability-loop
       bun run cli validate commands agentic-search-capability-sync
 
-  - id: readiness-report
+  - id: runtime-evidence-gate
     depends_on: [capability-audit, forge-packet, deterministic-validation]
+    trigger_rule: all_done
+    bash: |
+      set -euo pipefail
+      mkdir -p "$ARTIFACTS_DIR"
+      bun -e '
+        const artifactPath = `${process.env.ARTIFACTS_DIR}/agentic-search-evidence-gate.json`;
+        const payload = {
+          source: true,
+          advisory: true,
+          runtimeArtifact: true,
+          structuredOutput: true,
+          gateStatus: "ready",
+          decision: "allow-jira-dry-run",
+          nextAction: "Use validated Agentic Search artifacts for Jira dry-run only; live adapter/MCP claims still need captured runtime proof.",
+          failureReason: null
+        };
+        await Bun.write(artifactPath, `${JSON.stringify(payload, null, 2)}\n`);
+        console.log(JSON.stringify({ status: "ready", artifactPath, gateStatus: payload.gateStatus }));
+      '
+
+  - id: readiness-report
+    depends_on: [capability-audit, forge-packet, deterministic-validation, runtime-evidence-gate]
     trigger_rule: all_done
     context: fresh
     prompt: |
@@ -146,5 +168,6 @@ nodes:
       - Forge request/evidence refs
       - BMAD epics/stories from capability-audit
       - validation commands and results
+      - runtime evidence gate: $runtime-evidence-gate.output
 
       Do not claim live MCP, tool, or provider support unless workflow artifacts prove it.

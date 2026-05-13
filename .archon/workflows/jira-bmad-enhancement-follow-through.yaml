@@ -1,0 +1,100 @@
+name: jira-bmad-enhancement-follow-through
+description: |
+  Use when: The Archon BMAD/Jira Enhancement Plan must be tracked through real Jira work items.
+  Triggers: "Jira follow-through", "BMAD Jira enhancement plan", "track enhancement execution through Jira".
+  Does: Runs Jira preflight, creates/reuses the enhancement Epic/Stories/Tasks artifact, and verifies the created Jira graph.
+  NOT for: OAuth setup, Jira app installation, or marking tasks Done without external validation evidence.
+
+provider: codex
+model: gpt-5.5
+modelReasoningEffort: high
+interactive: true
+worktree:
+  enabled: false
+mutates_checkout: false
+tags: [BMAD, Jira, Workflow Engine]
+
+nodes:
+  - id: jira-config
+    bash: |
+      set -euo pipefail
+      bun .archon/scripts/jira-follow-through.ts config --json
+
+  - id: dag-adoption-report
+    depends_on: [jira-config]
+    bash: |
+      set -euo pipefail
+      mkdir -p "$ARTIFACTS_DIR"
+      bun .archon/scripts/dag-adoption-report.ts \
+        --json \
+        --output "$ARTIFACTS_DIR/dag-adoption-report.json"
+
+  - id: jira-preflight
+    depends_on: [dag-adoption-report]
+    bash: |
+      set -euo pipefail
+      bun .archon/scripts/jira-follow-through.ts preflight --json
+
+  - id: jira-dry-run
+    depends_on: [jira-preflight]
+    bash: |
+      set -euo pipefail
+      export ARCHON_DAG_ADOPTION_REPORT_PATH="$ARTIFACTS_DIR/dag-adoption-report.json"
+      artifact="${JIRA_FOLLOW_THROUGH_ARTIFACT:-.archon/state/jira-party-mode-diversity-plan.json}"
+      plan_args=()
+      if [ -n "${JIRA_FOLLOW_THROUGH_PLAN_ARTIFACT:-}" ]; then
+        plan_args=(--plan "$JIRA_FOLLOW_THROUGH_PLAN_ARTIFACT")
+      fi
+      bun .archon/scripts/jira-follow-through.ts dry-run --json \
+        --artifact "$artifact" \
+        "${plan_args[@]}" \
+        | tee "$ARTIFACTS_DIR/jira-dry-run-plan.json"
+
+  - id: jira-create-or-reuse
+    depends_on: [jira-dry-run]
+    bash: |
+      set -euo pipefail
+      export ARCHON_DAG_ADOPTION_REPORT_PATH="$ARTIFACTS_DIR/dag-adoption-report.json"
+      artifact="${JIRA_FOLLOW_THROUGH_ARTIFACT:-.archon/state/jira-party-mode-diversity-plan.json}"
+      plan_args=()
+      if [ -n "${JIRA_FOLLOW_THROUGH_PLAN_ARTIFACT:-}" ]; then
+        plan_args=(--plan "$JIRA_FOLLOW_THROUGH_PLAN_ARTIFACT")
+      fi
+      bun .archon/scripts/jira-follow-through.ts create --json \
+        --artifact "$artifact" \
+        "${plan_args[@]}"
+
+  - id: jira-verify
+    depends_on: [jira-create-or-reuse]
+    bash: |
+      set -euo pipefail
+      artifact="${JIRA_FOLLOW_THROUGH_ARTIFACT:-.archon/state/jira-party-mode-diversity-plan.json}"
+      bun .archon/scripts/jira-follow-through.ts verify --json \
+        --artifact "$artifact"
+
+  - id: evidence-approval
+    depends_on: [jira-verify]
+    approval:
+      message: |
+        Review the Jira verification output and implementation evidence before completion.
+
+        Jira verification:
+        $jira-verify.output
+
+        Required evidence before approval:
+        - Targeted Jira/DAG/Agentic Search/Capability Lab/UI Lab tests passed.
+        - Required workflow validation commands passed.
+        - `bun run validate` passed or its blocker is intentionally accepted.
+
+        Approve only when Jira Tasks may move to Done.
+      capture_response: true
+
+  - id: jira-complete
+    depends_on: [evidence-approval]
+    bash: |
+      set -euo pipefail
+      artifact="${JIRA_FOLLOW_THROUGH_ARTIFACT:-.archon/state/jira-party-mode-diversity-plan.json}"
+      bun .archon/scripts/jira-follow-through.ts complete --json \
+        --artifact "$artifact" \
+        --verification-ok \
+        --verification-summary "Human approval gate passed after Jira verification and implementation evidence review."

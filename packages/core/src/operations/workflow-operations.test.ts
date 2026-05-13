@@ -85,6 +85,7 @@ describe('approveWorkflow', () => {
     expect(result.type).toBe('approval_gate');
     expect(result.workflowName).toBe('test-workflow');
     expect(result.workingPath).toBe('/workspace/worktree');
+    expect(result.workflowSourceCwd).toBe(null);
 
     // node_completed + approval_received = 2 events
     expect(mockCreateWorkflowEvent).toHaveBeenCalledTimes(2);
@@ -148,6 +149,25 @@ describe('approveWorkflow', () => {
     expect((nodeCompletedCall.data as Record<string, unknown>).node_output).toBe('My review notes');
   });
 
+  test('returns original workflow source cwd when metadata records it', async () => {
+    mockGetWorkflowRun.mockResolvedValueOnce(
+      makePausedRun({
+        metadata: {
+          workflow_source_cwd: '/original/project-checkout',
+          approval: {
+            nodeId: 'review',
+            message: 'Please review',
+            type: 'approval',
+          },
+        },
+      })
+    );
+
+    const result = await approveWorkflow('run-1', 'Looks good');
+
+    expect(result.workflowSourceCwd).toBe('/original/project-checkout');
+  });
+
   test('throws on non-paused run', async () => {
     mockGetWorkflowRun.mockResolvedValueOnce(makePausedRun({ status: 'running' }));
 
@@ -195,6 +215,7 @@ describe('rejectWorkflow', () => {
 
     expect(result.cancelled).toBe(false);
     expect(result.workflowName).toBe('test-workflow');
+    expect(result.workflowSourceCwd).toBe(null);
     expect(mockCancelWorkflowRun).not.toHaveBeenCalled();
     expect(mockUpdateWorkflowRun).toHaveBeenCalledWith('run-1', {
       status: 'failed',

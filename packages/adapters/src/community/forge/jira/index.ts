@@ -8,6 +8,8 @@ export type {
   JiraCreateIssueInput,
   JiraCreatedIssue,
   JiraIssueDetails,
+  JiraIssueSearchResult,
+  JiraIssueTypeDetails,
   JiraTransition,
   JiraWebhookPayload,
 } from './types';
