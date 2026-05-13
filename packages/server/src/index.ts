@@ -58,6 +58,10 @@ import { validationErrorHook } from './routes/openapi-defaults';
 import { TelegramAdapter, GitHubAdapter, DiscordAdapter, SlackAdapter } from '@archon/adapters';
 import { GiteaAdapter } from '@archon/adapters/community/forge/gitea';
 import { GitLabAdapter } from '@archon/adapters/community/forge/gitlab';
+import {
+  JiraAdapter,
+  verifyWebhookToken as verifyJiraWebhookToken,
+} from '@archon/adapters/community/forge/jira';
 import { WebAdapter } from './adapters/web';
 import { MessagePersistence } from './adapters/web/persistence';
 import { SSETransport } from './adapters/web/transport';
@@ -261,6 +265,7 @@ export async function startServer(opts: ServerOptions = {}): Promise<void> {
   let github: GitHubAdapter | null = null;
   let gitea: GiteaAdapter | null = null;
   let gitlab: GitLabAdapter | null = null;
+  let jira: JiraAdapter | null = null;
   let discord: DiscordAdapter | null = null;
   let slack: SlackAdapter | null = null;
 
@@ -273,8 +278,15 @@ export async function startServer(opts: ServerOptions = {}): Promise<void> {
       process.env.GITEA_URL && process.env.GITEA_TOKEN && process.env.GITEA_WEBHOOK_SECRET
     );
     const hasGitLab = Boolean(process.env.GITLAB_TOKEN && process.env.GITLAB_WEBHOOK_SECRET);
+    const hasJira = Boolean(
+      process.env.JIRA_SITE_URL &&
+      process.env.JIRA_EMAIL &&
+      process.env.JIRA_API_TOKEN &&
+      process.env.JIRA_WEBHOOK_SECRET &&
+      process.env.JIRA_PROJECT_CODEBASE_MAP
+    );
 
-    if (!hasTelegram && !hasDiscord && !hasGitHub && !hasGitea && !hasGitLab) {
+    if (!hasTelegram && !hasDiscord && !hasGitHub && !hasGitea && !hasGitLab && !hasJira) {
       getLog().warn('no_platform_adapters_configured');
     }
 
@@ -326,6 +338,30 @@ export async function startServer(opts: ServerOptions = {}): Promise<void> {
       activePlatforms.push('GitLab');
     } else {
       getLog().info('gitlab_adapter_skipped');
+    }
+
+    // Initialize Jira adapter (conditional)
+    if (
+      process.env.JIRA_SITE_URL &&
+      process.env.JIRA_EMAIL &&
+      process.env.JIRA_API_TOKEN &&
+      process.env.JIRA_WEBHOOK_SECRET &&
+      process.env.JIRA_PROJECT_CODEBASE_MAP
+    ) {
+      const jiraBotMention =
+        process.env.JIRA_BOT_MENTION || process.env.BOT_DISPLAY_NAME || config.botName;
+      jira = new JiraAdapter(
+        process.env.JIRA_SITE_URL,
+        process.env.JIRA_EMAIL,
+        process.env.JIRA_API_TOKEN,
+        process.env.JIRA_WEBHOOK_SECRET,
+        lockManager,
+        jiraBotMention
+      );
+      await jira.start();
+      activePlatforms.push('Jira');
+    } else {
+      getLog().info('jira_adapter_skipped');
     }
 
     // Initialize Discord adapter (conditional)
@@ -562,6 +598,36 @@ export async function startServer(opts: ServerOptions = {}): Promise<void> {
       }
     });
     getLog().info('gitlab_webhook_registered');
+  }
+
+  // Jira webhook endpoint
+  if (jira) {
+    app.post('/webhooks/jira', async c => {
+      const eventType = c.req.header('x-atlassian-webhook-event') ?? c.req.header('x-event-key');
+
+      try {
+        const token = c.req.header('x-archon-jira-secret') ?? c.req.query('token');
+        if (!token) {
+          return c.json({ error: 'Missing Jira webhook token' }, 400);
+        }
+        if (!verifyJiraWebhookToken(token, process.env.JIRA_WEBHOOK_SECRET ?? '')) {
+          getLog().warn({ eventType }, 'jira.webhook_invalid_token');
+          return c.json({ error: 'Invalid Jira webhook token' }, 401);
+        }
+
+        const payload = await c.req.text();
+
+        jira.handleWebhook(payload, token).catch((error: unknown) => {
+          getLog().error({ err: error, eventType }, 'jira.webhook_processing_error');
+        });
+
+        return c.text('OK', 200);
+      } catch (error) {
+        getLog().error({ err: error, eventType }, 'jira.webhook_endpoint_error');
+        return c.json({ error: 'Internal server error' }, 500);
+      }
+    });
+    getLog().info('jira_webhook_registered');
   }
 
   // Health check endpoints

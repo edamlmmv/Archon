@@ -22,12 +22,21 @@ import type { WorkflowDefinition, DagNode } from './schemas';
 // =============================================================================
 
 let tmpDir: string;
+let previousArchonHome: string | undefined;
 
 beforeEach(async () => {
   tmpDir = await mkdtemp(join(tmpdir(), 'validator-test-'));
+  previousArchonHome = process.env.ARCHON_HOME;
+  process.env.ARCHON_HOME = join(tmpDir, 'archon-home');
 });
 
 afterEach(async () => {
+  if (previousArchonHome === undefined) {
+    delete process.env.ARCHON_HOME;
+  } else {
+    process.env.ARCHON_HOME = previousArchonHome;
+  }
+
   await rm(tmpDir, { recursive: true, force: true });
 });
 
