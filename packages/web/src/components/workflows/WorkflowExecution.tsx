@@ -15,6 +15,7 @@ import { useWorkflowStore } from '@/stores/workflow-store';
 import { getWorkflowRun, getWorkflowRunByWorker, getCodebase, getWorkflow } from '@/lib/api';
 import { ensureUtc, formatDurationMs } from '@/lib/format';
 import { selectInitialNode } from '@/lib/select-initial-node';
+import { getWorkflowRunRefetchInterval } from '@/lib/workflow-run-polling';
 import type {
   WorkflowState,
   ArtifactType,
@@ -102,15 +103,20 @@ export function WorkflowExecution({ runId }: WorkflowExecutionProps): React.Reac
   const { data: queryData, error: queryError } = useQuery({
     queryKey: ['workflowRun', runId],
     queryFn: async (): Promise<WorkflowRunQueryData> => {
-      const data = await getWorkflowRun(runId);
+      const data: Partial<Awaited<ReturnType<typeof getWorkflowRun>>> = await getWorkflowRun(runId);
+      const run = data.run;
+      if (!run) {
+        throw new Error(`Workflow run response for '${runId}' is missing the run payload`);
+      }
+      const events = data.events ?? [];
       return {
         workflowState: {
-          runId: data.run.id,
-          workflowName: data.run.workflow_name,
-          status: data.run.status,
+          runId: run.id,
+          workflowName: run.workflow_name,
+          status: run.status,
           dagNodes: ((): DagNodeState[] => {
             const nodeMap = new Map<string, DagNodeState>();
-            for (const e of data.events.filter(ev => ev.event_type.startsWith('node_'))) {
+            for (const e of events.filter(ev => ev.event_type.startsWith('node_'))) {
               const nodeId = e.step_name ?? (e.data.nodeId as string) ?? '';
               if (!nodeId) continue;
               const status =
@@ -136,7 +142,7 @@ export function WorkflowExecution({ runId }: WorkflowExecutionProps): React.Reac
             }
 
             // Second pass: enrich loop nodes with iteration data
-            for (const e of data.events.filter(ev => ev.event_type.startsWith('loop_iteration_'))) {
+            for (const e of events.filter(ev => ev.event_type.startsWith('loop_iteration_'))) {
               const nodeId = e.step_name ?? '';
               if (!nodeId) continue;
               const existing = nodeMap.get(nodeId);
@@ -179,7 +185,7 @@ export function WorkflowExecution({ runId }: WorkflowExecutionProps): React.Reac
 
             return Array.from(nodeMap.values());
           })(),
-          artifacts: data.events
+          artifacts: events
             .filter(e => e.event_type === 'workflow_artifact')
             .map(e => {
               const d = e.data;
@@ -191,23 +197,19 @@ export function WorkflowExecution({ runId }: WorkflowExecutionProps): React.Reac
               };
             })
             .filter(a => a.label || a.url || a.path),
-          startedAt: new Date(ensureUtc(data.run.started_at)).getTime(),
-          completedAt: data.run.completed_at
-            ? new Date(ensureUtc(data.run.completed_at)).getTime()
+          startedAt: new Date(ensureUtc(run.started_at)).getTime(),
+          completedAt: run.completed_at
+            ? new Date(ensureUtc(run.completed_at)).getTime()
             : undefined,
         },
-        workerPlatformId: data.run.worker_platform_id ?? null,
-        parentPlatformId: data.run.parent_platform_id ?? null,
-        conversationPlatformId: data.run.conversation_platform_id ?? null,
-        codebaseId: data.run.codebase_id ?? null,
-        events: data.events,
+        workerPlatformId: run.worker_platform_id ?? null,
+        parentPlatformId: run.parent_platform_id ?? null,
+        conversationPlatformId: run.conversation_platform_id ?? null,
+        codebaseId: run.codebase_id ?? null,
+        events,
       };
     },
-    refetchInterval: (query): number | false => {
-      const status = query.state.data?.workflowState.status;
-      if (status && isTerminal(status)) return false;
-      return 3000;
-    },
+    refetchInterval: query => getWorkflowRunRefetchInterval(query.state.data),
     staleTime: 0,
   });
 
