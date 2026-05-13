@@ -299,6 +299,19 @@ When `CLAUDE_USE_GLOBAL_AUTH` is unset, Archon auto-detects: it uses explicit to
 | `GITEA_ALLOWED_USERS` | Comma-separated Gitea usernames for whitelist (case-insensitive) | Open access |
 | `GITEA_BOT_MENTION` | @mention name the bot responds to in issues/PRs | Falls back to `BOT_DISPLAY_NAME` |
 
+### Platform Adapters -- Jira Cloud
+
+| Variable | Description | Default |
+| --- | --- | --- |
+| `JIRA_SITE_URL` | Jira Cloud site URL (e.g. `https://your-domain.atlassian.net`) | -- |
+| `JIRA_EMAIL` | Atlassian account email for REST API basic auth | -- |
+| `JIRA_API_TOKEN` | Atlassian API token for REST API basic auth | -- |
+| `JIRA_WEBHOOK_SECRET` | Shared secret sent as `X-Archon-Jira-Secret` or `?token=` | -- |
+| `JIRA_PROJECT_CODEBASE_MAP` | JSON object mapping Jira project keys to registered Archon codebase IDs, names, or paths | -- |
+| `JIRA_ALLOWED_ACCOUNT_IDS` | Comma-separated Jira account IDs for whitelist | Open access |
+| `JIRA_BOT_MENTION` | @mention name the bot responds to in Jira issue comments | Falls back to `BOT_DISPLAY_NAME` |
+| `JIRA_BOT_ACCOUNT_ID` | Jira account ID for the bot; comments from this account are ignored | -- |
+
 ### Database
 
 | Variable | Description | Default |

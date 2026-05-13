@@ -398,13 +398,22 @@ describe('checkTriggerRule', () => {
 
 describe('DAG Loader -- cycle detection', () => {
   let testDir: string;
+  let previousArchonHome: string | undefined;
 
   beforeEach(async () => {
     testDir = join(tmpdir(), `dag-test-${Date.now()}-${Math.random().toString(36).slice(2)}`);
+    previousArchonHome = process.env.ARCHON_HOME;
+    process.env.ARCHON_HOME = join(testDir, 'archon-home');
     await mkdir(testDir, { recursive: true });
   });
 
   afterEach(async () => {
+    if (previousArchonHome === undefined) {
+      delete process.env.ARCHON_HOME;
+    } else {
+      process.env.ARCHON_HOME = previousArchonHome;
+    }
+
     try {
       await rm(testDir, { recursive: true, force: true });
     } catch {

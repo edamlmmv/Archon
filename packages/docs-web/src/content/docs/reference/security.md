@@ -83,6 +83,7 @@ Each platform adapter supports an optional user whitelist via environment variab
 | Discord | `DISCORD_ALLOWED_USER_IDS` | Comma-separated Discord user IDs |
 | GitHub | `GITHUB_ALLOWED_USERS` | Comma-separated GitHub usernames (case-insensitive) |
 | Gitea | `GITEA_ALLOWED_USERS` | Comma-separated Gitea usernames (case-insensitive) |
+| Jira Cloud | `JIRA_ALLOWED_ACCOUNT_IDS` | Comma-separated Jira account IDs |
 
 **Authorization behavior:**
 - Whitelist is parsed once at adapter startup (from the environment variable).
@@ -106,9 +107,15 @@ The GitHub and Gitea adapters verify webhook signatures to ensure payloads origi
 - Same HMAC SHA-256 verification and timing-safe comparison
 - Invalid signatures are rejected and logged
 
+**Jira Cloud:**
+- Uses a shared token supplied as `X-Archon-Jira-Secret` or `?token=`
+- Timing-safe comparison verifies the token against `JIRA_WEBHOOK_SECRET`
+- Invalid tokens are rejected before webhook processing
+- Jira project keys must map to registered Archon codebases via `JIRA_PROJECT_CODEBASE_MAP`
+
 **Setup:**
 1. Generate a random secret: `openssl rand -hex 32`
-2. Set it in both the platform webhook configuration and Archon's environment (`WEBHOOK_SECRET` for GitHub, `GITEA_WEBHOOK_SECRET` for Gitea)
+2. Set it in both the platform webhook configuration and Archon's environment (`WEBHOOK_SECRET` for GitHub, `GITEA_WEBHOOK_SECRET` for Gitea, `JIRA_WEBHOOK_SECRET` for Jira Cloud)
 3. The secrets must match exactly
 
 ## Secrets Handling
