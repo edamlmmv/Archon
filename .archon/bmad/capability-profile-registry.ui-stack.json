@@ -2,6 +2,47 @@
   "schemaVersion": 1,
   "profiles": [
     {
+      "profileId": "archon.ui-lab.full-coverage.registry",
+      "capabilityId": "archon.ui-lab.registry.full-coverage",
+      "toolName": "Archon UI-lab shadcn registry",
+      "supportState": "registry-contract-configured",
+      "trustBoundary": "Forge may consume only declared queue, registry, Storybook, and Playwright evidence; source files alone are not proof of template readiness.",
+      "evidenceRefs": [
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/evidence/ui-lab-coverage.md",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/ui-lab-components.queue.json",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/ui-lab-agentic-search.index.json",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/ui-lab-ui-ux-practices.json",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/ui-lab-dependency-map.json",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/evidence/ui-lab-template-patterns.md",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/ui-lab-productization.queue.json",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/evidence/ui-lab-productization.md",
+        "/Users/edam/Documents/TODA/Archon/packages/ui-lab/registry.json",
+        "/Users/edam/Documents/TODA/Archon/packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+        "/Users/edam/Documents/TODA/Archon/packages/ui-lab/public/r/archon-ui-core.json"
+      ],
+      "repairHint": "Run bun .archon/scripts/ui-lab/refresh-queue.ts, bun --filter @archon/ui-lab registry:build, and bun .archon/scripts/ui-lab/validate.ts."
+    },
+    {
+      "profileId": "archon.ui-lab.ui-ux.templating-practices",
+      "capabilityId": "archon.ui-lab.templating-practices.ui-ux",
+      "toolName": "UI-lab UI/UX practice profile",
+      "supportState": "practice-profile-configured",
+      "trustBoundary": "Derived from broad UI/UX practice guidance; Forge may consume it as template guidance with registry and test evidence, not as runtime authority.",
+      "evidenceRefs": [
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/ui-lab-ui-ux-practices.json",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/ui-lab-dependency-map.json",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/evidence/ui-lab-template-patterns.md",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/ui-lab-productization.queue.json",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/evidence/ui-lab-productization.md",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/ui-lab-agentic-search.index.json",
+        "/Users/edam/Documents/TODA/Archon/packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "/Users/edam/Documents/TODA/Archon/packages/ui-lab/tests/storybook-catalog.test.ts"
+      ],
+      "repairHint": "Run bun run ui-lab:forge-ready, then bun run check:ui-lab."
+    },
+    {
       "profileId": "archon.ui-stack.storybook.mcp",
       "capabilityId": "host.mcp.storybook.local-preview",
       "toolName": "Storybook MCP",

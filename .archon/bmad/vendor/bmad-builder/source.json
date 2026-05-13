@@ -1,0 +1,26 @@
+{
+  "kind": "archon-bmad-upstream-vendor-source",
+  "schemaVersion": 1,
+  "slug": "bmad-builder",
+  "displayName": "BMad Builder",
+  "upstream": {
+    "repository": "https://github.com/bmad-code-org/bmad-builder.git",
+    "url": "https://github.com/bmad-code-org/bmad-builder",
+    "branch": "main",
+    "commit": "d64469f61fadc6cfbf2dea6a0a257fe6eb2790a2"
+  },
+  "copiedPaths": [
+    "README.md",
+    "package.json",
+    ".claude-plugin/marketplace.json",
+    "skills"
+  ],
+  "missingPaths": [],
+  "refreshCommand": "bun .archon/scripts/refresh-bmad-vendor.ts",
+  "advisoryBoundary": "Vendored BMAD source is Archon route evidence only; it is not a skill install, runtime grant, MCP configuration, hook, agent, or tool-restriction authority.",
+  "routeFamilies": [
+    "agent-builder",
+    "workflow-builder",
+    "module-builder"
+  ]
+}

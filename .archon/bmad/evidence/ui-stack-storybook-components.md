@@ -2,7 +2,9 @@
 
 ## Primitive Scope
 
-`@archon/ui-lab` covers the current Archon UI primitives:
+`@archon/ui-lab` now tracks the full official shadcn component snapshot through
+`.archon/bmad/ui-lab-components.queue.json`. The initial hand-authored primitive
+set remains:
 
 - `alert-dialog`
 - `badge`
@@ -35,3 +37,8 @@ The first page-template set is:
 - `WorkflowReviewTemplate`
 
 These templates are registered through shadcn-compatible registry artifacts and exercised through Storybook.
+
+## Full Coverage Follow-up
+
+The complete 59-component list, registry metadata, and Forge evidence contract
+live in `.archon/bmad/evidence/ui-lab-coverage.md`.

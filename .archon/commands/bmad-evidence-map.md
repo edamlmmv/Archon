@@ -42,6 +42,10 @@ Read these files when present:
 .archon/bmad/evidence/bmad-capability-contract.md
 .archon/bmad/evidence/bmad-forge-contract.md
 .archon/bmad/evidence/bmad-agentic-search.md
+.archon/bmad/agentic-search-capabilities.catalog.json
+.archon/bmad/capability-profile-registry.agentic-search.json
+.archon/bmad/agentic-search-forge.request.json
+.archon/bmad/evidence/agentic-search-capability-pack.md
 .archon/bmad/evidence/archon-workflow-capabilities.md
 .archon/bmad/evidence/graphify-notes.md
 .archon/bmad/evidence/codex-slash-and-config.md
@@ -76,6 +80,8 @@ Known authority defaults:
 - Context7: `advisory` unless runtime MCP availability is checked.
 - Google Apps Script and OfficeJS MCP evidence: `advisory` unless BMAD capability request output or runtime operator evidence is captured.
 - Agentic Search metadata: `advisory`.
+- Agentic Search capability catalog and registry: `advisory`.
+- Agentic Search Forge request: `draft-only`.
 - Vendored upstream BMAD snapshots: `advisory`; they prove pinned source evidence for routing, not installed skills or runtime authority.
 
 ## Phase 3: Output

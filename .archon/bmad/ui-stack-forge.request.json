@@ -14,18 +14,32 @@
   ],
   "decision": "enough",
   "blockedTools": ["unofficial Radix MCP", "unofficial Tailwind MCP"],
-  "fallback": "official docs evidence + Storybook manifests + Playwright tests",
-  "nextAction": "implement package scaffold, capability evidence, then Ralph story loop",
+  "fallback": "official docs evidence + shadcn registry metadata + Storybook manifests + Playwright tests",
+  "nextAction": "run ui-lab-productization-loop to keep templates, Web adoption evidence, dependency drift controls, and Forge metadata forge-ready",
   "evidenceRefs": [
     ".archon/bmad/evidence/ui-stack-mcp-official.md",
     ".archon/bmad/evidence/ui-stack-storybook-components.md",
+    ".archon/bmad/evidence/ui-lab-coverage.md",
     ".archon/bmad/evidence/ui-stack-radix-tailwind-boundary.md",
     ".archon/mcp/ui-stack-official.json",
-    "packages/ui-lab/registry.json"
+    ".archon/bmad/ui-lab-agentic-search.index.json",
+    ".archon/bmad/ui-lab-ui-ux-practices.json",
+    ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+    ".archon/bmad/ui-lab-dependency-map.json",
+    ".archon/bmad/evidence/ui-lab-template-patterns.md",
+    ".archon/bmad/ui-lab-productization.queue.json",
+    ".archon/bmad/evidence/ui-lab-productization.md",
+    ".archon/bmad/evidence/ui-lab-web-adoption.md",
+    "packages/ui-lab/registry.json",
+    "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+    ".archon/bmad/ui-lab-components.queue.json"
   ],
   "guardrails": [
     "Official MCP only for Storybook and Playwright.",
     "Use shadcn official CLI init; do not hand-write an unverified shadcn server command.",
+    "No custom UI-lab MCP in v1; use the shadcn registry/MCP contract until Forge proves a registry gap.",
+    "Forge consumes registry, queue, Storybook, and Playwright evidence; it must not infer from UI-lab source folders alone.",
+    "Web adoption evidence must distinguish template-ready, lab-proven, web-adopted, and not-proven states.",
     "Radix and Tailwind are docs/source capability profiles only.",
     "MCP profile names are advisory route context unless workflow execution records live MCP output."
   ]

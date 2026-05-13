@@ -8,8 +8,8 @@ import {
   TestTube2,
 } from 'lucide-react';
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Badge } from '../components/ui/badge';
+import { Button } from '../components/ui/button';
 import {
   Card,
   CardAction,
@@ -17,10 +17,10 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
+} from '../components/ui/card';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../components/ui/collapsible';
+import { ScrollArea } from '../components/ui/scroll-area';
+import { Separator } from '../components/ui/separator';
 
 export interface WorkflowReviewTemplateProps {
   density?: 'compact' | 'default' | 'comfortable';
@@ -62,7 +62,14 @@ export function WorkflowReviewTemplate({
           : 'ready';
 
   return (
-    <section className={`w-full max-w-5xl ${DENSITY_PADDING[density]}`}>
+    <section
+      data-testid="ui-lab-template:workflow-review"
+      data-template-id="workflow-review"
+      data-template-kind="evidence-review-shell"
+      data-registry-item-path="packages/ui-lab/registry/new-york/workflow-review/registry-item.json"
+      data-dependency-profile=".archon/bmad/ui-lab-dependency-map.json"
+      className={`w-full max-w-5xl ${DENSITY_PADDING[density]}`}
+    >
       <Card className="bg-surface-elevated">
         <CardHeader className="border-b border-border/70 pb-4">
           <CardTitle>Workflow Review</CardTitle>

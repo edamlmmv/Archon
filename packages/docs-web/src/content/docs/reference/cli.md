@@ -304,6 +304,45 @@ Checks: file exists, non-empty, valid name.
 
 Exit code: 0 = all valid, 1 = errors found.
 
+### `profile validate [path]`
+
+Validate a sanitized Archon team profile before installing it into `~/.archon`.
+
+```bash
+archon profile validate .archon/team-profile
+archon profile validate .archon/team-profile --json
+```
+
+Validation fails when the profile contains unsupported top-level files, secret-looking values, or personal absolute paths that are not explicitly marked `local-only`.
+
+### `profile sync [path]`
+
+Install a safe team profile into the local Archon home.
+
+```bash
+archon profile sync .archon/team-profile --dry-run
+archon profile sync .archon/team-profile
+archon profile sync .archon/team-profile --link
+```
+
+The command creates a backup under `~/.archon/backups/<backup-id>/`, then writes only:
+
+- `~/.archon/workflows`
+- `~/.archon/commands`
+- `~/.archon/scripts`
+- allowlisted fields in `~/.archon/config.yaml`
+
+It never writes `~/.archon/.env`, `archon.db`, workspaces, logs, or artifacts.
+
+### `profile restore <backup-id>`
+
+Restore the safe home profile surfaces from a previous sync backup.
+
+```bash
+archon profile restore 2026-05-12T18-30-00-000Z
+archon profile restore 2026-05-12T18-30-00-000Z --dry-run
+```
+
 ### `complete <branch> [branch2 ...]`
 
 Remove a branch's worktree, local branch, and remote branch, and mark its isolation environment as destroyed.

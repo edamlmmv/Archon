@@ -65,6 +65,7 @@ import { continueCommand } from './commands/continue';
 import { chatCommand } from './commands/chat';
 import { setupCommand } from './commands/setup';
 import { skillInstallCommand } from './commands/skill';
+import { profileCommand } from './commands/profile';
 import { validateWorkflowsCommand, validateCommandsCommand } from './commands/validate';
 import { serveCommand } from './commands/serve';
 import { doctorCommand } from './commands/doctor';
@@ -112,6 +113,9 @@ Commands:
   complete <branch> [...]    Complete branch lifecycle (remove worktree + branches)
   serve                      Start the web UI server (downloads web UI on first run)
   skill install [path]       Install the bundled Archon skill into .claude/skills/archon
+  profile validate [path]    Validate a safe Archon team profile template
+  profile sync [path]        Sync safe team profile files into ~/.archon
+  profile restore <backup>   Restore ~/.archon safe files from a profile backup
   doctor                     Verify your Archon setup (Claude binary, gh auth, DB, adapters)
   validate workflows [name]  Validate workflow definitions and their references
   validate commands [name]   Validate command files
@@ -144,6 +148,8 @@ Examples:
   archon continue fix/issue-42 --workflow archon-smart-pr-review "Review the changes"
   archon skill install
   archon skill install /path/to/project
+  archon profile validate .archon/team-profile
+  archon profile sync .archon/team-profile --dry-run
   archon workflow search "pr review"
   archon workflow install archon-piv-loop
 `);
@@ -242,6 +248,8 @@ async function main(): Promise<number> {
         'download-only': { type: 'boolean' },
         scope: { type: 'string' },
         force: { type: 'boolean' },
+        'dry-run': { type: 'boolean' },
+        link: { type: 'boolean' },
       },
       allowPositionals: true,
       strict: false, // Allow unknown flags to pass through
@@ -282,6 +290,7 @@ async function main(): Promise<number> {
     'continue',
     'serve',
     'skill',
+    'profile',
     'doctor',
   ];
   const requiresGitRepo = !noGitCommands.includes(command ?? '');
@@ -664,6 +673,14 @@ async function main(): Promise<number> {
             console.error('Available: install');
             return 1;
         }
+      }
+
+      case 'profile': {
+        return await profileCommand(effectiveCwd, subcommand, positionals.slice(2), {
+          json: jsonFlag,
+          dryRun: values['dry-run'] as boolean | undefined,
+          link: values.link as boolean | undefined,
+        });
       }
 
       default:

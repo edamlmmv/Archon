@@ -1,0 +1,1322 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-05-13T03:02:24.243Z",
+  "mode": "ui-lab-productization-queue",
+  "authority": "registry-storybook-playwright-forge-evidence",
+  "items": [
+    {
+      "id": "agent-command-center",
+      "kind": "template",
+      "title": "Agent Command Center",
+      "target": "packages/ui-lab/src/templates/agent-command-center.tsx",
+      "variantFamilies": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "registryItemPath": "packages/ui-lab/registry/new-york/agent-command-center/registry-item.json",
+      "registryDependencies": [
+        "archon-ui-core"
+      ],
+      "dependencies": [
+        "archon-ui-core",
+        "lucide-react"
+      ],
+      "storybookStoryIds": [
+        "ui-lab-templates--agent-command-center",
+        "ui-lab-templates--agent-command-center-compact"
+      ],
+      "playwrightTestIds": [
+        "ui-lab-template:agent-command-center"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-productization.md",
+      "agenticSearchTags": [
+        "ui-lab",
+        "template",
+        "workflow",
+        "agent-workflow-shell"
+      ],
+      "status": "forge-ready"
+    },
+    {
+      "id": "workflow-review",
+      "kind": "template",
+      "title": "Workflow Review",
+      "target": "packages/ui-lab/src/templates/workflow-review.tsx",
+      "variantFamilies": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "registryItemPath": "packages/ui-lab/registry/new-york/workflow-review/registry-item.json",
+      "registryDependencies": [
+        "archon-ui-core"
+      ],
+      "dependencies": [
+        "archon-ui-core",
+        "lucide-react"
+      ],
+      "storybookStoryIds": [
+        "ui-lab-templates--workflow-review",
+        "ui-lab-templates--workflow-review-invalid"
+      ],
+      "playwrightTestIds": [
+        "ui-lab-template:workflow-review"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-productization.md",
+      "agenticSearchTags": [
+        "ui-lab",
+        "template",
+        "review",
+        "evidence-review-shell"
+      ],
+      "status": "forge-ready"
+    },
+    {
+      "id": "settings-form-workspace",
+      "kind": "template",
+      "title": "Settings Form Workspace",
+      "target": "packages/ui-lab/src/templates/settings-form-workspace.tsx",
+      "variantFamilies": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "registryItemPath": "packages/ui-lab/registry/new-york/settings-form-workspace/registry-item.json",
+      "registryDependencies": [
+        "archon-ui-core"
+      ],
+      "dependencies": [
+        "archon-ui-core",
+        "react-hook-form",
+        "zod",
+        "lucide-react"
+      ],
+      "storybookStoryIds": [
+        "ui-lab-templates--settings-form-workspace",
+        "ui-lab-templates--settings-form-workspace-compact",
+        "ui-lab-templates--settings-form-workspace-invalid"
+      ],
+      "playwrightTestIds": [
+        "ui-lab-template:settings-form-workspace"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-productization.md",
+      "agenticSearchTags": [
+        "ui-lab",
+        "template",
+        "form",
+        "settings-form"
+      ],
+      "status": "forge-ready"
+    },
+    {
+      "id": "dashboard-shell",
+      "kind": "template",
+      "title": "Dashboard Shell",
+      "target": "packages/ui-lab/src/templates/productization.tsx",
+      "variantFamilies": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "registryItemPath": "packages/ui-lab/registry/new-york/dashboard-shell/registry-item.json",
+      "registryDependencies": [
+        "archon-ui-core"
+      ],
+      "dependencies": [
+        "archon-ui-core",
+        "lucide-react"
+      ],
+      "storybookStoryIds": [
+        "ui-lab-templates--dashboard-shell"
+      ],
+      "playwrightTestIds": [
+        "ui-lab-template:dashboard-shell"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-productization.md",
+      "agenticSearchTags": [
+        "ui-lab",
+        "template",
+        "dashboard",
+        "dashboard-shell"
+      ],
+      "status": "forge-ready"
+    },
+    {
+      "id": "project-settings-form",
+      "kind": "template",
+      "title": "Project Settings Form",
+      "target": "packages/ui-lab/src/templates/productization.tsx",
+      "variantFamilies": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "registryItemPath": "packages/ui-lab/registry/new-york/project-settings-form/registry-item.json",
+      "registryDependencies": [
+        "archon-ui-core"
+      ],
+      "dependencies": [
+        "archon-ui-core",
+        "lucide-react"
+      ],
+      "storybookStoryIds": [
+        "ui-lab-templates--project-settings-form"
+      ],
+      "playwrightTestIds": [
+        "ui-lab-template:project-settings-form"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-productization.md",
+      "agenticSearchTags": [
+        "ui-lab",
+        "template",
+        "form",
+        "project-settings-form"
+      ],
+      "status": "forge-ready"
+    },
+    {
+      "id": "environment-variables-form",
+      "kind": "template",
+      "title": "Environment Variables Form",
+      "target": "packages/ui-lab/src/templates/productization.tsx",
+      "variantFamilies": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "registryItemPath": "packages/ui-lab/registry/new-york/environment-variables-form/registry-item.json",
+      "registryDependencies": [
+        "archon-ui-core"
+      ],
+      "dependencies": [
+        "archon-ui-core",
+        "lucide-react"
+      ],
+      "storybookStoryIds": [
+        "ui-lab-templates--environment-variables-form"
+      ],
+      "playwrightTestIds": [
+        "ui-lab-template:environment-variables-form"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-productization.md",
+      "agenticSearchTags": [
+        "ui-lab",
+        "template",
+        "form",
+        "environment-variables-form"
+      ],
+      "status": "forge-ready"
+    },
+    {
+      "id": "workflow-builder-shell",
+      "kind": "template",
+      "title": "Workflow Builder Shell",
+      "target": "packages/ui-lab/src/templates/productization.tsx",
+      "variantFamilies": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "registryItemPath": "packages/ui-lab/registry/new-york/workflow-builder-shell/registry-item.json",
+      "registryDependencies": [
+        "archon-ui-core"
+      ],
+      "dependencies": [
+        "archon-ui-core",
+        "lucide-react"
+      ],
+      "storybookStoryIds": [
+        "ui-lab-templates--workflow-builder-shell"
+      ],
+      "playwrightTestIds": [
+        "ui-lab-template:workflow-builder-shell"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-productization.md",
+      "agenticSearchTags": [
+        "ui-lab",
+        "template",
+        "workflow",
+        "workflow-builder-shell"
+      ],
+      "status": "forge-ready"
+    },
+    {
+      "id": "workflow-execution-review",
+      "kind": "template",
+      "title": "Workflow Execution Review",
+      "target": "packages/ui-lab/src/templates/productization.tsx",
+      "variantFamilies": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "registryItemPath": "packages/ui-lab/registry/new-york/workflow-execution-review/registry-item.json",
+      "registryDependencies": [
+        "archon-ui-core"
+      ],
+      "dependencies": [
+        "archon-ui-core",
+        "lucide-react"
+      ],
+      "storybookStoryIds": [
+        "ui-lab-templates--workflow-execution-review"
+      ],
+      "playwrightTestIds": [
+        "ui-lab-template:workflow-execution-review"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-productization.md",
+      "agenticSearchTags": [
+        "ui-lab",
+        "template",
+        "workflow",
+        "workflow-execution-review"
+      ],
+      "status": "forge-ready"
+    },
+    {
+      "id": "command-palette-flow",
+      "kind": "template",
+      "title": "Command Palette Flow",
+      "target": "packages/ui-lab/src/templates/productization.tsx",
+      "variantFamilies": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "registryItemPath": "packages/ui-lab/registry/new-york/command-palette-flow/registry-item.json",
+      "registryDependencies": [
+        "archon-ui-core"
+      ],
+      "dependencies": [
+        "archon-ui-core",
+        "cmdk",
+        "lucide-react"
+      ],
+      "storybookStoryIds": [
+        "ui-lab-templates--command-palette-flow"
+      ],
+      "playwrightTestIds": [
+        "ui-lab-template:command-palette-flow"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-productization.md",
+      "agenticSearchTags": [
+        "ui-lab",
+        "template",
+        "command",
+        "command-palette-flow"
+      ],
+      "status": "forge-ready"
+    },
+    {
+      "id": "data-table-workspace",
+      "kind": "template",
+      "title": "Data Table Workspace",
+      "target": "packages/ui-lab/src/templates/productization.tsx",
+      "variantFamilies": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "registryItemPath": "packages/ui-lab/registry/new-york/data-table-workspace/registry-item.json",
+      "registryDependencies": [
+        "archon-ui-core"
+      ],
+      "dependencies": [
+        "archon-ui-core",
+        "lucide-react"
+      ],
+      "storybookStoryIds": [
+        "ui-lab-templates--data-table-workspace"
+      ],
+      "playwrightTestIds": [
+        "ui-lab-template:data-table-workspace"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-productization.md",
+      "agenticSearchTags": [
+        "ui-lab",
+        "template",
+        "data",
+        "data-table-workspace"
+      ],
+      "status": "forge-ready"
+    },
+    {
+      "id": "onboarding-empty-state",
+      "kind": "template",
+      "title": "Onboarding Empty State",
+      "target": "packages/ui-lab/src/templates/productization.tsx",
+      "variantFamilies": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "registryItemPath": "packages/ui-lab/registry/new-york/onboarding-empty-state/registry-item.json",
+      "registryDependencies": [
+        "archon-ui-core"
+      ],
+      "dependencies": [
+        "archon-ui-core",
+        "lucide-react"
+      ],
+      "storybookStoryIds": [
+        "ui-lab-templates--onboarding-empty-state"
+      ],
+      "playwrightTestIds": [
+        "ui-lab-template:onboarding-empty-state"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-productization.md",
+      "agenticSearchTags": [
+        "ui-lab",
+        "template",
+        "feedback",
+        "onboarding-empty-state"
+      ],
+      "status": "forge-ready"
+    },
+    {
+      "id": "modal-drawer-crud",
+      "kind": "template",
+      "title": "Modal Drawer CRUD",
+      "target": "packages/ui-lab/src/templates/productization.tsx",
+      "variantFamilies": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "registryItemPath": "packages/ui-lab/registry/new-york/modal-drawer-crud/registry-item.json",
+      "registryDependencies": [
+        "archon-ui-core"
+      ],
+      "dependencies": [
+        "archon-ui-core",
+        "lucide-react"
+      ],
+      "storybookStoryIds": [
+        "ui-lab-templates--modal-drawer-crud"
+      ],
+      "playwrightTestIds": [
+        "ui-lab-template:modal-drawer-crud"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-productization.md",
+      "agenticSearchTags": [
+        "ui-lab",
+        "template",
+        "crud",
+        "modal-drawer-crud"
+      ],
+      "status": "forge-ready"
+    },
+    {
+      "id": "sidebar-app-shell",
+      "kind": "template",
+      "title": "Sidebar App Shell",
+      "target": "packages/ui-lab/src/templates/productization.tsx",
+      "variantFamilies": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "registryItemPath": "packages/ui-lab/registry/new-york/sidebar-app-shell/registry-item.json",
+      "registryDependencies": [
+        "archon-ui-core"
+      ],
+      "dependencies": [
+        "archon-ui-core",
+        "lucide-react"
+      ],
+      "storybookStoryIds": [
+        "ui-lab-templates--sidebar-app-shell"
+      ],
+      "playwrightTestIds": [
+        "ui-lab-template:sidebar-app-shell"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-productization.md",
+      "agenticSearchTags": [
+        "ui-lab",
+        "template",
+        "layout",
+        "sidebar-app-shell"
+      ],
+      "status": "forge-ready"
+    },
+    {
+      "id": "web-ui-wrapper-adoption",
+      "kind": "web-adoption",
+      "title": "Web UI wrapper adoption",
+      "target": "packages/web/src/components/ui",
+      "variantFamilies": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [
+        "archon-ui-core"
+      ],
+      "dependencies": [
+        "@archon/ui-lab"
+      ],
+      "storybookStoryIds": [
+        "ui-lab-templates--dashboard-shell"
+      ],
+      "playwrightTestIds": [
+        "ui-lab-template:dashboard-shell"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-web-adoption.md",
+      "agenticSearchTags": [
+        "ui-lab",
+        "web-adoption",
+        "wrappers",
+        "lab-proven"
+      ],
+      "status": "forge-ready",
+      "webAdoption": {
+        "targetFiles": [
+          "packages/web/src/components/ui"
+        ],
+        "requiredImports": [
+          "@archon/ui-lab/components/ui/*"
+        ],
+        "evidenceState": "lab-proven",
+        "currentGate": false,
+        "visualEvidenceRequired": false,
+        "stateEvidence": [
+          "pure primitive shim coverage"
+        ]
+      }
+    },
+    {
+      "id": "web-settings-form-adoption",
+      "kind": "web-adoption",
+      "title": "Web Settings form adoption",
+      "target": "packages/web/src/routes/SettingsPage.tsx",
+      "variantFamilies": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "registryItemPath": "packages/ui-lab/registry/new-york/settings-form-workspace/registry-item.json",
+      "registryDependencies": [
+        "archon-ui-core"
+      ],
+      "dependencies": [
+        "@archon/ui-lab"
+      ],
+      "storybookStoryIds": [
+        "ui-lab-templates--settings-form-workspace"
+      ],
+      "playwrightTestIds": [
+        "ui-lab-template:settings-form-workspace"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-web-adoption.md",
+      "agenticSearchTags": [
+        "ui-lab",
+        "web-adoption",
+        "settings",
+        "web-adopted"
+      ],
+      "status": "forge-ready",
+      "webAdoption": {
+        "parentId": "web-ui-wrapper-adoption",
+        "targetFiles": [
+          "packages/web/src/routes/SettingsPage.tsx"
+        ],
+        "requiredImports": [
+          "FormActions",
+          "FormRow",
+          "FormSection",
+          "FormShell",
+          "FormSummary",
+          "StatusChip",
+          "useFormProgress"
+        ],
+        "evidenceState": "web-adopted",
+        "currentGate": false,
+        "visualEvidenceRequired": true,
+        "stateEvidence": [
+          "desktop viewport",
+          "mobile viewport",
+          "loading state",
+          "error state or recorded deterministic blocker",
+          "dirty form state",
+          "saved/success state",
+          "validation summary/readiness state",
+          "keyboard/focus order"
+        ]
+      }
+    },
+    {
+      "id": "web-dashboard-shell-adoption",
+      "kind": "web-adoption",
+      "title": "Web Dashboard shell adoption",
+      "target": "packages/web/src/routes/DashboardPage.tsx",
+      "variantFamilies": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "registryItemPath": "packages/ui-lab/registry/new-york/dashboard-shell/registry-item.json",
+      "registryDependencies": [
+        "archon-ui-core"
+      ],
+      "dependencies": [
+        "@archon/ui-lab"
+      ],
+      "storybookStoryIds": [
+        "ui-lab-templates--dashboard-shell"
+      ],
+      "playwrightTestIds": [
+        "ui-lab-template:dashboard-shell"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-web-adoption.md",
+      "agenticSearchTags": [
+        "ui-lab",
+        "web-adoption",
+        "dashboard",
+        "web-adopted",
+        "current-gate"
+      ],
+      "status": "forge-ready",
+      "webAdoption": {
+        "parentId": "web-ui-wrapper-adoption",
+        "targetFiles": [
+          "packages/web/src/routes/DashboardPage.tsx"
+        ],
+        "requiredImports": [
+          "DashboardShell"
+        ],
+        "evidenceState": "web-adopted",
+        "currentGate": true,
+        "visualEvidenceRequired": true,
+        "stateEvidence": [
+          "desktop viewport",
+          "mobile viewport",
+          "loading state",
+          "error state or recorded deterministic blocker",
+          "empty state",
+          "active workflow state",
+          "history state",
+          "filter and pagination state"
+        ]
+      }
+    },
+    {
+      "id": "web-workflow-builder-shell-adoption",
+      "kind": "web-adoption",
+      "title": "Web Workflow Builder shell adoption",
+      "target": "packages/web/src/routes/WorkflowBuilderPage.tsx",
+      "variantFamilies": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "registryItemPath": "packages/ui-lab/registry/new-york/workflow-builder-shell/registry-item.json",
+      "registryDependencies": [
+        "archon-ui-core"
+      ],
+      "dependencies": [
+        "@archon/ui-lab"
+      ],
+      "storybookStoryIds": [
+        "ui-lab-templates--workflow-builder-shell"
+      ],
+      "playwrightTestIds": [
+        "ui-lab-template:workflow-builder-shell"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-web-adoption.md",
+      "agenticSearchTags": [
+        "ui-lab",
+        "web-adoption",
+        "workflow-builder",
+        "not-proven"
+      ],
+      "status": "pending",
+      "webAdoption": {
+        "parentId": "web-ui-wrapper-adoption",
+        "targetFiles": [
+          "packages/web/src/routes/WorkflowBuilderPage.tsx"
+        ],
+        "requiredImports": [
+          "WorkflowBuilderShell"
+        ],
+        "evidenceState": "not-proven",
+        "currentGate": false,
+        "visualEvidenceRequired": true,
+        "stateEvidence": []
+      }
+    },
+    {
+      "id": "web-workflow-execution-review-adoption",
+      "kind": "web-adoption",
+      "title": "Web Workflow Execution review adoption",
+      "target": "packages/web/src/routes/WorkflowExecutionPage.tsx",
+      "variantFamilies": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "registryItemPath": "packages/ui-lab/registry/new-york/workflow-execution-review/registry-item.json",
+      "registryDependencies": [
+        "archon-ui-core"
+      ],
+      "dependencies": [
+        "@archon/ui-lab"
+      ],
+      "storybookStoryIds": [
+        "ui-lab-templates--workflow-execution-review"
+      ],
+      "playwrightTestIds": [
+        "ui-lab-template:workflow-execution-review"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-web-adoption.md",
+      "agenticSearchTags": [
+        "ui-lab",
+        "web-adoption",
+        "workflow-execution",
+        "not-proven"
+      ],
+      "status": "pending",
+      "webAdoption": {
+        "parentId": "web-ui-wrapper-adoption",
+        "targetFiles": [
+          "packages/web/src/routes/WorkflowExecutionPage.tsx"
+        ],
+        "requiredImports": [
+          "WorkflowExecutionReview"
+        ],
+        "evidenceState": "not-proven",
+        "currentGate": false,
+        "visualEvidenceRequired": true,
+        "stateEvidence": []
+      }
+    },
+    {
+      "id": "web-command-palette-adoption",
+      "kind": "web-adoption",
+      "title": "Web Command Palette adoption",
+      "target": "packages/web/src/components/workflows/CommandPicker.tsx",
+      "variantFamilies": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "registryItemPath": "packages/ui-lab/registry/new-york/command-palette-flow/registry-item.json",
+      "registryDependencies": [
+        "archon-ui-core"
+      ],
+      "dependencies": [
+        "@archon/ui-lab",
+        "cmdk"
+      ],
+      "storybookStoryIds": [
+        "ui-lab-templates--command-palette-flow"
+      ],
+      "playwrightTestIds": [
+        "ui-lab-template:command-palette-flow"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-web-adoption.md",
+      "agenticSearchTags": [
+        "ui-lab",
+        "web-adoption",
+        "command-palette",
+        "not-proven"
+      ],
+      "status": "pending",
+      "webAdoption": {
+        "parentId": "web-ui-wrapper-adoption",
+        "targetFiles": [
+          "packages/web/src/components/workflows/CommandPicker.tsx"
+        ],
+        "requiredImports": [
+          "CommandPaletteFlow"
+        ],
+        "evidenceState": "not-proven",
+        "currentGate": false,
+        "visualEvidenceRequired": true,
+        "stateEvidence": []
+      }
+    },
+    {
+      "id": "dependency-drift-profile",
+      "kind": "dependency",
+      "title": "Dependency drift profile",
+      "target": ".archon/bmad/ui-lab-dependency-map.json",
+      "variantFamilies": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [
+        "archon-ui-core"
+      ],
+      "dependencies": [
+        "packages/ui-lab/package.json",
+        "packages/web/package.json"
+      ],
+      "storybookStoryIds": [
+        "ui-lab-templates--data-table-workspace"
+      ],
+      "playwrightTestIds": [
+        "ui-lab-template:data-table-workspace"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-productization.md",
+      "agenticSearchTags": [
+        "ui-lab",
+        "dependency",
+        "drift-control"
+      ],
+      "status": "forge-ready"
+    },
+    {
+      "id": "ui-lab-productization-loop",
+      "kind": "workflow",
+      "title": "UI-lab productization loop",
+      "target": ".archon/workflows/ui-lab-productization-loop.yaml",
+      "variantFamilies": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [
+        "archon-ui-core"
+      ],
+      "dependencies": [
+        "bmad-help",
+        "bmad-capability-pack-forge",
+        "bmad-loop"
+      ],
+      "storybookStoryIds": [
+        "ui-lab-templates--workflow-execution-review"
+      ],
+      "playwrightTestIds": [
+        "ui-lab-template:workflow-execution-review"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-productization.md",
+      "agenticSearchTags": [
+        "ui-lab",
+        "workflow",
+        "archon-persisted"
+      ],
+      "status": "forge-ready"
+    },
+    {
+      "id": "forge-template-evidence-pack",
+      "kind": "evidence",
+      "title": "Forge template evidence pack",
+      "target": ".archon/bmad/evidence/ui-lab-productization.md",
+      "variantFamilies": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [
+        "archon-ui-core"
+      ],
+      "dependencies": [
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json"
+      ],
+      "storybookStoryIds": [
+        "ui-lab-templates--command-palette-flow"
+      ],
+      "playwrightTestIds": [
+        "ui-lab-template:command-palette-flow"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-productization.md",
+      "agenticSearchTags": [
+        "ui-lab",
+        "forge",
+        "evidence"
+      ],
+      "status": "forge-ready"
+    }
+  ]
+}

@@ -183,6 +183,34 @@ nodes:
             'Agentic Search metadata guides planning; only captured declared evidence artifacts can become verifier input.',
         },
         {
+          path: '.archon/bmad/agentic-search-capabilities.catalog.json',
+          sourceType: 'manual_contract',
+          authority: 'advisory',
+          claim:
+            'Agentic Search catalog declares adapter order, capability sources, BMAD delegation, Forge refs, and blocked live claims as advisory routing metadata.',
+        },
+        {
+          path: '.archon/bmad/capability-profile-registry.agentic-search.json',
+          sourceType: 'manual_contract',
+          authority: 'advisory',
+          claim:
+            'Agentic Search supplemental capability profiles are loaded by Capability Lab and preserve advisory/runtime/draft trust boundaries.',
+        },
+        {
+          path: '.archon/bmad/agentic-search-forge.request.json',
+          sourceType: 'manual_contract',
+          authority: 'draft-only',
+          claim:
+            'Agentic Search Forge request is metadata-only and forbids source-internal inspection, live tools, MCP calls, shell, network, or adapter execution.',
+        },
+        {
+          path: '.archon/bmad/evidence/agentic-search-capability-pack.md',
+          sourceType: 'local_docs',
+          authority: 'advisory',
+          claim:
+            'Agentic Search capability-pack evidence documents adapters, bridges, BMAD routing, and Forge boundaries without granting runtime authority.',
+        },
+        {
           path: '.archon/bmad/evidence/archon-workflow-capabilities.md',
           sourceType: 'repo_template',
           authority: 'source',

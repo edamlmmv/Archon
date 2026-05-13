@@ -1,8 +1,8 @@
 import { createElement, type ReactElement } from 'react';
 import { AlertTriangle, CheckCircle2, Clock3, GitBranch, Play, ShieldCheck } from 'lucide-react';
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { Badge } from '../components/ui/badge';
+import { Button } from '../components/ui/button';
 import {
   Card,
   CardAction,
@@ -10,11 +10,11 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Separator } from '@/components/ui/separator';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Textarea } from '@/components/ui/textarea';
+} from '../components/ui/card';
+import { Input } from '../components/ui/input';
+import { Separator } from '../components/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../components/ui/tabs';
+import { Textarea } from '../components/ui/textarea';
 
 export interface AgentCommandCenterTemplateProps {
   density?: 'compact' | 'default' | 'comfortable';
@@ -46,6 +46,11 @@ export function AgentCommandCenterTemplate({
 }: AgentCommandCenterTemplateProps): ReactElement {
   return (
     <section
+      data-testid="ui-lab-template:agent-command-center"
+      data-template-id="agent-command-center"
+      data-template-kind="agent-workflow-shell"
+      data-registry-item-path="packages/ui-lab/registry/new-york/agent-command-center/registry-item.json"
+      data-dependency-profile=".archon/bmad/ui-lab-dependency-map.json"
       className={`grid w-full max-w-6xl grid-cols-1 ${DENSITY_CLASS[density]} lg:grid-cols-[1.2fr_0.8fr]`}
     >
       <Card className={SURFACE_CLASS[surface]}>

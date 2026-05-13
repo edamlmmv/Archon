@@ -11,10 +11,19 @@
       "@/*": ["./src/*"],
       "@archon/core": ["../core/src"],
       "@archon/core/*": ["../core/src/*"],
+      "@archon/ui-lab": ["../ui-lab/src/index.ts"],
+      "@archon/ui-lab/*": ["../ui-lab/src/*"],
       "@archon/workflows": ["../workflows/src"],
       "@archon/workflows/*": ["../workflows/src/*"]
     }
   },
-  "include": ["src/**/*", "../workflows/src/defaults/text-imports.d.ts"],
+  "include": [
+    "src/**/*",
+    "../ui-lab/src/components/**/*",
+    "../ui-lab/src/lib/**/*",
+    "../ui-lab/src/templates/**/*",
+    "../ui-lab/src/index.ts",
+    "../workflows/src/defaults/text-imports.d.ts"
+  ],
   "exclude": ["node_modules", "dist"]
 }

@@ -1,0 +1,8 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "workflow-execution-review",
+  "title": "Workflow Execution Review",
+  "description": "Run-detail review template for nodes, logs, artifacts, approvals, and validation.",
+  "registryDependencies": ["archon-ui-core"],
+  "type": "registry:block"
+}

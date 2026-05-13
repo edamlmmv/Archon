@@ -69,7 +69,7 @@ function main(): void {
     throw new Error(`Completion result component ${result.component} does not match locked component ${item.component}`);
   }
 
-  item.status = result.status;
+  item.status = result.status === 'done' ? 'forge-ready' : result.status;
   item.lastFailure = result.status === 'blocked' ? result.failureReason : null;
   item.lastUpdated = new Date().toISOString();
 

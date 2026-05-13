@@ -1,0 +1,150 @@
+name: agentic-search-capability-loop
+description: |
+  Use when: Archon Agentic Search capability awareness needs refresh or Forge-readable evidence.
+  Triggers: "agentic search capability", "agentic search forge", "capability-aware search".
+  Does: Validates Agentic Search capability artifacts, audits capability/tool/MCP/skill evidence, confirms Forge metadata boundaries, and reports BMAD-ready epics/stories.
+  NOT for: Installing MCP servers, granting secrets, claiming live tool output, or changing runtime provider authority.
+
+provider: codex
+model: gpt-5.5
+modelReasoningEffort: high
+worktree:
+  enabled: false
+mutates_checkout: true
+tags: [BMAD, Agentic Search, Capability Lab, MCP, Forge]
+
+nodes:
+  - id: preflight
+    bash: |
+      set -euo pipefail
+      test -f .archon/bmad/agentic-search-capabilities.catalog.json
+      test -f .archon/bmad/capability-profile-registry.agentic-search.json
+      test -f .archon/bmad/agentic-search-forge.request.json
+      test -f .archon/bmad/evidence/agentic-search-capability-pack.md
+      bun .archon/scripts/validate-agentic-search-capabilities.ts
+      bun .archon/scripts/capability-lab.ts summarize --capability agentic-search >/dev/null
+      bun .archon/scripts/capability-lab.ts trace --capability agentic-search >/dev/null
+
+  - id: bmad-intake
+    depends_on: [preflight]
+    command: bmad-intake
+    output_format:
+      type: object
+      additionalProperties: true
+      properties:
+        goal:
+          type: string
+        doneCondition:
+          type: string
+      required: [goal, doneCondition]
+
+  - id: capability-audit
+    depends_on: [bmad-intake]
+    context: fresh
+    prompt: |
+      # Agentic Search Capability Audit
+
+      User/BMAD intake:
+      $bmad-intake.output
+
+      Read:
+      - `.archon/bmad/agentic-search-capabilities.catalog.json`
+      - `.archon/bmad/capability-profile-registry.agentic-search.json`
+      - `.archon/bmad/agentic-search-forge.request.json`
+      - `.archon/bmad/evidence/agentic-search-capability-pack.md`
+      - `.archon/bmad/evidence/bmad-agentic-search.md`
+      - `.archon/scripts/capability-lab.ts`
+      - Capability Lab trace output from `bun .archon/scripts/capability-lab.ts trace --capability agentic-search`
+      - `.archon/workflows/bmad-route-first.yaml`
+      - `.archon/bmad/capability-profile-registry.context7.json`
+      - `.archon/bmad/ui-lab-agentic-search.index.json`
+
+      Return JSON only. Do not write files. Preserve advisory/runtime/draft authority boundaries.
+    output_format:
+      type: object
+      additionalProperties: false
+      properties:
+        status:
+          type: string
+          enum: [ready, blocked]
+        epics:
+          type: array
+          items:
+            type: string
+        stories:
+          type: array
+          items:
+            type: string
+        capabilitySources:
+          type: array
+          items:
+            type: string
+        missingWork:
+          type: array
+          items:
+            type: string
+        guardrails:
+          type: array
+          items:
+            type: string
+      required: [status, epics, stories, capabilitySources, missingWork, guardrails]
+
+  - id: forge-packet
+    depends_on: [capability-audit]
+    context: fresh
+    prompt: |
+      # Agentic Search Forge Packet Check
+
+      Read `.archon/bmad/agentic-search-forge.request.json`.
+
+      Confirm:
+      - Forge consumes catalog, registry, and evidence only.
+      - Forge does not inspect source internals.
+      - Forge does not call live tools, MCP servers, shell, network, Context7, Graphify, or Agentic Search adapters.
+      - Forge output remains draft-only.
+
+      Return JSON only.
+    output_format:
+      type: object
+      additionalProperties: false
+      properties:
+        status:
+          type: string
+          enum: [ready, blocked]
+        evidenceRefs:
+          type: array
+          items:
+            type: string
+        blockedClaims:
+          type: array
+          items:
+            type: string
+      required: [status, evidenceRefs, blockedClaims]
+
+  - id: deterministic-validation
+    depends_on: [forge-packet]
+    bash: |
+      set -euo pipefail
+      bun .archon/scripts/validate-agentic-search-capabilities.ts
+      bun .archon/scripts/capability-lab.ts summarize --capability agentic-search >/dev/null
+      bun .archon/scripts/capability-lab.ts trace --capability agentic-search >/dev/null
+      bun run cli validate workflows agentic-search-capability-loop
+      bun run cli validate commands agentic-search-capability-sync
+
+  - id: readiness-report
+    depends_on: [capability-audit, forge-packet, deterministic-validation]
+    trigger_rule: all_done
+    context: fresh
+    prompt: |
+      Summarize the Agentic Search capability-awareness run.
+
+      Include:
+      - adapter order and source count
+      - Capability Lab registry status
+      - Capability Lab trace surfaces for Agentic Search
+      - MCP and Codex provider blocked live claims
+      - Forge request/evidence refs
+      - BMAD epics/stories from capability-audit
+      - validation commands and results
+
+      Do not claim live MCP, tool, or provider support unless workflow artifacts prove it.

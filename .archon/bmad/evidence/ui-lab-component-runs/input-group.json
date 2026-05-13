@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-05-13T03:02:24.243Z",
+  "componentId": "input-group",
+  "officialName": "Input Group",
+  "status": "forge-ready",
+  "storybookStoryId": "ui-lab-full-coverage--input-group",
+  "playwrightTestId": "ui-lab:input-group",
+  "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+  "registryDependencies": [
+    "input"
+  ],
+  "variants": {
+    "density": [
+      "compact",
+      "default",
+      "comfortable"
+    ],
+    "surface": [
+      "flat",
+      "outline",
+      "elevated",
+      "ghost"
+    ],
+    "state": [
+      "default",
+      "focus",
+      "disabled",
+      "invalid",
+      "loading",
+      "empty"
+    ],
+    "mode": [
+      "dark",
+      "high-contrast",
+      "reduced-motion",
+      "responsive"
+    ]
+  },
+  "uiUxPractices": [
+    "accessibility-first-interactions",
+    "bounded-variant-matrix",
+    "semantic-theme-tokens",
+    "responsive-layout-integrity",
+    "clear-information-hierarchy",
+    "storybook-variant-evidence",
+    "browser-and-a11y-proof",
+    "state-complete-surfaces",
+    "motion-with-restraint",
+    "composition-ready-slots"
+  ],
+  "practiceRefs": {
+    "profilePath": ".archon/bmad/ui-lab-ui-ux-practices.json",
+    "evidencePath": ".archon/bmad/evidence/ui-lab-ui-ux-practices.md"
+  },
+  "agenticSearch": {
+    "status": "indexed",
+    "indexPath": ".archon/bmad/ui-lab-agentic-search.index.json",
+    "evidenceBoundary": "advisory"
+  },
+  "forge": {
+    "consumption": "registry-evidence",
+    "sourceInspectionRequired": false,
+    "templateInputs": [
+      "packages/ui-lab/src/components/ui/input-group.tsx",
+      "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "ui-lab-full-coverage--input-group",
+      "ui-lab:input-group",
+      ".archon/bmad/ui-lab-agentic-search.index.json",
+      ".archon/bmad/ui-lab-ui-ux-practices.json",
+      ".archon/bmad/evidence/ui-lab-ui-ux-practices.md"
+    ],
+    "templatePolicies": [
+      "Template generators should carry accessibility states and keyboard evidence into generated task packets.",
+      "Template generators should derive controls from declared variant axes instead of inspecting source internals.",
+      "Template generators should emit theme-token-safe examples that can move across brands.",
+      "Template generators should preserve responsive constraints and viewport evidence for every block.",
+      "Template generators should keep hierarchy slots explicit when composing templates.",
+      "Template generators should use Storybook ids as visual evidence anchors for each template input.",
+      "Template generators should require test evidence refs for interactive or overlay components.",
+      "Template generators should include state coverage before marking a template reusable.",
+      "Template generators should avoid decorative motion and preserve reduced-motion variants.",
+      "Template generators should compose from declared slots, dependencies, and examples."
+    ]
+  },
+  "validation": {
+    "commands": [
+      "bun .archon/scripts/ui-lab/validate-web-adoption.ts",
+      "bun .archon/scripts/ui-lab/productization-status.ts --require-current-gate",
+      "bun run check:ui-lab",
+      "bun --filter @archon/ui-lab type-check",
+      "bun --filter @archon/ui-lab test-storybook",
+      "bun --filter @archon/ui-lab test:e2e",
+      "bun --filter @archon/ui-lab registry:build",
+      "bun run validate"
+    ]
+  }
+}

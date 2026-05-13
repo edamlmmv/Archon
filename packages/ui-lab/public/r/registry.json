@@ -7,19 +7,98 @@
       "name": "archon-ui-core",
       "type": "registry:component",
       "title": "Archon UI Core",
-      "description": "Reusable shadcn/Radix primitives extracted from the Archon web UI."
+      "description": "Complete generic shadcn/Radix UI surface for Archon templates."
     },
     {
       "name": "agent-command-center",
       "type": "registry:block",
       "title": "Agent Command Center",
-      "description": "Page template for launching, routing, and validating an agent workflow."
+      "description": "Page template for launching, routing, and validating an agent workflow.",
+      "registryDependencies": ["archon-ui-core"]
     },
     {
       "name": "workflow-review",
       "type": "registry:block",
       "title": "Workflow Review",
-      "description": "Page template for reviewing workflow evidence and browser validation gates."
+      "description": "Page template for reviewing workflow evidence and browser validation gates.",
+      "registryDependencies": ["archon-ui-core"]
+    },
+    {
+      "name": "settings-form-workspace",
+      "type": "registry:block",
+      "title": "Settings Form Workspace",
+      "description": "Form template for configuring workspace, validation, Forge, and Agentic Search inputs.",
+      "registryDependencies": ["archon-ui-core"]
+    },
+    {
+      "name": "dashboard-shell",
+      "type": "registry:block",
+      "title": "Dashboard Shell",
+      "description": "Operational dashboard template for workflow status, filters, and run health.",
+      "registryDependencies": ["archon-ui-core"]
+    },
+    {
+      "name": "project-settings-form",
+      "type": "registry:block",
+      "title": "Project Settings Form",
+      "description": "Reusable project registration and assistant-defaults form template.",
+      "registryDependencies": ["archon-ui-core"]
+    },
+    {
+      "name": "environment-variables-form",
+      "type": "registry:block",
+      "title": "Environment Variables Form",
+      "description": "Secret-safe environment variable editor template with masked values.",
+      "registryDependencies": ["archon-ui-core"]
+    },
+    {
+      "name": "workflow-builder-shell",
+      "type": "registry:block",
+      "title": "Workflow Builder Shell",
+      "description": "Workflow graph builder shell with palette, canvas, inspector, and validation slots.",
+      "registryDependencies": ["archon-ui-core"]
+    },
+    {
+      "name": "workflow-execution-review",
+      "type": "registry:block",
+      "title": "Workflow Execution Review",
+      "description": "Run-detail review template for nodes, logs, artifacts, approvals, and validation.",
+      "registryDependencies": ["archon-ui-core"]
+    },
+    {
+      "name": "command-palette-flow",
+      "type": "registry:block",
+      "title": "Command Palette Flow",
+      "description": "Search-first command palette template for workflows, projects, evidence, and templates.",
+      "registryDependencies": ["archon-ui-core"]
+    },
+    {
+      "name": "data-table-workspace",
+      "type": "registry:block",
+      "title": "Data Table Workspace",
+      "description": "Table workspace template for queues, evidence, dependencies, and audit output.",
+      "registryDependencies": ["archon-ui-core"]
+    },
+    {
+      "name": "onboarding-empty-state",
+      "type": "registry:block",
+      "title": "Onboarding Empty State",
+      "description": "First-run and missing-evidence empty state template.",
+      "registryDependencies": ["archon-ui-core"]
+    },
+    {
+      "name": "modal-drawer-crud",
+      "type": "registry:block",
+      "title": "Modal Drawer CRUD",
+      "description": "CRUD edit and review template for modal or drawer flows.",
+      "registryDependencies": ["archon-ui-core"]
+    },
+    {
+      "name": "sidebar-app-shell",
+      "type": "registry:block",
+      "title": "Sidebar App Shell",
+      "description": "Application shell template with sidebar navigation, top actions, and content region.",
+      "registryDependencies": ["archon-ui-core"]
     }
   ]
 }

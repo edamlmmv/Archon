@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "modal-drawer-crud",
+  "type": "registry:block",
+  "title": "Modal Drawer CRUD",
+  "description": "CRUD edit and review template for modal or drawer flows.",
+  "registryDependencies": ["archon-ui-core"],
+  "files": [
+    {
+      "path": "src/templates/productization.tsx",
+      "type": "registry:block",
+      "target": "components/templates/productization.tsx"
+    }
+  ]
+}

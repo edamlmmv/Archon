@@ -1,5 +1,6 @@
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { isAbsolute, join, resolve } from 'node:path';
+import { traceCapabilityReferences, type CapabilityTraceResult } from './capability-reference-scanner';
 
 export interface CapabilityProfile {
   profileId: string;
@@ -23,18 +24,21 @@ export interface EvidenceProbe {
   resolvedPath?: string;
 }
 
+export type CapabilityLabMode = 'summarize' | 'probe' | 'forge-draft' | 'trace';
+
 export interface CapabilityLabResult {
-  mode: 'summarize' | 'probe' | 'forge-draft';
+  mode: CapabilityLabMode;
   query: string;
   matchedProfiles: CapabilityProfile[];
   evidence?: EvidenceProbe[];
   forgeDrafts?: string[];
+  trace?: CapabilityTraceResult;
   blockedClaims: string[];
 }
 
 const DEFAULT_BMAD_ROOT = '/Users/edam/Documents/TODA/BMAD-METHOD';
 const DEFAULT_REGISTRY = 'docs/workspace/capability-profile-registry.json';
-const DEFAULT_SUPPLEMENTAL_REGISTRY = resolve(process.cwd(), '.archon/bmad/capability-profile-registry.ui-stack.json');
+const DEFAULT_SUPPLEMENTAL_REGISTRY_DIR = resolve(process.cwd(), '.archon/bmad');
 
 function isObject(value: unknown): value is Record<string, unknown> {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
@@ -102,15 +106,32 @@ function mergeCapabilityRegistries(primary: CapabilityRegistry, supplemental: Ca
   };
 }
 
+function discoverSupplementalRegistryPaths(root: string = DEFAULT_SUPPLEMENTAL_REGISTRY_DIR): string[] {
+  if (!existsSync(root)) {
+    return [];
+  }
+  return readdirSync(root)
+    .filter(entry => entry.startsWith('capability-profile-registry.') && entry.endsWith('.json'))
+    .map(entry => resolve(root, entry))
+    .sort();
+}
+
 export function loadCapabilityRegistry(
   registryPath: string = join(DEFAULT_BMAD_ROOT, DEFAULT_REGISTRY),
-  supplementalRegistryPath: string | null = DEFAULT_SUPPLEMENTAL_REGISTRY,
+  supplementalRegistryPath?: string | null,
 ): CapabilityRegistry {
-  const registry = loadRegistryFile(registryPath);
-  if (!supplementalRegistryPath || !existsSync(supplementalRegistryPath)) {
-    return registry;
+  let registry = loadRegistryFile(registryPath);
+  const supplementalRegistryPaths =
+    supplementalRegistryPath === undefined
+      ? discoverSupplementalRegistryPaths()
+      : supplementalRegistryPath && existsSync(supplementalRegistryPath)
+        ? [supplementalRegistryPath]
+        : [];
+
+  for (const path of supplementalRegistryPaths) {
+    registry = mergeCapabilityRegistries(registry, loadRegistryFile(path));
   }
-  return mergeCapabilityRegistries(registry, loadRegistryFile(supplementalRegistryPath));
+  return registry;
 }
 
 export function findCapabilityProfiles(registry: CapabilityRegistry, query: string): CapabilityProfile[] {
@@ -161,10 +182,14 @@ export function buildForgeDraftCommands(profile: CapabilityProfile, bmadRoot: st
 }
 
 export function runCapabilityLab(options: {
-  mode: CapabilityLabResult['mode'];
+  mode: CapabilityLabMode;
   query: string;
   bmadRoot?: string;
   registryPath?: string;
+  repoRoot?: string;
+  includeRuntime?: boolean;
+  runtimeRoot?: string;
+  maxSourcesPerMetric?: number;
 }): CapabilityLabResult {
   const bmadRoot = options.bmadRoot ?? DEFAULT_BMAD_ROOT;
   const registryPath = options.registryPath ?? join(bmadRoot, DEFAULT_REGISTRY);
@@ -173,6 +198,18 @@ export function runCapabilityLab(options: {
   const evidence = options.mode === 'probe' ? matchedProfiles.flatMap((profile) => probeEvidenceRefs(profile, bmadRoot)) : undefined;
   const forgeDrafts =
     options.mode === 'forge-draft' ? matchedProfiles.flatMap((profile) => buildForgeDraftCommands(profile, bmadRoot)) : undefined;
+  const trace =
+    options.mode === 'trace'
+      ? traceCapabilityReferences({
+          repoRoot: options.repoRoot,
+          query: options.query,
+          capabilityIds: matchedProfiles.map((profile) => profile.capabilityId),
+          evidenceRefs: matchedProfiles.flatMap((profile) => profile.evidenceRefs),
+          includeRuntime: options.includeRuntime,
+          runtimeRoot: options.runtimeRoot,
+          maxSourcesPerMetric: options.maxSourcesPerMetric,
+        })
+      : undefined;
 
   return {
     mode: options.mode,
@@ -180,22 +217,37 @@ export function runCapabilityLab(options: {
     matchedProfiles,
     evidence,
     forgeDrafts,
+    trace,
     blockedClaims: [
       'Registry profiles are advisory source maps only.',
       'No MCP install, authorization, runtime call, secret access, or target write is proved by this lab.',
       'Forge draft commands are suggestions unless explicitly run and reviewed.',
+      'Trace mode reads static refs and optional captured runtime artifacts; it does not execute tools.',
     ],
   };
 }
 
-function parseArgs(argv: string[]): { mode: CapabilityLabResult['mode']; query: string; bmadRoot?: string; registryPath?: string } {
+function parseArgs(argv: string[]): {
+  mode: CapabilityLabMode;
+  query: string;
+  bmadRoot?: string;
+  registryPath?: string;
+  repoRoot?: string;
+  includeRuntime?: boolean;
+  runtimeRoot?: string;
+  maxSourcesPerMetric?: number;
+} {
   const [modeInput, ...rest] = argv;
-  if (modeInput !== 'summarize' && modeInput !== 'probe' && modeInput !== 'forge-draft') {
-    throw new Error('Usage: bun .archon/scripts/capability-lab.ts <summarize|probe|forge-draft> --capability <id-or-term>');
+  if (modeInput !== 'summarize' && modeInput !== 'probe' && modeInput !== 'forge-draft' && modeInput !== 'trace') {
+    throw new Error('Usage: bun .archon/scripts/capability-lab.ts <summarize|probe|forge-draft|trace> --capability <id-or-term>');
   }
   let query = '';
   let bmadRoot: string | undefined;
   let registryPath: string | undefined;
+  let repoRoot: string | undefined;
+  let includeRuntime = false;
+  let runtimeRoot: string | undefined;
+  let maxSourcesPerMetric: number | undefined;
   for (let index = 0; index < rest.length; index += 1) {
     const arg = rest[index];
     const next = rest[index + 1];
@@ -214,11 +266,44 @@ function parseArgs(argv: string[]): { mode: CapabilityLabResult['mode']; query: 
       index += 1;
       continue;
     }
+    if (arg === '--repo-root' && next) {
+      repoRoot = next;
+      index += 1;
+      continue;
+    }
+    if (arg === '--runtime-root' && next) {
+      runtimeRoot = next;
+      includeRuntime = true;
+      index += 1;
+      continue;
+    }
+    if (arg === '--include-runtime') {
+      includeRuntime = true;
+      continue;
+    }
+    if (arg === '--max-sources' && next) {
+      const parsed = Number.parseInt(next, 10);
+      if (!Number.isFinite(parsed) || parsed < 1) {
+        throw new Error('--max-sources must be a positive integer');
+      }
+      maxSourcesPerMetric = parsed;
+      index += 1;
+      continue;
+    }
   }
   if (query.trim() === '') {
     throw new Error('--capability is required');
   }
-  return { mode: modeInput, query, bmadRoot, registryPath };
+  return {
+    mode: modeInput,
+    query,
+    bmadRoot,
+    registryPath,
+    repoRoot,
+    includeRuntime,
+    runtimeRoot,
+    ...(maxSourcesPerMetric ? { maxSourcesPerMetric } : {}),
+  };
 }
 
 if (import.meta.main) {

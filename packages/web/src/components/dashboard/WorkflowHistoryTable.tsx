@@ -37,16 +37,19 @@ export function WorkflowHistoryTable({
   }
 
   return (
-    <div className="overflow-x-auto rounded-lg border border-border">
-      <table className="w-full text-xs">
+    <div
+      className="max-w-full overflow-x-auto rounded-lg border border-border"
+      style={{ contain: 'layout paint' }}
+    >
+      <table className="w-full table-fixed text-xs">
         <thead>
           <tr className="border-b border-border bg-surface-elevated text-left text-text-tertiary">
             <th className="px-3 py-2 font-medium w-8">Status</th>
             <th className="px-3 py-2 font-medium">Workflow</th>
-            <th className="px-3 py-2 font-medium">Project</th>
-            <th className="px-3 py-2 font-medium w-16">Source</th>
-            <th className="px-3 py-2 font-medium w-20">Duration</th>
-            <th className="px-3 py-2 font-medium w-32">Started</th>
+            <th className="hidden px-3 py-2 font-medium md:table-cell">Project</th>
+            <th className="hidden px-3 py-2 font-medium w-16 md:table-cell">Source</th>
+            <th className="hidden px-3 py-2 font-medium w-20 md:table-cell">Duration</th>
+            <th className="hidden px-3 py-2 font-medium w-32 md:table-cell">Started</th>
             <th className="px-3 py-2 font-medium w-20">Actions</th>
           </tr>
         </thead>
@@ -80,19 +83,21 @@ export function WorkflowHistoryTable({
                   </p>
                 )}
               </td>
-              <td className="px-3 py-2 text-text-secondary truncate">
+              <td className="hidden px-3 py-2 text-text-secondary truncate md:table-cell">
                 {run.codebase_name ?? '\u2014'}
               </td>
-              <td className="px-3 py-2">
+              <td className="hidden px-3 py-2 md:table-cell">
                 <span className="flex items-center gap-1 text-text-secondary">
                   {PLATFORM_ICONS[run.platform_type ?? ''] ?? null}
                   {run.platform_type ?? '\u2014'}
                 </span>
               </td>
-              <td className="px-3 py-2 text-text-secondary">
+              <td className="hidden px-3 py-2 text-text-secondary md:table-cell">
                 {formatDuration(run.started_at, run.completed_at)}
               </td>
-              <td className="px-3 py-2 text-text-secondary">{formatStarted(run.started_at)}</td>
+              <td className="hidden px-3 py-2 text-text-secondary md:table-cell">
+                {formatStarted(run.started_at)}
+              </td>
               <td className="px-3 py-2">
                 <div className="flex items-center gap-2">
                   <Link

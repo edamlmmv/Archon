@@ -1,8 +1,15 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState, useEffect } from 'react';
+import {
+  FormActions,
+  FormRow,
+  FormSection,
+  FormShell,
+  FormSummary,
+  StatusChip,
+  useFormProgress,
+} from '@archon/ui-lab';
 import { Header } from '@/components/layout/Header';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -27,6 +34,10 @@ import type {
 
 const selectClass =
   'h-9 rounded-md border border-border bg-surface-elevated text-text-primary px-3 text-sm focus:outline-none focus:ring-1 focus:ring-ring [&>option]:bg-surface-elevated [&>option]:text-text-primary';
+const projectFormRequiredKeys = ['project'] as const;
+const envVarFormRequiredKeys = ['key', 'value'] as const;
+type ProjectFormKey = (typeof projectFormRequiredKeys)[number];
+type EnvVarFormKey = (typeof envVarFormRequiredKeys)[number];
 
 function SystemHealthSection({
   health,
@@ -44,60 +55,55 @@ function SystemHealthSection({
   database: string | undefined;
 }): React.ReactElement {
   const gitCommit = import.meta.env.VITE_GIT_COMMIT as string;
+  const status = health ? (
+    <StatusChip tone={health.status === 'ok' ? 'success' : 'danger'}>{health.status}</StatusChip>
+  ) : (
+    <StatusChip tone="loading">Loading</StatusChip>
+  );
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>System Health</CardTitle>
-      </CardHeader>
-      <CardContent>
-        {!health ? (
-          <div className="text-sm text-muted-foreground">Loading...</div>
-        ) : (
-          <div className="grid grid-cols-2 gap-3 text-sm sm:grid-cols-3">
-            <div>
-              <span className="text-muted-foreground">Status: </span>
-              <Badge variant={health.status === 'ok' ? 'default' : 'destructive'}>
-                {health.status}
-              </Badge>
-            </div>
-            <div>
-              <span className="text-muted-foreground">Adapter: </span>
-              <span className="font-medium">{health.adapter}</span>
-            </div>
-            <div>
-              <span className="text-muted-foreground">Database: </span>
-              <span className="font-medium">{database ?? 'unknown'}</span>
-            </div>
-            <div>
-              <span className="text-muted-foreground">Active: </span>
-              <span className="font-medium">
-                {health.concurrency.active}/{health.concurrency.maxConcurrent}
-              </span>
-            </div>
-            <div>
-              <span className="text-muted-foreground">Queued: </span>
-              <span className="font-medium">{health.concurrency.queuedTotal}</span>
-            </div>
-            <div>
-              <span className="text-muted-foreground">Workflows: </span>
-              <span className="font-medium">{health.runningWorkflows}</span>
-            </div>
-            {health.version && (
-              <div>
-                <span className="text-muted-foreground">Version: </span>
-                <span className="font-medium">{health.version}</span>
-              </div>
-            )}
-            {gitCommit && gitCommit !== 'unknown' && (
-              <div>
-                <span className="text-muted-foreground">Commit: </span>
-                <span className="font-medium font-mono">{gitCommit}</span>
-              </div>
-            )}
+    <FormShell title="System Health" status={status}>
+      {!health ? (
+        <div className="text-sm text-muted-foreground">Loading...</div>
+      ) : (
+        <div className="grid grid-cols-2 gap-3 text-sm sm:grid-cols-3">
+          <div>
+            <span className="text-muted-foreground">Adapter: </span>
+            <span className="font-medium">{health.adapter}</span>
           </div>
-        )}
-      </CardContent>
-    </Card>
+          <div>
+            <span className="text-muted-foreground">Database: </span>
+            <span className="font-medium">{database ?? 'unknown'}</span>
+          </div>
+          <div>
+            <span className="text-muted-foreground">Active: </span>
+            <span className="font-medium">
+              {health.concurrency.active}/{health.concurrency.maxConcurrent}
+            </span>
+          </div>
+          <div>
+            <span className="text-muted-foreground">Queued: </span>
+            <span className="font-medium">{health.concurrency.queuedTotal}</span>
+          </div>
+          <div>
+            <span className="text-muted-foreground">Workflows: </span>
+            <span className="font-medium">{health.runningWorkflows}</span>
+          </div>
+          {health.version && (
+            <div>
+              <span className="text-muted-foreground">Version: </span>
+              <span className="font-medium">{health.version}</span>
+            </div>
+          )}
+          {gitCommit && gitCommit !== 'unknown' && (
+            <div>
+              <span className="text-muted-foreground">Commit: </span>
+              <span className="font-medium font-mono">{gitCommit}</span>
+            </div>
+          )}
+        </div>
+      )}
+    </FormShell>
   );
 }
 
@@ -158,12 +164,23 @@ function EnvVarsPanel({ codebaseId }: { codebaseId: string }): React.ReactElemen
   }
 
   const keys = envVars ?? [];
+  const addProgress = useFormProgress<EnvVarFormKey>(
+    { key: newKey, value: newValue },
+    envVarFormRequiredKeys
+  );
+  const isAddReady = addProgress.missingKeys.length === 0;
 
   return (
-    <div className="mt-2 pl-2 border-l border-border space-y-2">
-      {mutationError && <div className="text-xs text-destructive">{mutationError}</div>}
+    <FormSection className="mt-2 gap-3 border-l border-border">
+      {mutationError && (
+        <FormSummary tone="danger" label="Environment update failed" detail={mutationError} />
+      )}
       {keys.length === 0 ? (
-        <div className="text-xs text-muted-foreground">No env vars set.</div>
+        <FormSummary
+          tone="neutral"
+          label="No env vars set."
+          detail="Values remain masked after save."
+        />
       ) : (
         <div className="space-y-1">
           {keys.map(key => (
@@ -232,28 +249,42 @@ function EnvVarsPanel({ codebaseId }: { codebaseId: string }): React.ReactElemen
           ))}
         </div>
       )}
-      <form onSubmit={handleAdd} className="flex gap-1">
-        <Input
-          value={newKey}
-          onChange={e => {
-            setNewKey(e.target.value);
-          }}
-          placeholder="KEY"
-          className="flex-1 h-7 text-xs font-mono"
-        />
-        <Input
-          value={newValue}
-          onChange={e => {
-            setNewValue(e.target.value);
-          }}
-          placeholder="value"
-          className="flex-1 h-7 text-xs"
-        />
-        <Button type="submit" size="sm" className="h-7 text-xs" disabled={setMutation.isPending}>
-          Add
-        </Button>
+      <FormSummary
+        tone={isAddReady ? 'success' : 'warning'}
+        label={isAddReady ? 'Ready to add' : 'Env var incomplete'}
+        detail={`${String(addProgress.completed)} of ${String(addProgress.total)} required fields complete.`}
+      />
+      <form onSubmit={handleAdd} className="grid gap-2">
+        <FormRow className="md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto]">
+          <Input
+            value={newKey}
+            onChange={e => {
+              setNewKey(e.target.value);
+            }}
+            placeholder="KEY"
+            className="h-7 text-xs font-mono"
+          />
+          <Input
+            value={newValue}
+            onChange={e => {
+              setNewValue(e.target.value);
+            }}
+            placeholder="value"
+            className="h-7 text-xs"
+          />
+          <FormActions>
+            <Button
+              type="submit"
+              size="sm"
+              className="h-7 text-xs"
+              disabled={setMutation.isPending}
+            >
+              Add
+            </Button>
+          </FormActions>
+        </FormRow>
       </form>
-    </div>
+    </FormSection>
   );
 }
 
@@ -291,99 +322,113 @@ function ProjectsSection(): React.ReactElement {
     }
   }
 
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Projects</CardTitle>
-      </CardHeader>
-      <CardContent>
-        {!codebases || codebases.length === 0 ? (
-          <div className="text-sm text-muted-foreground">No projects registered.</div>
-        ) : (
-          <div className="space-y-2">
-            {codebases.map((cb: CodebaseResponse) => (
-              <div key={cb.id} className="rounded-md border border-border p-2 text-sm">
-                <div className="flex items-center justify-between">
-                  <div className="min-w-0 flex-1">
-                    <div className="font-medium truncate">{cb.name}</div>
-                    <div className="text-xs text-muted-foreground truncate">{cb.default_cwd}</div>
-                  </div>
-                  <div className="flex gap-1">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="text-xs"
-                      onClick={() => {
-                        setExpandedEnvVars(expandedEnvVars === cb.id ? null : cb.id);
-                      }}
-                    >
-                      Env Vars {expandedEnvVars === cb.id ? '\u25B2' : '\u25BC'}
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => {
-                        deleteMutation.mutate(cb.id);
-                      }}
-                      disabled={deleteMutation.isPending}
-                    >
-                      Remove
-                    </Button>
-                  </div>
-                </div>
-                {expandedEnvVars === cb.id && <EnvVarsPanel codebaseId={cb.id} />}
-              </div>
-            ))}
-          </div>
-        )}
+  const addProgress = useFormProgress<ProjectFormKey>(
+    { project: addValue },
+    projectFormRequiredKeys
+  );
+  const isAddReady = addProgress.missingKeys.length === 0;
 
-        {showAdd ? (
-          <form onSubmit={handleAddSubmit} className="mt-3 flex gap-2">
-            <Input
-              value={addValue}
-              onChange={e => {
-                setAddValue(e.target.value);
-              }}
-              placeholder="GitHub URL or local path"
-              className="flex-1"
-            />
-            <Button type="submit" size="sm" disabled={addMutation.isPending}>
-              Add
-            </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              onClick={() => {
-                setShowAdd(false);
-                setAddValue('');
-              }}
-            >
-              Cancel
-            </Button>
+  return (
+    <FormShell title="Projects">
+      {!codebases || codebases.length === 0 ? (
+        <FormSummary tone="neutral" label="No projects registered." />
+      ) : (
+        <div className="space-y-2">
+          {codebases.map((cb: CodebaseResponse) => (
+            <FormSection key={cb.id} className="p-2 text-sm">
+              <div className="flex items-center justify-between gap-3">
+                <div className="min-w-0 flex-1">
+                  <div className="font-medium truncate">{cb.name}</div>
+                  <div className="text-xs text-muted-foreground truncate">{cb.default_cwd}</div>
+                </div>
+                <FormActions>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-xs"
+                    onClick={() => {
+                      setExpandedEnvVars(expandedEnvVars === cb.id ? null : cb.id);
+                    }}
+                  >
+                    Env Vars {expandedEnvVars === cb.id ? '\u25B2' : '\u25BC'}
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      deleteMutation.mutate(cb.id);
+                    }}
+                    disabled={deleteMutation.isPending}
+                  >
+                    Remove
+                  </Button>
+                </FormActions>
+              </div>
+              {expandedEnvVars === cb.id && <EnvVarsPanel codebaseId={cb.id} />}
+            </FormSection>
+          ))}
+        </div>
+      )}
+
+      {showAdd ? (
+        <FormSection className="mt-3">
+          <FormSummary
+            tone={isAddReady ? 'success' : 'warning'}
+            label={isAddReady ? 'Ready to add project' : 'Project input incomplete'}
+            detail={`${String(addProgress.completed)} of ${String(addProgress.total)} required fields complete.`}
+          />
+          <form onSubmit={handleAddSubmit} className="grid gap-2">
+            <FormRow className="md:grid-cols-[minmax(0,1fr)_auto]">
+              <Input
+                value={addValue}
+                onChange={e => {
+                  setAddValue(e.target.value);
+                }}
+                placeholder="GitHub URL or local path"
+              />
+              <FormActions>
+                <Button type="submit" size="sm" disabled={addMutation.isPending}>
+                  Add
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    setShowAdd(false);
+                    setAddValue('');
+                  }}
+                >
+                  Cancel
+                </Button>
+              </FormActions>
+            </FormRow>
           </form>
-        ) : (
+        </FormSection>
+      ) : (
+        <FormActions className="justify-start">
           <Button
             variant="outline"
             size="sm"
-            className="mt-3"
             onClick={() => {
               setShowAdd(true);
             }}
           >
             + Add Project
           </Button>
-        )}
+        </FormActions>
+      )}
 
-        {addMutation.isError && (
-          <div className="mt-2 text-sm text-destructive">
-            {addMutation.error instanceof Error
-              ? addMutation.error.message
-              : 'Failed to add project'}
-          </div>
-        )}
-      </CardContent>
-    </Card>
+      {addMutation.isError && (
+        <FormSummary
+          tone="danger"
+          label="Project add failed"
+          detail={
+            addMutation.error instanceof Error ? addMutation.error.message : 'Failed to add project'
+          }
+        />
+      )}
+    </FormShell>
   );
 }
 
@@ -461,13 +506,17 @@ function AssistantConfigSection({ config }: { config: SafeConfigResponse }): Rea
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Assistant Configuration</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-4">
-          <div className="grid grid-cols-[140px_1fr] items-center gap-2 text-sm">
+    <FormShell
+      title="Assistant Configuration"
+      status={
+        <StatusChip tone={hasChanges ? 'warning' : 'success'}>
+          {hasChanges ? 'Unsaved changes' : 'Current'}
+        </StatusChip>
+      }
+    >
+      <div className="space-y-4">
+        <FormSection>
+          <FormRow className="grid-cols-[140px_1fr] items-center text-sm md:grid-cols-[140px_1fr]">
             <label htmlFor="default-assistant">Default Assistant</label>
             <select
               id="default-assistant"
@@ -483,126 +532,124 @@ function AssistantConfigSection({ config }: { config: SafeConfigResponse }): Rea
                 </option>
               ))}
             </select>
-          </div>
+          </FormRow>
+        </FormSection>
 
-          <div className="space-y-4 border-t pt-4">
-            {allProviderEntries.map(provider => {
-              const providerSettings = getProviderSettings(provider.id);
+        <div className="space-y-4 border-t pt-4">
+          {allProviderEntries.map(provider => {
+            const providerSettings = getProviderSettings(provider.id);
 
-              if (provider.id === 'claude') {
-                return (
-                  <div
-                    key={provider.id}
-                    className="grid grid-cols-[140px_1fr] items-center gap-2 text-sm"
-                  >
-                    <div className="font-medium">{provider.displayName}</div>
-                    <div className="text-muted-foreground">Built-in provider settings</div>
-
-                    <label htmlFor="claude-model">Model</label>
-                    <select
-                      id="claude-model"
-                      value={(providerSettings.model as string | undefined) ?? 'sonnet'}
-                      onChange={e => {
-                        updateProviderSettings('claude', { model: e.target.value });
-                      }}
-                      className={selectClass}
-                    >
-                      <option value="sonnet">sonnet</option>
-                      <option value="opus">opus</option>
-                      <option value="haiku">haiku</option>
-                    </select>
-                  </div>
-                );
-              }
-
-              if (provider.id === 'codex') {
-                return (
-                  <div
-                    key={provider.id}
-                    className="grid grid-cols-[140px_1fr] items-center gap-2 text-sm"
-                  >
-                    <div className="font-medium">{provider.displayName}</div>
-                    <div className="text-muted-foreground">Built-in provider settings</div>
-
-                    <label htmlFor="codex-model">Model</label>
-                    <Input
-                      id="codex-model"
-                      value={(providerSettings.model as string | undefined) ?? ''}
-                      onChange={e => {
-                        updateProviderSettings('codex', { model: e.target.value });
-                      }}
-                      placeholder="gpt-5.3-codex"
-                    />
-
-                    <label htmlFor="reasoning">Reasoning Effort</label>
-                    <select
-                      id="reasoning"
-                      value={
-                        (providerSettings.modelReasoningEffort as string | undefined) ?? 'medium'
-                      }
-                      onChange={e => {
-                        updateProviderSettings('codex', {
-                          modelReasoningEffort: e.target.value,
-                        });
-                      }}
-                      className={selectClass}
-                    >
-                      <option value="minimal">minimal</option>
-                      <option value="low">low</option>
-                      <option value="medium">medium</option>
-                      <option value="high">high</option>
-                      <option value="xhigh">xhigh</option>
-                    </select>
-
-                    <label htmlFor="web-search">Web Search</label>
-                    <select
-                      id="web-search"
-                      value={(providerSettings.webSearchMode as string | undefined) ?? 'disabled'}
-                      onChange={e => {
-                        updateProviderSettings('codex', { webSearchMode: e.target.value });
-                      }}
-                      className={selectClass}
-                    >
-                      <option value="disabled">disabled</option>
-                      <option value="cached">cached</option>
-                      <option value="live">live</option>
-                    </select>
-                  </div>
-                );
-              }
-
+            if (provider.id === 'claude') {
               return (
-                <div key={provider.id} className="rounded-md border border-border p-3 text-sm">
+                <FormSection
+                  key={provider.id}
+                  className="grid grid-cols-[140px_1fr] items-center gap-2 text-sm"
+                >
                   <div className="font-medium">{provider.displayName}</div>
-                  <div className="mt-1 text-muted-foreground">
-                    Provider-specific settings are stored generically for Phase 2. This provider
-                    does not have a dedicated editor yet.
-                  </div>
-                  {Object.keys(providerSettings).length > 0 && (
-                    <pre className="mt-2 overflow-x-auto rounded bg-muted p-2 text-xs">
-                      {JSON.stringify(providerSettings, null, 2)}
-                    </pre>
-                  )}
-                </div>
-              );
-            })}
-          </div>
+                  <div className="text-muted-foreground">Built-in provider settings</div>
 
-          <div className="flex items-center gap-3">
-            <Button onClick={handleSave} disabled={mutation.isPending || !hasChanges} size="sm">
-              {mutation.isPending ? 'Saving...' : 'Save Changes'}
-            </Button>
-            {saveMsg && (
-              <span
-                className={`text-sm ${saveMsg.type === 'success' ? 'text-green-500' : 'text-destructive'}`}
-              >
-                {saveMsg.text}
-              </span>
-            )}
-          </div>
+                  <label htmlFor="claude-model">Model</label>
+                  <select
+                    id="claude-model"
+                    value={(providerSettings.model as string | undefined) ?? 'sonnet'}
+                    onChange={e => {
+                      updateProviderSettings('claude', { model: e.target.value });
+                    }}
+                    className={selectClass}
+                  >
+                    <option value="sonnet">sonnet</option>
+                    <option value="opus">opus</option>
+                    <option value="haiku">haiku</option>
+                  </select>
+                </FormSection>
+              );
+            }
+
+            if (provider.id === 'codex') {
+              return (
+                <FormSection
+                  key={provider.id}
+                  className="grid grid-cols-[140px_1fr] items-center gap-2 text-sm"
+                >
+                  <div className="font-medium">{provider.displayName}</div>
+                  <div className="text-muted-foreground">Built-in provider settings</div>
+
+                  <label htmlFor="codex-model">Model</label>
+                  <Input
+                    id="codex-model"
+                    value={(providerSettings.model as string | undefined) ?? ''}
+                    onChange={e => {
+                      updateProviderSettings('codex', { model: e.target.value });
+                    }}
+                    placeholder="gpt-5.3-codex"
+                  />
+
+                  <label htmlFor="reasoning">Reasoning Effort</label>
+                  <select
+                    id="reasoning"
+                    value={
+                      (providerSettings.modelReasoningEffort as string | undefined) ?? 'medium'
+                    }
+                    onChange={e => {
+                      updateProviderSettings('codex', {
+                        modelReasoningEffort: e.target.value,
+                      });
+                    }}
+                    className={selectClass}
+                  >
+                    <option value="minimal">minimal</option>
+                    <option value="low">low</option>
+                    <option value="medium">medium</option>
+                    <option value="high">high</option>
+                    <option value="xhigh">xhigh</option>
+                  </select>
+
+                  <label htmlFor="web-search">Web Search</label>
+                  <select
+                    id="web-search"
+                    value={(providerSettings.webSearchMode as string | undefined) ?? 'disabled'}
+                    onChange={e => {
+                      updateProviderSettings('codex', { webSearchMode: e.target.value });
+                    }}
+                    className={selectClass}
+                  >
+                    <option value="disabled">disabled</option>
+                    <option value="cached">cached</option>
+                    <option value="live">live</option>
+                  </select>
+                </FormSection>
+              );
+            }
+
+            return (
+              <FormSection key={provider.id} className="text-sm">
+                <div className="font-medium">{provider.displayName}</div>
+                <div className="mt-1 text-muted-foreground">
+                  Provider-specific settings are stored generically for Phase 2. This provider does
+                  not have a dedicated editor yet.
+                </div>
+                {Object.keys(providerSettings).length > 0 && (
+                  <pre className="mt-2 overflow-x-auto rounded bg-muted p-2 text-xs">
+                    {JSON.stringify(providerSettings, null, 2)}
+                  </pre>
+                )}
+              </FormSection>
+            );
+          })}
         </div>
-      </CardContent>
-    </Card>
+
+        <FormActions className="justify-start">
+          <Button onClick={handleSave} disabled={mutation.isPending || !hasChanges} size="sm">
+            {mutation.isPending ? 'Saving...' : 'Save Changes'}
+          </Button>
+          {saveMsg && (
+            <StatusChip tone={saveMsg.type === 'success' ? 'success' : 'danger'}>
+              {saveMsg.text}
+            </StatusChip>
+          )}
+        </FormActions>
+      </div>
+    </FormShell>
   );
 }
 
@@ -623,23 +670,18 @@ function PlatformConnectionsSection({
   ];
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Platform Connections</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-2">
-          {platforms.map(p => (
-            <div key={p.name} className="flex items-center justify-between text-sm">
-              <span>{p.name}</span>
-              <Badge variant={p.connected ? 'default' : 'secondary'}>
-                {p.connected ? 'Connected' : 'Not configured'}
-              </Badge>
-            </div>
-          ))}
-        </div>
-      </CardContent>
-    </Card>
+    <FormShell title="Platform Connections">
+      <div className="space-y-2">
+        {platforms.map(p => (
+          <div key={p.name} className="flex items-center justify-between text-sm">
+            <span>{p.name}</span>
+            <StatusChip tone={p.connected ? 'success' : 'neutral'}>
+              {p.connected ? 'Connected' : 'Not configured'}
+            </StatusChip>
+          </div>
+        ))}
+      </div>
+    </FormShell>
   );
 }
 
@@ -653,24 +695,26 @@ function ConcurrencySection({
   const pct = max > 0 ? Math.min((active / max) * 100, 100) : 0;
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Concurrency</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-2">
-          <div className="h-3 w-full rounded-full bg-muted overflow-hidden">
-            <div
-              className="h-full rounded-full bg-primary transition-all"
-              style={{ width: `${String(pct)}%` }}
-            />
-          </div>
-          <div className="text-sm text-muted-foreground">
-            {active} / {max} concurrent conversations
-          </div>
+    <FormShell
+      title="Concurrency"
+      status={
+        <StatusChip tone={active > 0 ? 'info' : 'neutral'}>
+          {active} / {max}
+        </StatusChip>
+      }
+    >
+      <div className="space-y-2">
+        <div className="h-3 w-full overflow-hidden rounded-full bg-muted">
+          <div
+            className="h-full rounded-full bg-primary transition-all"
+            style={{ width: `${String(pct)}%` }}
+          />
         </div>
-      </CardContent>
-    </Card>
+        <div className="text-sm text-muted-foreground">
+          {active} / {max} concurrent conversations
+        </div>
+      </div>
+    </FormShell>
   );
 }
 

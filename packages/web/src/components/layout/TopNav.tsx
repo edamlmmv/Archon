@@ -31,13 +31,16 @@ export function TopNav(): React.ReactElement {
   });
 
   return (
-    <nav className="flex items-center gap-1 border-b border-border bg-surface px-4">
+    <nav className="flex min-w-0 items-center gap-1 border-b border-border bg-surface px-2 sm:px-4">
       {/* Brand logo */}
-      <Link to="/chat" className="flex items-center gap-2 mr-4 hover:opacity-80 transition-opacity">
+      <Link
+        to="/chat"
+        className="mr-1 flex shrink-0 items-center gap-2 transition-opacity hover:opacity-80 sm:mr-4"
+      >
         <div className="flex h-7 w-7 items-center justify-center rounded-md bg-primary">
           <span className="text-sm font-semibold text-primary-foreground">A</span>
         </div>
-        <span className="text-sm font-semibold text-text-primary">Archon</span>
+        <span className="hidden text-sm font-semibold text-text-primary sm:inline">Archon</span>
       </Link>
 
       {tabs.map(({ to, end, icon: Icon, label }) => (
@@ -47,7 +50,7 @@ export function TopNav(): React.ReactElement {
           end={end}
           className={({ isActive }: { isActive: boolean }): string =>
             cn(
-              'flex items-center gap-2 px-3 py-3 text-sm font-medium border-b-2 transition-colors',
+              'flex shrink-0 items-center gap-2 border-b-2 px-2 py-3 text-sm font-medium transition-colors sm:px-3',
               isActive
                 ? 'border-primary text-primary'
                 : 'border-transparent text-text-secondary hover:text-text-primary'
@@ -55,7 +58,7 @@ export function TopNav(): React.ReactElement {
           }
         >
           <Icon className="h-4 w-4" />
-          {label}
+          <span className="hidden sm:inline">{label}</span>
           {to === '/dashboard' && runningCount > 0 && (
             <span
               className="ml-1 inline-flex min-w-[1.25rem] items-center justify-center rounded-full bg-primary px-1.5 py-0.5 text-[10px] font-medium text-primary-foreground"
@@ -66,7 +69,7 @@ export function TopNav(): React.ReactElement {
           )}
         </NavLink>
       ))}
-      <span className="ml-auto text-xs text-text-secondary">
+      <span className="ml-auto hidden shrink-0 text-xs text-text-secondary sm:inline">
         v{import.meta.env.VITE_APP_VERSION as string}
         {updateCheck?.updateAvailable && updateCheck.releaseUrl && (
           <a

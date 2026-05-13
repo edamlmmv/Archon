@@ -3,21 +3,71 @@
   "name": "archon-ui-core",
   "type": "registry:component",
   "title": "Archon UI Core",
-  "description": "Reusable shadcn/Radix primitives extracted from the Archon web UI.",
+  "description": "Complete generic shadcn/Radix UI surface for Archon templates, with variant-aware primitives and Forge-ready metadata.",
   "dependencies": [
+    "@base-ui/react",
+    "@hookform/resolvers",
     "@radix-ui/react-alert-dialog",
     "@radix-ui/react-dialog",
     "class-variance-authority",
+    "cmdk",
+    "date-fns",
+    "embla-carousel-react",
+    "input-otp",
     "lucide-react",
+    "next-themes",
     "radix-ui",
+    "react-day-picker",
+    "react-hook-form",
     "react-resizable-panels",
-    "tailwind-merge"
+    "recharts",
+    "sonner",
+    "tailwind-merge",
+    "vaul",
+    "zod"
+  ],
+  "registryDependencies": [
+    "badge",
+    "button",
+    "calendar",
+    "command",
+    "dialog",
+    "input",
+    "label",
+    "popover",
+    "separator",
+    "sheet",
+    "skeleton",
+    "sonner",
+    "table",
+    "toggle",
+    "tooltip"
   ],
   "files": [
+    {
+      "path": "src/components/ui/accordion.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/accordion.tsx"
+    },
+    {
+      "path": "src/components/ui/alert.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/alert.tsx"
+    },
     {
       "path": "src/components/ui/alert-dialog.tsx",
       "type": "registry:ui",
       "target": "components/ui/alert-dialog.tsx"
+    },
+    {
+      "path": "src/components/ui/aspect-ratio.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/aspect-ratio.tsx"
+    },
+    {
+      "path": "src/components/ui/avatar.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/avatar.tsx"
     },
     {
       "path": "src/components/ui/badge.tsx",
@@ -25,9 +75,24 @@
       "target": "components/ui/badge.tsx"
     },
     {
+      "path": "src/components/ui/breadcrumb.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/breadcrumb.tsx"
+    },
+    {
       "path": "src/components/ui/button.tsx",
       "type": "registry:ui",
       "target": "components/ui/button.tsx"
+    },
+    {
+      "path": "src/components/ui/button-group.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/button-group.tsx"
+    },
+    {
+      "path": "src/components/ui/calendar.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/calendar.tsx"
     },
     {
       "path": "src/components/ui/card.tsx",
@@ -35,9 +100,49 @@
       "target": "components/ui/card.tsx"
     },
     {
+      "path": "src/components/ui/carousel.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/carousel.tsx"
+    },
+    {
+      "path": "src/components/ui/chart.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/chart.tsx"
+    },
+    {
+      "path": "src/components/ui/checkbox.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/checkbox.tsx"
+    },
+    {
       "path": "src/components/ui/collapsible.tsx",
       "type": "registry:ui",
       "target": "components/ui/collapsible.tsx"
+    },
+    {
+      "path": "src/components/ui/combobox.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/combobox.tsx"
+    },
+    {
+      "path": "src/components/ui/command.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/command.tsx"
+    },
+    {
+      "path": "src/components/ui/context-menu.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/context-menu.tsx"
+    },
+    {
+      "path": "src/components/ui/data-table.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/data-table.tsx"
+    },
+    {
+      "path": "src/components/ui/date-picker.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/date-picker.tsx"
     },
     {
       "path": "src/components/ui/dialog.tsx",
@@ -45,9 +150,99 @@
       "target": "components/ui/dialog.tsx"
     },
     {
+      "path": "src/components/ui/direction.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/direction.tsx"
+    },
+    {
+      "path": "src/components/ui/drawer.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/drawer.tsx"
+    },
+    {
+      "path": "src/components/ui/dropdown-menu.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/dropdown-menu.tsx"
+    },
+    {
+      "path": "src/components/ui/empty.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/empty.tsx"
+    },
+    {
+      "path": "src/components/ui/field.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/field.tsx"
+    },
+    {
+      "path": "src/components/ui/hover-card.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/hover-card.tsx"
+    },
+    {
       "path": "src/components/ui/input.tsx",
       "type": "registry:ui",
       "target": "components/ui/input.tsx"
+    },
+    {
+      "path": "src/components/ui/input-group.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/input-group.tsx"
+    },
+    {
+      "path": "src/components/ui/input-otp.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/input-otp.tsx"
+    },
+    {
+      "path": "src/components/ui/item.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/item.tsx"
+    },
+    {
+      "path": "src/components/ui/kbd.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/kbd.tsx"
+    },
+    {
+      "path": "src/components/ui/label.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/label.tsx"
+    },
+    {
+      "path": "src/components/ui/menubar.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/menubar.tsx"
+    },
+    {
+      "path": "src/components/ui/native-select.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/native-select.tsx"
+    },
+    {
+      "path": "src/components/ui/navigation-menu.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/navigation-menu.tsx"
+    },
+    {
+      "path": "src/components/ui/pagination.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/pagination.tsx"
+    },
+    {
+      "path": "src/components/ui/popover.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/popover.tsx"
+    },
+    {
+      "path": "src/components/ui/progress.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/progress.tsx"
+    },
+    {
+      "path": "src/components/ui/radio-group.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/radio-group.tsx"
     },
     {
       "path": "src/components/ui/resizable.tsx",
@@ -60,9 +255,54 @@
       "target": "components/ui/scroll-area.tsx"
     },
     {
+      "path": "src/components/ui/select.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/select.tsx"
+    },
+    {
       "path": "src/components/ui/separator.tsx",
       "type": "registry:ui",
       "target": "components/ui/separator.tsx"
+    },
+    {
+      "path": "src/components/ui/sheet.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/sheet.tsx"
+    },
+    {
+      "path": "src/components/ui/sidebar.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/sidebar.tsx"
+    },
+    {
+      "path": "src/components/ui/skeleton.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/skeleton.tsx"
+    },
+    {
+      "path": "src/components/ui/slider.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/slider.tsx"
+    },
+    {
+      "path": "src/components/ui/sonner.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/sonner.tsx"
+    },
+    {
+      "path": "src/components/ui/spinner.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/spinner.tsx"
+    },
+    {
+      "path": "src/components/ui/switch.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/switch.tsx"
+    },
+    {
+      "path": "src/components/ui/table.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/table.tsx"
     },
     {
       "path": "src/components/ui/tabs.tsx",
@@ -75,11 +315,69 @@
       "target": "components/ui/textarea.tsx"
     },
     {
+      "path": "src/components/ui/toast.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/toast.tsx"
+    },
+    {
+      "path": "src/components/ui/toggle.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/toggle.tsx"
+    },
+    {
+      "path": "src/components/ui/toggle-group.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/toggle-group.tsx"
+    },
+    {
       "path": "src/components/ui/tooltip.tsx",
       "type": "registry:ui",
       "target": "components/ui/tooltip.tsx"
     },
-    { "path": "src/lib/utils.ts", "type": "registry:lib", "target": "lib/utils.ts" },
-    { "path": "src/styles.css", "type": "registry:style", "target": "styles.css" }
+    {
+      "path": "src/components/ui/typography.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/typography.tsx"
+    },
+    {
+      "path": "src/lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts"
+    },
+    {
+      "path": "src/components/common/form-layout.tsx",
+      "type": "registry:component",
+      "target": "components/common/form-layout.tsx"
+    },
+    {
+      "path": "src/components/common/status-chip.tsx",
+      "type": "registry:component",
+      "target": "components/common/status-chip.tsx"
+    },
+    {
+      "path": "src/components/icons/ui-lab-icons.tsx",
+      "type": "registry:component",
+      "target": "components/icons/ui-lab-icons.tsx"
+    },
+    {
+      "path": "src/hooks/use-disclosure.ts",
+      "type": "registry:hook",
+      "target": "hooks/use-disclosure.ts"
+    },
+    {
+      "path": "src/hooks/use-form-progress.ts",
+      "type": "registry:hook",
+      "target": "hooks/use-form-progress.ts"
+    },
+    {
+      "path": "src/hooks/use-mobile.ts",
+      "type": "registry:hook",
+      "target": "hooks/use-mobile.ts"
+    },
+    {
+      "path": "src/styles.css",
+      "type": "registry:style",
+      "target": "styles.css"
+    }
   ]
 }

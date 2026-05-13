@@ -2,7 +2,7 @@ name: ui-lab-component-loop
 description: |
   Use when: The Archon UI-lab component queue should be drained continuously.
   Triggers: "ui-lab component loop", "run ui-lab component automation", "implement ui-lab variants".
-  Does: Uses BMAD route constraints and a Ralph-style loop to implement one queued shadcn/Radix component at a time, validate it, record evidence, and continue until the queue is drained.
+  Does: Uses BMAD route constraints and a Ralph-style loop to make one queued shadcn/Radix component forge-ready at a time, validate it, record evidence, and continue until the queue is drained.
   NOT for: One-off UI edits outside packages/ui-lab, unofficial MCP installation, or broad app refactors.
 
 provider: codex
@@ -110,7 +110,7 @@ nodes:
 
         ## Component Done Definition
 
-        The selected item can be marked `done` only when all variant families are covered:
+        The selected item can be marked `forge-ready` only when all variant families are covered and Forge can resolve it from registry/evidence metadata:
         - density: compact, default, comfortable
         - surface: flat, outline, elevated, ghost
         - state: default, focus, disabled, invalid, loading, empty
@@ -123,12 +123,16 @@ nodes:
         - Console errors fail the tested story.
         - Axe/a11y check for the rendered story canvas.
         - Keyboard flow coverage for Radix-backed interactive components.
+        - Valid shadcn registry item metadata with dependencies encoded.
+        - Forge capability evidence path recorded on the queue item.
 
         ## Required Validation Commands
 
         Run at minimum:
         - `bun --filter @archon/ui-lab type-check`
         - `bun --filter @archon/ui-lab test-storybook`
+        - `bun --filter @archon/ui-lab registry:build`
+        - `bun .archon/scripts/ui-lab/validate.ts`
 
         Also run the most targeted Playwright command available for the selected component. If component-level filtering is not available yet, add it as part of the selected component work or run `bun --filter @archon/ui-lab test:e2e` and document why it was the narrowest available gate.
 
@@ -139,7 +143,7 @@ nodes:
         ```json
         {
           "component": "selected-component-id",
-          "status": "done",
+          "status": "forge-ready",
           "summary": "short factual implementation and validation summary",
           "variantMatrix": {
             "density": "covered",

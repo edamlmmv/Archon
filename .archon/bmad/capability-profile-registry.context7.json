@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "profiles": [
+    {
+      "profileId": "archon.context7.mcp.docs",
+      "capabilityId": "host.mcp.context7.docs",
+      "toolName": "Context7 MCP",
+      "supportState": "official-mcp-profile-configured-auth-blocked",
+      "trustBoundary": "Context7 MCP is advisory until a workflow records live MCP output; API keys must come from environment or client auth, never repository files.",
+      "evidenceRefs": [
+        "/Users/edam/Documents/TODA/Archon/.archon/mcp/context7-official.json",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/context7-capabilities.catalog.json",
+        "https://github.com/upstash/context7#installation"
+      ],
+      "repairHint": "Set CONTEXT7_API_KEY, then run npx ctx7 setup --mcp --codex --project --yes --api-key \"$CONTEXT7_API_KEY\"."
+    },
+    {
+      "profileId": "archon.context7.cli.docs",
+      "capabilityId": "host.cli.context7.docs",
+      "toolName": "Context7 CLI docs",
+      "supportState": "cli-skill-installed",
+      "trustBoundary": "CLI docs output is advisory unless captured into a local evidence artifact and reviewed.",
+      "evidenceRefs": [
+        "/Users/edam/Documents/TODA/Archon/.agents/skills/find-docs/SKILL.md",
+        "/Users/edam/Documents/TODA/Archon/.agents/skills/context7-cli/SKILL.md",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/evidence/context7-capability-pack.md",
+        "https://context7.com/docs/clients/cli"
+      ],
+      "repairHint": "Run npx ctx7 skills list --universal and npx ctx7 docs /facebook/react \"hooks\" --json."
+    },
+    {
+      "profileId": "archon.context7.ui.frontend-design",
+      "capabilityId": "skill.context7.ui.frontend-design",
+      "toolName": "Context7 frontend-design skill",
+      "supportState": "project-and-global-skill-installed",
+      "trustBoundary": "UI/UX skill guidance may inform UI-lab templates; shadcn registry, Storybook, and Playwright remain readiness authority.",
+      "evidenceRefs": [
+        "/Users/edam/Documents/TODA/Archon/.agents/skills/frontend-design/SKILL.md",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/ui-lab-ui-ux-practices.json",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        "https://context7.com/skills/anthropics/skills/frontend-design"
+      ],
+      "repairHint": "Run npx ctx7 skills install /anthropics/skills frontend-design --universal --yes."
+    },
+    {
+      "profileId": "archon.context7.ui.react-patterns",
+      "capabilityId": "skill.context7.ui.react-patterns",
+      "toolName": "Context7 React UI patterns skills",
+      "supportState": "project-and-global-skill-installed",
+      "trustBoundary": "React pattern skill guidance is advisory; UI-lab registry metadata and package tests decide template readiness.",
+      "evidenceRefs": [
+        "/Users/edam/Documents/TODA/Archon/.agents/skills/react-ui-patterns/SKILL.md",
+        "/Users/edam/Documents/TODA/Archon/.agents/skills/base-ui-react/SKILL.md",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/context7-capabilities.catalog.json"
+      ],
+      "repairHint": "Reinstall react-ui-patterns and base-ui-react through ctx7 skills install."
+    },
+    {
+      "profileId": "archon.context7.ui.base-ui-react",
+      "capabilityId": "skill.context7.ui.base-ui-react",
+      "toolName": "Context7 Base UI React skill",
+      "supportState": "project-and-global-skill-installed",
+      "trustBoundary": "Base UI guidance may inform accessible primitives; UI-lab registry metadata and tests remain readiness authority.",
+      "evidenceRefs": [
+        "/Users/edam/Documents/TODA/Archon/.agents/skills/base-ui-react/SKILL.md",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/context7-capabilities.catalog.json"
+      ],
+      "repairHint": "Run npx ctx7 skills install /secondsky/claude-skills base-ui-react --universal --yes."
+    },
+    {
+      "profileId": "archon.context7.browser.playwright",
+      "capabilityId": "skill.context7.browser.playwright",
+      "toolName": "Context7 Playwright/browser skills",
+      "supportState": "project-and-global-skill-installed",
+      "trustBoundary": "Browser skill guidance does not prove browser availability or live Playwright MCP calls.",
+      "evidenceRefs": [
+        "/Users/edam/Documents/TODA/Archon/.agents/skills/browser-test/SKILL.md",
+        "/Users/edam/Documents/TODA/Archon/.agents/skills/playwright-tests/SKILL.md",
+        "/Users/edam/Documents/TODA/Archon/.archon/mcp/ui-stack-official.json"
+      ],
+      "repairHint": "Run npx ctx7 skills install /ruvnet/ruflo browser-test --universal --yes and validate Playwright separately."
+    },
+    {
+      "profileId": "archon.context7.agentic-search.context-engineering",
+      "capabilityId": "skill.context7.agentic-search.context-engineering",
+      "toolName": "Context7 context-engineering skills",
+      "supportState": "project-and-global-skill-installed",
+      "trustBoundary": "Context engineering skills are advisory input to Agentic Search metadata, not verifier authority.",
+      "evidenceRefs": [
+        "/Users/edam/Documents/TODA/Archon/.agents/skills/context-engineering/SKILL.md",
+        "/Users/edam/Documents/TODA/Archon/.agents/skills/agentic-engineering/SKILL.md",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/evidence/bmad-agentic-search.md",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/ui-lab-agentic-search.index.json"
+      ],
+      "repairHint": "Run npx ctx7 skills install /addyosmani/agent-skills context-engineering --universal --yes."
+    },
+    {
+      "profileId": "archon.context7.mcp.patterns",
+      "capabilityId": "skill.context7.mcp.patterns",
+      "toolName": "Context7 MCP server patterns skill",
+      "supportState": "project-and-global-skill-installed",
+      "trustBoundary": "MCP pattern skill may guide design but cannot grant MCP install/runtime authority.",
+      "evidenceRefs": [
+        "/Users/edam/Documents/TODA/Archon/.agents/skills/mcp-server-patterns/SKILL.md",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/evidence/context7-capability-pack.md"
+      ],
+      "repairHint": "Run npx ctx7 skills install /affaan-m/everything-claude-code mcp-server-patterns --universal --yes."
+    },
+    {
+      "profileId": "archon.context7.prompt.engineering",
+      "capabilityId": "skill.context7.prompt.engineering",
+      "toolName": "Context7 prompt engineering skills",
+      "supportState": "project-and-global-skill-installed",
+      "trustBoundary": "Prompt skill guidance may improve packets and prompts; generated prompts remain reviewable drafts.",
+      "evidenceRefs": [
+        "/Users/edam/Documents/TODA/Archon/.agents/skills/senior-prompt-engineer/SKILL.md",
+        "/Users/edam/Documents/TODA/Archon/.agents/skills/prompt-engineering-patterns/SKILL.md",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/context7-forge.request.json"
+      ],
+      "repairHint": "Run npx ctx7 skills install /davila7/claude-code-templates senior-prompt-engineer --universal --yes."
+    },
+    {
+      "profileId": "archon.context7.git.workflow",
+      "capabilityId": "skill.context7.git.workflow",
+      "toolName": "Context7 Git workflow skills",
+      "supportState": "project-and-global-skill-installed",
+      "trustBoundary": "Git workflow skill guidance cannot override Archon git guardrails or mutate branches without explicit operator action.",
+      "evidenceRefs": [
+        "/Users/edam/Documents/TODA/Archon/.agents/skills/git-workflow/SKILL.md",
+        "/Users/edam/Documents/TODA/Archon/.agents/skills/git-workflow-and-versioning/SKILL.md",
+        "/Users/edam/Documents/TODA/Archon/AGENTS.md"
+      ],
+      "repairHint": "Run npx ctx7 skills install /bobmatnyc/claude-mpm-skills git-workflow --universal --yes."
+    },
+    {
+      "profileId": "archon.context7.story-mapping",
+      "capabilityId": "skill.context7.story-mapping",
+      "toolName": "Context7 story mapping skill",
+      "supportState": "project-and-global-skill-installed",
+      "trustBoundary": "Story mapping skill may help BMAD epics/stories; BMAD readiness gates remain authoritative.",
+      "evidenceRefs": [
+        "/Users/edam/Documents/TODA/Archon/.agents/skills/user-story-mapping/SKILL.md",
+        "/Users/edam/Documents/TODA/Archon/.archon/workflows/context7-capability-forge-loop.yaml"
+      ],
+      "repairHint": "Run npx ctx7 skills install /deanpeters/product-manager-skills user-story-mapping --universal --yes."
+    }
+  ]
+}

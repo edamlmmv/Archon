@@ -59,4 +59,36 @@ describe('Archon capability lab', () => {
 
     expect(evidence.some((ref) => ref.ref === 'docs/workspace/capability-contract.md' && ref.exists === true)).toBe(true);
   });
+
+  it('loads all Archon supplemental capability profile registries', () => {
+    const registry = loadCapabilityRegistry();
+    const context7Profile = findCapabilityProfiles(registry, 'host.cli.context7.docs')[0];
+    const uiLabProfile = findCapabilityProfiles(registry, 'archon.ui-lab.registry.full-coverage')[0];
+
+    expect(context7Profile?.capabilityId).toBe('host.cli.context7.docs');
+    expect(uiLabProfile?.capabilityId).toBe('archon.ui-lab.registry.full-coverage');
+  });
+
+  it('traces capability references across declared Archon surfaces', () => {
+    const result = runCapabilityLab({ mode: 'trace', query: 'agentic-search' });
+    const trace = result.trace;
+    if (!trace) {
+      throw new Error('expected trace result');
+    }
+
+    expect(result.matchedProfiles.some(profile => profile.capabilityId === 'agentic-search.bridge.capability-lab')).toBe(true);
+    expect(trace.referencesBySurface.command.some(ref => ref.path === '.archon/commands/agentic-search-capability-sync.md')).toBe(true);
+    expect(trace.referencesBySurface.workflow.some(ref => ref.path === '.archon/workflows/agentic-search-capability-loop.yaml')).toBe(true);
+    expect(trace.referencesBySurface['forge-request'].some(ref => ref.path === '.archon/bmad/agentic-search-forge.request.json')).toBe(true);
+    expect(trace.referencesBySurface.evidence.some(ref => ref.path === '.archon/bmad/evidence/agentic-search-capability-pack.md')).toBe(true);
+    expect(trace.referencesBySurface.skill.some(ref => ref.path === '.agents/skills/context-engineering/SKILL.md')).toBe(true);
+    expect(trace.referencesBySurface.command.find(ref => ref.path === '.archon/commands/agentic-search-capability-sync.md')?.authority).toBe('source');
+    expect(trace.referencesBySurface['forge-request'].find(ref => ref.path === '.archon/bmad/agentic-search-forge.request.json')?.authority).toBe(
+      'draft-only',
+    );
+    expect(trace.referencesBySurface['mcp-profile'].find(ref => ref.path === '.archon/mcp/context7-official.json')?.authority).toBe(
+      'runtime-check',
+    );
+    expect(trace.boundaries.join('\n')).toContain('do not prove installs');
+  });
 });

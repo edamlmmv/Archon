@@ -3,9 +3,12 @@ node_modules/
 
 # Build output
 dist/
+packages/ui-lab/storybook-static/
 
 # Test coverage
 coverage/
+packages/ui-lab/playwright-report/
+test-results/
 
 # Logs
 *.log
@@ -39,6 +42,7 @@ packages/docs-web/
 # Project documentation (don't auto-format)
 docs/
 CLAUDE.md
+AGENTS.md
 README.md
 CHANGELOG.md
 CONTRIBUTING.md

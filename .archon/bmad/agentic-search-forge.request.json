@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "requestId": "archon-agentic-search-capability-awareness",
+  "title": "Archon Agentic Search Capability Awareness Pack",
+  "selectedCapability": "Agentic Search advisory capability routing + Capability Lab + BMAD route-first + Forge metadata",
+  "task": "Make Agentic Search able to discover and rank capabilities, tools, MCP profiles, Archon skills, BMAD routes, prompts, and evidence refs without granting runtime authority.",
+  "chosenTools": [
+    "Archon Capability Lab",
+    "BMAD route-first workflow",
+    "Capability Pack Forge",
+    "Context7 CLI/MCP profile",
+    "UI-lab Agentic Search index",
+    "Archon MCP profile metadata",
+    "Installed Archon and Context7 skills"
+  ],
+  "decision": "metadata-first-no-custom-mcp",
+  "blockedTools": [
+    "Custom Agentic Search MCP v1",
+    "Live Context7 MCP calls without CONTEXT7_API_KEY or captured OAuth-backed workflow output",
+    "Codex provider per-node mcp/skills/agents/hooks",
+    "Forge source-internal inspection",
+    "Forge approval or install without review"
+  ],
+  "fallback": "Use local capability registries, evidence refs, installed skill docs, and workflow artifacts as the search authority envelope.",
+  "nextAction": "run agentic-search-capability-loop to refresh catalog, registry, Forge packet, and validation evidence",
+  "evidenceRefs": [
+    ".archon/bmad/agentic-search-capabilities.catalog.json",
+    ".archon/bmad/capability-profile-registry.agentic-search.json",
+    ".archon/bmad/evidence/agentic-search-capability-pack.md",
+    ".archon/bmad/evidence/bmad-agentic-search.md",
+    ".archon/scripts/capability-lab.ts",
+    ".archon/workflows/bmad-route-first.yaml",
+    ".archon/commands/bmad-route-first.md",
+    ".archon/bmad/capability-profile-registry.context7.json",
+    ".archon/bmad/ui-lab-agentic-search.index.json",
+    ".archon/mcp/context7-official.json"
+  ],
+  "guardrails": [
+    "Forge consumes catalog, registry, and evidence only; it must not inspect implementation internals.",
+    "Forge must not call live Context7, MCP servers, shell, web search, Graphify, Agentic Search adapters, or network tools.",
+    "Agentic Search results are advisory until captured in declared local evidence.",
+    "MCP names are preserved as route context only unless install, authorization, live call, and workflow artifact evidence exist.",
+    "Codex provider nodes do not load Archon per-node mcp, skills, agents, hooks, or tool restrictions in v1.",
+    "UI-lab readiness authority remains shadcn registry, Storybook, and Playwright evidence."
+  ]
+}

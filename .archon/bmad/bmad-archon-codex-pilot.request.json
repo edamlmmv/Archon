@@ -1,0 +1,208 @@
+{
+  "kind": "bmad-capability-pack-forge-request",
+  "schemaVersion": 1,
+  "packMode": "draft-authoring",
+  "capability": {
+    "id": "archon.native.bmad.codex.route",
+    "displayName": "Archon Native BMAD Workflow For Codex",
+    "summary": "Runs BMAD route-first planning through Archon commands and DAG workflows, with Codex as a thin slash launcher that preserves advisory MCP mention context."
+  },
+  "targetCustomizationSurface": "archon-native-bmad-workflow",
+  "primaryEvidenceRef": "bmad-route-first",
+  "evidenceRefs": [
+    {
+      "id": "bmad-route-first",
+      "kind": "capability-pack-local-evidence",
+      "path": "evidence/bmad-route-first.md",
+      "role": "route-source",
+      "sourceType": "local_docs"
+    },
+    {
+      "id": "bmad-catalog-snapshot",
+      "kind": "capability-pack-local-evidence",
+      "path": "evidence/bmad-catalog-snapshot.md",
+      "role": "catalog-source",
+      "sourceType": "local_docs"
+    },
+    {
+      "id": "bmad-capability-contract",
+      "kind": "capability-pack-local-evidence",
+      "path": "evidence/bmad-capability-contract.md",
+      "role": "manual-contract",
+      "sourceType": "manual_contract"
+    },
+    {
+      "id": "bmad-forge-contract",
+      "kind": "capability-pack-local-evidence",
+      "path": "evidence/bmad-forge-contract.md",
+      "role": "manual-contract",
+      "sourceType": "manual_contract"
+    },
+    {
+      "id": "bmad-agentic-search",
+      "kind": "capability-pack-local-evidence",
+      "path": "evidence/bmad-agentic-search.md",
+      "role": "advisory-tool-taxonomy",
+      "sourceType": "local_docs"
+    },
+    {
+      "id": "archon-workflow-capabilities",
+      "kind": "capability-pack-local-evidence",
+      "path": "evidence/archon-workflow-capabilities.md",
+      "role": "workflow-source",
+      "sourceType": "local_docs"
+    },
+    {
+      "id": "graphify-notes",
+      "kind": "capability-pack-local-evidence",
+      "path": "evidence/graphify-notes.md",
+      "role": "advisory-evidence",
+      "sourceType": "other"
+    },
+    {
+      "id": "codex-slash-and-config",
+      "kind": "capability-pack-local-evidence",
+      "path": "evidence/codex-slash-and-config.md",
+      "role": "codex-source",
+      "sourceType": "local_docs"
+    },
+    {
+      "id": "context7-notes",
+      "kind": "capability-pack-local-evidence",
+      "path": "evidence/context7-notes.md",
+      "role": "advisory-docs-mcp",
+      "sourceType": "context7"
+    },
+    {
+      "id": "context7-webgl-fundamentals",
+      "kind": "capability-pack-local-evidence",
+      "path": "evidence/context7-webgl-fundamentals.md",
+      "role": "scoped-webgl-docs-mcp-awareness",
+      "sourceType": "context7"
+    },
+    {
+      "id": "mcp-google-apps-script-officejs",
+      "kind": "capability-pack-local-evidence",
+      "path": "evidence/mcp-google-apps-script-officejs.md",
+      "role": "scoped-google-apps-script-officejs-mcp-awareness",
+      "sourceType": "local_docs"
+    },
+    {
+      "id": "upstream-bmad-vendor",
+      "kind": "capability-pack-local-evidence",
+      "path": "evidence/upstream-bmad-vendor.md",
+      "role": "advisory-upstream-bmad-module-registry",
+      "sourceType": "local_docs"
+    }
+  ],
+  "acceptanceCriteria": [
+    {
+      "id": "AC-ARCHON-OWNS-WORKFLOW",
+      "statement": "Archon owns the BMAD workflow through .archon commands and workflows."
+    },
+    {
+      "id": "AC-CODEX-THIN-LAUNCHER",
+      "statement": "Codex slash command is only a thin launcher and artifact summarizer."
+    },
+    {
+      "id": "AC-FORGE-DRAFT-ONLY",
+      "statement": "Forge outputs are drafts and do not grant install, verifier, or runtime authority."
+    },
+    {
+      "id": "AC-ADVISORY-TOOLS",
+      "statement": "Agentic Search, Graphify, and Context7 are represented as advisory evidence in v1."
+    },
+    {
+      "id": "AC-MCP-MENTION-AWARENESS",
+      "statement": "Prompts with no MCP, one MCP, or multiple MCPs preserve requested MCP names as advisory route context without claiming live MCP configuration."
+    },
+    {
+      "id": "AC-WEBGL2-MCP-AWARENESS",
+      "statement": "WebGL2 MCP mentions route to host.mcp.context7.webgl-fundamentals.docs with /websites/webglfundamentals as canonical Context7 source and https://webgl2fundamentals.org as caveat only."
+    },
+    {
+      "id": "AC-GOOGLE-APPS-SCRIPT-MCP-AWARENESS",
+      "statement": "Google Apps Script MCP mentions route to host.mcp.context7.google-apps-script.docs with Apps Script Context7 source IDs, REST API, and @google/clasp mcp refs as advisory evidence only."
+    },
+    {
+      "id": "AC-OFFICEJS-MCP-AWARENESS",
+      "statement": "OfficeJS MCP mentions route to host.mcp.context7.office-js-live.docs and live Office MCP mentions route to host.mcp.office-js.live without claiming office4ai install, Office Add-in install, certificate trust, OAuth, Microsoft Graph permissions, or document mutation proof."
+    },
+    {
+      "id": "AC-UPSTREAM-BMAD-MODULE-AWARENESS",
+      "statement": "Vendored upstream BMAD snapshots are preserved as advisory moduleAwareness route evidence without claiming skill installation, runtime grant, MCP config, hooks, agents, or tool restrictions."
+    }
+  ],
+  "agenticSearch": {
+    "domain": "Agentic Search for Context Engineering",
+    "toolClasses": [
+      {
+        "class": "file-search",
+        "toolName": "File Search",
+        "corePurpose": "File Search retrieves context for Agentic Search decisions.",
+        "toolDescription": "Use File Search when local repo files, docs, configs, or workflow definitions are the right context source; do not use it for live remote docs or secrets.",
+        "triggerCondition": "Use File Search when local files are likely authoritative for the user request.",
+        "negativeTriggerCondition": "Do not use File Search for live remote docs or secrets.",
+        "parameterComplexity": "low",
+        "authorityBoundary": "Retrieved context is advisory only; it is not verifier input, not grant authority, and not Workspace authority.",
+        "evidenceBoundary": "Record source refs only; retrieved context is not verifier input and not Workspace authority."
+      },
+      {
+        "class": "skill-loading",
+        "toolName": "Skill Loading",
+        "corePurpose": "Skill Loading retrieves context for Agentic Search decisions.",
+        "toolDescription": "Use Skill Loading when exact BMAD skill behavior or routing boundaries are needed; do not use it as runtime grant, verifier authority, or install proof.",
+        "triggerCondition": "Use Skill Loading when installed skill text is likely authoritative for the workflow route.",
+        "negativeTriggerCondition": "Do not use Skill Loading as runtime grant, verifier authority, or install proof.",
+        "parameterComplexity": "low",
+        "authorityBoundary": "Retrieved context is advisory only; it is not verifier input, not grant authority, and not Workspace authority.",
+        "evidenceBoundary": "Record skill refs only; retrieved context is not verifier input and not Workspace authority.",
+        "toolRelationship": "Load the route-relevant BMAD skill before database-query or shell when its safety contract affects tool use."
+      },
+      {
+        "class": "database-query",
+        "toolName": "Database Query",
+        "corePurpose": "Database Query retrieves context for Agentic Search decisions.",
+        "toolDescription": "Use Database Query only after structured DB evidence, secret boundaries, and sample-row rules are defined; do not use it for raw secrets or Forge authority.",
+        "triggerCondition": "Use Database Query only when the workflow has a declared DB evidence fixture and secret boundary.",
+        "negativeTriggerCondition": "Do not use Database Query for raw secrets, live sample rows, or Forge authority.",
+        "parameterComplexity": "high",
+        "authorityBoundary": "Retrieved context is advisory only; it is not verifier input, not grant authority, and not Workspace authority.",
+        "evidenceBoundary": "Record set/unset credential signals only; retrieved context is not verifier input and not Workspace authority."
+      },
+      {
+        "class": "web-search",
+        "toolName": "Web Search",
+        "corePurpose": "Web Search retrieves context for Agentic Search decisions.",
+        "toolDescription": "Use Web Search when current remote documentation is required and local evidence is stale or absent; do not use it when local docs already prove the claim.",
+        "triggerCondition": "Use Web Search when current external facts are necessary for the user request.",
+        "negativeTriggerCondition": "Do not use Web Search when official local docs or MCP evidence already cover the claim.",
+        "parameterComplexity": "medium",
+        "authorityBoundary": "Retrieved context is advisory only; it is not verifier input, not grant authority, and not Workspace authority.",
+        "evidenceBoundary": "Record URLs and summaries only; retrieved context is not verifier input and not Workspace authority."
+      },
+      {
+        "class": "memory",
+        "toolName": "Memory",
+        "corePurpose": "Memory retrieves context for Agentic Search decisions.",
+        "toolDescription": "Use Memory when prior route-boundary lessons affect current BMAD planning; do not use it instead of cheap live verification.",
+        "triggerCondition": "Use Memory for repo history or prior decisions that materially affect the route.",
+        "negativeTriggerCondition": "Do not use Memory for facts that are cheap and necessary to verify live.",
+        "parameterComplexity": "medium",
+        "authorityBoundary": "Retrieved context is advisory only; it is not verifier input, not grant authority, and not Workspace authority.",
+        "evidenceBoundary": "Record memory refs outside Forge authority; retrieved context is not verifier input and not Workspace authority."
+      },
+      {
+        "class": "shell",
+        "toolName": "Shell",
+        "corePurpose": "Shell retrieves context for Agentic Search decisions.",
+        "toolDescription": "Use Shell for deterministic local inspection, CLI help, validation, and smoke tests; do not use it for mutating commands in planning lanes.",
+        "triggerCondition": "Use Shell when current repo state or command output is needed for the route.",
+        "negativeTriggerCondition": "Do not use Shell for mutating commands in planning lanes.",
+        "parameterComplexity": "high",
+        "authorityBoundary": "Retrieved context is advisory only; it is not verifier input, not grant authority, and not Workspace authority.",
+        "evidenceBoundary": "Record command summaries only; retrieved context is not verifier input and not Workspace authority."
+      }
+    ]
+  }
+}

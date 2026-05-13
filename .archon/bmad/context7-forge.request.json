@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "requestId": "archon-context7-capability-pack",
+  "title": "Archon Context7 Capability Pack",
+  "selectedCapability": "bmad-capability-pack-forge + Context7 CLI/MCP + installed skills",
+  "task": "Make Context7 docs, skills, MCP profile, UI-lab guidance, Agentic Search guidance, prompt patterns, and Git/story mapping visible to Archon capability planning.",
+  "chosenTools": [
+    "Context7 CLI",
+    "Context7 MCP profile",
+    "Context7 Skills Registry",
+    "Archon workflows",
+    "Capability Pack Forge",
+    "Agentic Search metadata",
+    "UI-lab evidence"
+  ],
+  "decision": "enough-with-auth-blocker",
+  "blockedTools": ["Context7 live MCP calls without CONTEXT7_API_KEY or OAuth-backed client config"],
+  "fallback": "Use installed Context7 CLI skills and captured docs evidence; keep Context7 output advisory until recorded in local artifacts.",
+  "nextAction": "run context7-capability-forge-loop to refresh skill install evidence, capability profiles, Forge packet, and validator output",
+  "evidenceRefs": [
+    ".archon/bmad/context7-capabilities.catalog.json",
+    ".archon/bmad/capability-profile-registry.context7.json",
+    ".archon/bmad/evidence/context7-capability-pack.md",
+    ".archon/mcp/context7-official.json",
+    ".agents/skills/find-docs/SKILL.md",
+    ".agents/skills/context7-cli/SKILL.md",
+    ".agents/skills/context7-mcp/SKILL.md",
+    ".archon/bmad/ui-lab-ui-ux-practices.json",
+    ".archon/bmad/ui-lab-agentic-search.index.json",
+    ".archon/bmad/ui-lab-dependency-map.json"
+  ],
+  "guardrails": [
+    "Forge consumes catalog, registry, and evidence only; it must not call live Context7, MCP, shell, network, Graphify, or Agentic Search tools.",
+    "Context7 MCP profile stores only environment variable references.",
+    "Context7 output remains advisory unless captured by this repo as evidence.",
+    "No custom UI-lab MCP; UI-lab authority remains shadcn registry, Storybook, and Playwright evidence.",
+    "Installed skills may guide prompts and implementation, but they do not override AGENTS.md, BMAD gates, or Archon workflow guardrails."
+  ]
+}

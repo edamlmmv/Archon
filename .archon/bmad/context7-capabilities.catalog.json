@@ -1,0 +1,172 @@
+{
+  "schemaVersion": 1,
+  "catalogId": "archon-context7-capability-pack",
+  "title": "Archon Context7 Capability Pack",
+  "installPolicy": {
+    "scope": ["project", "global"],
+    "targets": ["universal", "claude"],
+    "modes": ["cli-skills", "mcp-profile"],
+    "secretPolicy": "CONTEXT7_API_KEY must come from the environment; no raw key material is stored in repository artifacts."
+  },
+  "setup": {
+    "cliSkill": {
+      "name": "find-docs",
+      "status": "installed",
+      "commands": [
+        "npx ctx7 setup --cli --universal --project --yes",
+        "npx ctx7 setup --cli --universal --yes"
+      ],
+      "projectTargets": [".agents/skills/find-docs", ".claude/skills/find-docs"],
+      "globalTargets": ["~/.agents/skills/find-docs", "~/.claude/skills/find-docs"]
+    },
+    "mcp": {
+      "status": "profile-configured-auth-blocked",
+      "blockedReason": "CONTEXT7_API_KEY was not present in the shell environment when this pack was installed.",
+      "profilePath": ".archon/mcp/context7-official.json",
+      "requiredCommandWhenKeyExists": "npx ctx7 setup --mcp --codex --project --yes --api-key \"$CONTEXT7_API_KEY\""
+    }
+  },
+  "selectedSkills": [
+    {
+      "id": "context7-mcp",
+      "repository": "/upstash/context7",
+      "trust": "High",
+      "domains": ["context7", "mcp", "docs"],
+      "capabilityIds": ["host.mcp.context7.docs"],
+      "status": "installed"
+    },
+    {
+      "id": "context7-cli",
+      "repository": "/upstash/context7",
+      "trust": "High",
+      "domains": ["context7", "cli", "docs"],
+      "capabilityIds": ["host.cli.context7.docs"],
+      "status": "installed"
+    },
+    {
+      "id": "frontend-design",
+      "repository": "/anthropics/skills",
+      "trust": "High",
+      "domains": ["ui-lab", "ui-ux", "frontend"],
+      "capabilityIds": ["skill.context7.ui.frontend-design"],
+      "status": "installed"
+    },
+    {
+      "id": "react-ui-patterns",
+      "repository": "/chriswiles/claude-code-showcase",
+      "trust": "High",
+      "domains": ["ui-lab", "react", "patterns"],
+      "capabilityIds": ["skill.context7.ui.react-patterns"],
+      "status": "installed"
+    },
+    {
+      "id": "base-ui-react",
+      "repository": "/secondsky/claude-skills",
+      "trust": "Medium",
+      "domains": ["ui-lab", "base-ui", "accessibility"],
+      "capabilityIds": ["skill.context7.ui.base-ui-react"],
+      "status": "installed"
+    },
+    {
+      "id": "browser-test",
+      "repository": "/ruvnet/ruflo",
+      "trust": "High",
+      "domains": ["playwright", "browser", "testing"],
+      "capabilityIds": ["skill.context7.browser.playwright"],
+      "status": "installed"
+    },
+    {
+      "id": "playwright-tests",
+      "repository": "/andrelandgraf/fullstackrecipes",
+      "trust": "High",
+      "domains": ["playwright", "e2e", "testing"],
+      "capabilityIds": ["skill.context7.browser.playwright"],
+      "status": "installed"
+    },
+    {
+      "id": "context-engineering",
+      "repository": "/addyosmani/agent-skills",
+      "trust": "High",
+      "domains": ["agentic-search", "context-engineering"],
+      "capabilityIds": ["skill.context7.agentic-search.context-engineering"],
+      "status": "installed"
+    },
+    {
+      "id": "agentic-engineering",
+      "repository": "/affaan-m/everything-claude-code",
+      "trust": "High",
+      "domains": ["agentic-search", "agents", "engineering"],
+      "capabilityIds": ["skill.context7.agentic-search.context-engineering"],
+      "status": "installed"
+    },
+    {
+      "id": "mcp-server-patterns",
+      "repository": "/affaan-m/everything-claude-code",
+      "trust": "High",
+      "domains": ["mcp", "typescript", "patterns"],
+      "capabilityIds": ["skill.context7.mcp.patterns"],
+      "status": "installed"
+    },
+    {
+      "id": "senior-prompt-engineer",
+      "repository": "/davila7/claude-code-templates",
+      "trust": "High",
+      "domains": ["prompt", "agents", "evaluation"],
+      "capabilityIds": ["skill.context7.prompt.engineering"],
+      "status": "installed"
+    },
+    {
+      "id": "prompt-engineering-patterns",
+      "repository": "/davila7/claude-code-templates",
+      "trust": "High",
+      "domains": ["prompt", "patterns", "structured-output"],
+      "capabilityIds": ["skill.context7.prompt.engineering"],
+      "status": "installed"
+    },
+    {
+      "id": "git-workflow",
+      "repository": "/bobmatnyc/claude-mpm-skills",
+      "trust": "High",
+      "domains": ["version-control", "git"],
+      "capabilityIds": ["skill.context7.git.workflow"],
+      "status": "installed"
+    },
+    {
+      "id": "git-workflow-and-versioning",
+      "repository": "/addyosmani/agent-skills",
+      "trust": "High",
+      "domains": ["version-control", "git", "release"],
+      "capabilityIds": ["skill.context7.git.workflow"],
+      "status": "installed"
+    },
+    {
+      "id": "user-story-mapping",
+      "repository": "/deanpeters/product-manager-skills",
+      "trust": "High",
+      "domains": ["bmad", "planning", "stories"],
+      "capabilityIds": ["skill.context7.story-mapping"],
+      "status": "installed"
+    }
+  ],
+  "installTargets": [
+    ".agents/skills",
+    ".claude/skills",
+    "~/.agents/skills",
+    "~/.claude/skills"
+  ],
+  "authority": {
+    "forge": "draft-only",
+    "agenticSearch": "advisory",
+    "context7Docs": "advisory unless captured in local evidence",
+    "mcp": "blocked until API key or OAuth-backed client config is verified"
+  },
+  "evidenceRefs": [
+    ".archon/bmad/evidence/context7-capability-pack.md",
+    ".archon/bmad/capability-profile-registry.context7.json",
+    ".archon/bmad/context7-forge.request.json",
+    ".archon/mcp/context7-official.json",
+    "https://context7.com/docs/skills",
+    "https://context7.com/docs/clients/cli",
+    "https://github.com/upstash/context7#installation"
+  ]
+}

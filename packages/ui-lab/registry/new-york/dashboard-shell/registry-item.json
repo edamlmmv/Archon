@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "dashboard-shell",
+  "type": "registry:block",
+  "title": "Dashboard Shell",
+  "description": "Operational dashboard template for workflow status, filters, and run health.",
+  "registryDependencies": ["archon-ui-core"],
+  "files": [
+    {
+      "path": "src/templates/productization.tsx",
+      "type": "registry:block",
+      "target": "components/templates/productization.tsx"
+    }
+  ]
+}

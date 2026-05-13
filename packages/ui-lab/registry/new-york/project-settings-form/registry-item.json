@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "project-settings-form",
+  "type": "registry:block",
+  "title": "Project Settings Form",
+  "description": "Reusable project registration and assistant-defaults form template.",
+  "registryDependencies": ["archon-ui-core"],
+  "files": [
+    {
+      "path": "src/templates/productization.tsx",
+      "type": "registry:block",
+      "target": "components/templates/productization.tsx"
+    }
+  ]
+}

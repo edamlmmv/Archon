@@ -37,6 +37,42 @@ Keep runtime and user-specific state out of Git:
 
 Workflow lock files represent active local execution. They should not be committed or used as team state.
 
+## Safe home profile sync
+
+Do not copy raw `~/.archon` into the repository. It can contain credentials, the SQLite database, workflow logs, artifacts, cloned workspaces, and absolute local paths.
+
+Use `.archon/team-profile/` for sanitized home-scoped content instead:
+
+- `config.template.yaml` for safe global preferences only
+- `workflows/`, `commands/`, and `scripts/` for reusable home-scoped Archon files
+- `.env.example` with empty placeholders only
+
+Validate the profile before syncing:
+
+```bash
+bun run cli --cwd "$PWD" profile validate .archon/team-profile
+```
+
+Preview writes:
+
+```bash
+bun run cli --cwd "$PWD" profile sync .archon/team-profile --dry-run
+```
+
+Install into local `~/.archon`:
+
+```bash
+bun run cli --cwd "$PWD" profile sync .archon/team-profile
+```
+
+The sync command creates a backup under `~/.archon/backups/<backup-id>/` before it writes any safe files. Roll back with:
+
+```bash
+bun run cli --cwd "$PWD" profile restore <backup-id>
+```
+
+The sync and restore commands only operate on `~/.archon/config.yaml`, `~/.archon/workflows`, `~/.archon/commands`, and `~/.archon/scripts`. They never touch `~/.archon/.env`, `archon.db`, `workspaces`, `logs`, or `artifacts`.
+
 ## Branch-only sharing
 
 To share setup without opening a pull request, push a branch:
@@ -61,6 +97,12 @@ git fetch origin
 git checkout codex/mcp-capability-awareness
 ```
 
+Then they can install the safe home profile:
+
+```bash
+bun run cli workflow run archon-profile-sync --no-worktree
+```
+
 ## UI-lab workflow
 
 Run the UI-lab component automation from the repository root:
@@ -73,6 +115,14 @@ Check progress:
 
 ```bash
 bun .archon/scripts/ui-lab/status.ts
+```
+
+Refresh the official shadcn component ledger and validate registry/Forge metadata:
+
+```bash
+bun .archon/scripts/ui-lab/refresh-queue.ts
+bun --filter @archon/ui-lab registry:build
+bun .archon/scripts/ui-lab/validate.ts
 ```
 
 The queue file is the team-visible progress ledger:
@@ -99,7 +149,11 @@ The shared workflow is versioned in Git. The schedule that invokes it is persona
 Before pushing team setup, run:
 
 ```bash
+bun run cli --cwd "$PWD" profile validate .archon/team-profile
 bun run cli validate workflows ui-lab-component-loop --json
+bun run cli validate workflows archon-profile-sync --json
+bun run cli validate workflows archon-profile-restore --json
+bun .archon/scripts/ui-lab/validate.ts
 bun .archon/scripts/ui-lab/status.ts
 git status --short
 ```

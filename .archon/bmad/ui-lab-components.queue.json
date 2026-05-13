@@ -1,201 +1,3467 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-05-12T00:00:00.000Z",
+  "updatedAt": "2026-05-13T03:02:24.252Z",
   "items": [
+    {
+      "id": "accordion",
+      "component": "accordion",
+      "officialName": "Accordion",
+      "source": "https://ui.shadcn.com/docs/components#accordion",
+      "category": "disclosure",
+      "targetFile": "packages/ui-lab/src/components/ui/accordion.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--accordion",
+      "playwrightTestId": "ui-lab:accordion",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/accordion.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/accordion.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "alert",
+      "component": "alert",
+      "officialName": "Alert",
+      "source": "https://ui.shadcn.com/docs/components#alert",
+      "category": "feedback",
+      "targetFile": "packages/ui-lab/src/components/ui/alert.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--alert",
+      "playwrightTestId": "ui-lab:alert",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/alert.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/alert.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
     {
       "id": "alert-dialog",
       "component": "alert-dialog",
+      "officialName": "Alert Dialog",
+      "source": "https://ui.shadcn.com/docs/components#alert-dialog",
+      "category": "overlay",
+      "targetFile": "packages/ui-lab/src/components/ui/alert-dialog.tsx",
       "variants": {
-        "density": ["compact", "default", "comfortable"],
-        "surface": ["flat", "outline", "elevated", "ghost"],
-        "state": ["default", "focus", "disabled", "invalid", "loading", "empty"],
-        "mode": ["dark", "high-contrast", "reduced-motion", "responsive"]
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
       },
-      "status": "pending",
+      "storybookStoryId": "ui-lab-full-coverage--alert-dialog",
+      "playwrightTestId": "ui-lab:alert-dialog",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [
+        "button"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/alert-dialog.json",
+      "status": "forge-ready",
       "attempts": 0,
       "lastFailure": null,
-      "artifacts": [],
-      "lastUpdated": "2026-05-12T00:00:00.000Z"
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/alert-dialog.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "aspect-ratio",
+      "component": "aspect-ratio",
+      "officialName": "Aspect Ratio",
+      "source": "https://ui.shadcn.com/docs/components#aspect-ratio",
+      "category": "layout",
+      "targetFile": "packages/ui-lab/src/components/ui/aspect-ratio.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--aspect-ratio",
+      "playwrightTestId": "ui-lab:aspect-ratio",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/aspect-ratio.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/aspect-ratio.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "avatar",
+      "component": "avatar",
+      "officialName": "Avatar",
+      "source": "https://ui.shadcn.com/docs/components#avatar",
+      "category": "display",
+      "targetFile": "packages/ui-lab/src/components/ui/avatar.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--avatar",
+      "playwrightTestId": "ui-lab:avatar",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/avatar.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/avatar.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
     },
     {
       "id": "badge",
       "component": "badge",
+      "officialName": "Badge",
+      "source": "https://ui.shadcn.com/docs/components#badge",
+      "category": "display",
+      "targetFile": "packages/ui-lab/src/components/ui/badge.tsx",
       "variants": {
-        "density": ["compact", "default", "comfortable"],
-        "surface": ["flat", "outline", "elevated", "ghost"],
-        "state": ["default", "focus", "disabled", "invalid", "loading", "empty"],
-        "mode": ["dark", "high-contrast", "reduced-motion", "responsive"]
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
       },
-      "status": "pending",
+      "storybookStoryId": "ui-lab-full-coverage--badge",
+      "playwrightTestId": "ui-lab:badge",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/badge.json",
+      "status": "forge-ready",
       "attempts": 0,
       "lastFailure": null,
-      "artifacts": [],
-      "lastUpdated": "2026-05-12T00:00:00.000Z"
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/badge.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "breadcrumb",
+      "component": "breadcrumb",
+      "officialName": "Breadcrumb",
+      "source": "https://ui.shadcn.com/docs/components#breadcrumb",
+      "category": "navigation",
+      "targetFile": "packages/ui-lab/src/components/ui/breadcrumb.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--breadcrumb",
+      "playwrightTestId": "ui-lab:breadcrumb",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/breadcrumb.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/breadcrumb.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
     },
     {
       "id": "button",
       "component": "button",
+      "officialName": "Button",
+      "source": "https://ui.shadcn.com/docs/components#button",
+      "category": "action",
+      "targetFile": "packages/ui-lab/src/components/ui/button.tsx",
       "variants": {
-        "density": ["compact", "default", "comfortable"],
-        "surface": ["flat", "outline", "elevated", "ghost"],
-        "state": ["default", "focus", "disabled", "invalid", "loading", "empty"],
-        "mode": ["dark", "high-contrast", "reduced-motion", "responsive"]
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
       },
-      "status": "pending",
+      "storybookStoryId": "ui-lab-full-coverage--button",
+      "playwrightTestId": "ui-lab:button",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/button.json",
+      "status": "forge-ready",
       "attempts": 0,
       "lastFailure": null,
-      "artifacts": [],
-      "lastUpdated": "2026-05-12T00:00:00.000Z"
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/button.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "button-group",
+      "component": "button-group",
+      "officialName": "Button Group",
+      "source": "https://ui.shadcn.com/docs/components#button-group",
+      "category": "action",
+      "targetFile": "packages/ui-lab/src/components/ui/button-group.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--button-group",
+      "playwrightTestId": "ui-lab:button-group",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [
+        "button"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/button-group.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/button-group.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "calendar",
+      "component": "calendar",
+      "officialName": "Calendar",
+      "source": "https://ui.shadcn.com/docs/components#calendar",
+      "category": "input",
+      "targetFile": "packages/ui-lab/src/components/ui/calendar.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--calendar",
+      "playwrightTestId": "ui-lab:calendar",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [
+        "button"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/calendar.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/calendar.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
     },
     {
       "id": "card",
       "component": "card",
+      "officialName": "Card",
+      "source": "https://ui.shadcn.com/docs/components#card",
+      "category": "layout",
+      "targetFile": "packages/ui-lab/src/components/ui/card.tsx",
       "variants": {
-        "density": ["compact", "default", "comfortable"],
-        "surface": ["flat", "outline", "elevated", "ghost"],
-        "state": ["default", "focus", "disabled", "invalid", "loading", "empty"],
-        "mode": ["dark", "high-contrast", "reduced-motion", "responsive"]
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
       },
-      "status": "pending",
+      "storybookStoryId": "ui-lab-full-coverage--card",
+      "playwrightTestId": "ui-lab:card",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/card.json",
+      "status": "forge-ready",
       "attempts": 0,
       "lastFailure": null,
-      "artifacts": [],
-      "lastUpdated": "2026-05-12T00:00:00.000Z"
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/card.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "carousel",
+      "component": "carousel",
+      "officialName": "Carousel",
+      "source": "https://ui.shadcn.com/docs/components#carousel",
+      "category": "display",
+      "targetFile": "packages/ui-lab/src/components/ui/carousel.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--carousel",
+      "playwrightTestId": "ui-lab:carousel",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [
+        "button"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/carousel.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/carousel.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "chart",
+      "component": "chart",
+      "officialName": "Chart",
+      "source": "https://ui.shadcn.com/docs/components#chart",
+      "category": "data",
+      "targetFile": "packages/ui-lab/src/components/ui/chart.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--chart",
+      "playwrightTestId": "ui-lab:chart",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/chart.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/chart.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "checkbox",
+      "component": "checkbox",
+      "officialName": "Checkbox",
+      "source": "https://ui.shadcn.com/docs/components#checkbox",
+      "category": "input",
+      "targetFile": "packages/ui-lab/src/components/ui/checkbox.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--checkbox",
+      "playwrightTestId": "ui-lab:checkbox",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/checkbox.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/checkbox.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
     },
     {
       "id": "collapsible",
       "component": "collapsible",
+      "officialName": "Collapsible",
+      "source": "https://ui.shadcn.com/docs/components#collapsible",
+      "category": "disclosure",
+      "targetFile": "packages/ui-lab/src/components/ui/collapsible.tsx",
       "variants": {
-        "density": ["compact", "default", "comfortable"],
-        "surface": ["flat", "outline", "elevated", "ghost"],
-        "state": ["default", "focus", "disabled", "invalid", "loading", "empty"],
-        "mode": ["dark", "high-contrast", "reduced-motion", "responsive"]
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
       },
-      "status": "pending",
+      "storybookStoryId": "ui-lab-full-coverage--collapsible",
+      "playwrightTestId": "ui-lab:collapsible",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/collapsible.json",
+      "status": "forge-ready",
       "attempts": 0,
       "lastFailure": null,
-      "artifacts": [],
-      "lastUpdated": "2026-05-12T00:00:00.000Z"
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/collapsible.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "combobox",
+      "component": "combobox",
+      "officialName": "Combobox",
+      "source": "https://ui.shadcn.com/docs/components#combobox",
+      "category": "input",
+      "targetFile": "packages/ui-lab/src/components/ui/combobox.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--combobox",
+      "playwrightTestId": "ui-lab:combobox",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [
+        "button",
+        "command",
+        "popover"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/combobox.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/combobox.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "command",
+      "component": "command",
+      "officialName": "Command",
+      "source": "https://ui.shadcn.com/docs/components#command",
+      "category": "input",
+      "targetFile": "packages/ui-lab/src/components/ui/command.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--command",
+      "playwrightTestId": "ui-lab:command",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [
+        "dialog"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/command.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/command.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "context-menu",
+      "component": "context-menu",
+      "officialName": "Context Menu",
+      "source": "https://ui.shadcn.com/docs/components#context-menu",
+      "category": "menu",
+      "targetFile": "packages/ui-lab/src/components/ui/context-menu.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--context-menu",
+      "playwrightTestId": "ui-lab:context-menu",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/context-menu.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/context-menu.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "data-table",
+      "component": "data-table",
+      "officialName": "Data Table",
+      "source": "https://ui.shadcn.com/docs/components#data-table",
+      "category": "data",
+      "targetFile": "packages/ui-lab/src/components/ui/data-table.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--data-table",
+      "playwrightTestId": "ui-lab:data-table",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [
+        "badge",
+        "table"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/data-table.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/data-table.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "date-picker",
+      "component": "date-picker",
+      "officialName": "Date Picker",
+      "source": "https://ui.shadcn.com/docs/components#date-picker",
+      "category": "input",
+      "targetFile": "packages/ui-lab/src/components/ui/date-picker.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--date-picker",
+      "playwrightTestId": "ui-lab:date-picker",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [
+        "button",
+        "calendar",
+        "popover"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/date-picker.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/date-picker.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
     },
     {
       "id": "dialog",
       "component": "dialog",
+      "officialName": "Dialog",
+      "source": "https://ui.shadcn.com/docs/components#dialog",
+      "category": "overlay",
+      "targetFile": "packages/ui-lab/src/components/ui/dialog.tsx",
       "variants": {
-        "density": ["compact", "default", "comfortable"],
-        "surface": ["flat", "outline", "elevated", "ghost"],
-        "state": ["default", "focus", "disabled", "invalid", "loading", "empty"],
-        "mode": ["dark", "high-contrast", "reduced-motion", "responsive"]
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
       },
-      "status": "pending",
+      "storybookStoryId": "ui-lab-full-coverage--dialog",
+      "playwrightTestId": "ui-lab:dialog",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/dialog.json",
+      "status": "forge-ready",
       "attempts": 0,
       "lastFailure": null,
-      "artifacts": [],
-      "lastUpdated": "2026-05-12T00:00:00.000Z"
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/dialog.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "direction",
+      "component": "direction",
+      "officialName": "Direction",
+      "source": "https://ui.shadcn.com/docs/components#direction",
+      "category": "layout",
+      "targetFile": "packages/ui-lab/src/components/ui/direction.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--direction",
+      "playwrightTestId": "ui-lab:direction",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/direction.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/direction.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "drawer",
+      "component": "drawer",
+      "officialName": "Drawer",
+      "source": "https://ui.shadcn.com/docs/components#drawer",
+      "category": "overlay",
+      "targetFile": "packages/ui-lab/src/components/ui/drawer.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--drawer",
+      "playwrightTestId": "ui-lab:drawer",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [
+        "button"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/drawer.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/drawer.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "dropdown-menu",
+      "component": "dropdown-menu",
+      "officialName": "Dropdown Menu",
+      "source": "https://ui.shadcn.com/docs/components#dropdown-menu",
+      "category": "menu",
+      "targetFile": "packages/ui-lab/src/components/ui/dropdown-menu.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--dropdown-menu",
+      "playwrightTestId": "ui-lab:dropdown-menu",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/dropdown-menu.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/dropdown-menu.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "empty",
+      "component": "empty",
+      "officialName": "Empty",
+      "source": "https://ui.shadcn.com/docs/components#empty",
+      "category": "feedback",
+      "targetFile": "packages/ui-lab/src/components/ui/empty.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--empty",
+      "playwrightTestId": "ui-lab:empty",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/empty.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/empty.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "field",
+      "component": "field",
+      "officialName": "Field",
+      "source": "https://ui.shadcn.com/docs/components#field",
+      "category": "input",
+      "targetFile": "packages/ui-lab/src/components/ui/field.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--field",
+      "playwrightTestId": "ui-lab:field",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [
+        "label"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/field.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/field.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "hover-card",
+      "component": "hover-card",
+      "officialName": "Hover Card",
+      "source": "https://ui.shadcn.com/docs/components#hover-card",
+      "category": "overlay",
+      "targetFile": "packages/ui-lab/src/components/ui/hover-card.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--hover-card",
+      "playwrightTestId": "ui-lab:hover-card",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/hover-card.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/hover-card.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
     },
     {
       "id": "input",
       "component": "input",
+      "officialName": "Input",
+      "source": "https://ui.shadcn.com/docs/components#input",
+      "category": "input",
+      "targetFile": "packages/ui-lab/src/components/ui/input.tsx",
       "variants": {
-        "density": ["compact", "default", "comfortable"],
-        "surface": ["flat", "outline", "elevated", "ghost"],
-        "state": ["default", "focus", "disabled", "invalid", "loading", "empty"],
-        "mode": ["dark", "high-contrast", "reduced-motion", "responsive"]
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
       },
-      "status": "pending",
+      "storybookStoryId": "ui-lab-full-coverage--input",
+      "playwrightTestId": "ui-lab:input",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/input.json",
+      "status": "forge-ready",
       "attempts": 0,
       "lastFailure": null,
-      "artifacts": [],
-      "lastUpdated": "2026-05-12T00:00:00.000Z"
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/input.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "input-group",
+      "component": "input-group",
+      "officialName": "Input Group",
+      "source": "https://ui.shadcn.com/docs/components#input-group",
+      "category": "input",
+      "targetFile": "packages/ui-lab/src/components/ui/input-group.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--input-group",
+      "playwrightTestId": "ui-lab:input-group",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [
+        "input"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/input-group.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/input-group.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "input-otp",
+      "component": "input-otp",
+      "officialName": "Input OTP",
+      "source": "https://ui.shadcn.com/docs/components#input-otp",
+      "category": "input",
+      "targetFile": "packages/ui-lab/src/components/ui/input-otp.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--input-otp",
+      "playwrightTestId": "ui-lab:input-otp",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/input-otp.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/input-otp.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "item",
+      "component": "item",
+      "officialName": "Item",
+      "source": "https://ui.shadcn.com/docs/components#item",
+      "category": "display",
+      "targetFile": "packages/ui-lab/src/components/ui/item.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--item",
+      "playwrightTestId": "ui-lab:item",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/item.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/item.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "kbd",
+      "component": "kbd",
+      "officialName": "Kbd",
+      "source": "https://ui.shadcn.com/docs/components#kbd",
+      "category": "typography",
+      "targetFile": "packages/ui-lab/src/components/ui/kbd.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--kbd",
+      "playwrightTestId": "ui-lab:kbd",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/kbd.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/kbd.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "label",
+      "component": "label",
+      "officialName": "Label",
+      "source": "https://ui.shadcn.com/docs/components#label",
+      "category": "input",
+      "targetFile": "packages/ui-lab/src/components/ui/label.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--label",
+      "playwrightTestId": "ui-lab:label",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/label.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/label.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "menubar",
+      "component": "menubar",
+      "officialName": "Menubar",
+      "source": "https://ui.shadcn.com/docs/components#menubar",
+      "category": "menu",
+      "targetFile": "packages/ui-lab/src/components/ui/menubar.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--menubar",
+      "playwrightTestId": "ui-lab:menubar",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/menubar.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/menubar.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "native-select",
+      "component": "native-select",
+      "officialName": "Native Select",
+      "source": "https://ui.shadcn.com/docs/components#native-select",
+      "category": "input",
+      "targetFile": "packages/ui-lab/src/components/ui/native-select.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--native-select",
+      "playwrightTestId": "ui-lab:native-select",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/native-select.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/native-select.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "navigation-menu",
+      "component": "navigation-menu",
+      "officialName": "Navigation Menu",
+      "source": "https://ui.shadcn.com/docs/components#navigation-menu",
+      "category": "navigation",
+      "targetFile": "packages/ui-lab/src/components/ui/navigation-menu.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--navigation-menu",
+      "playwrightTestId": "ui-lab:navigation-menu",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/navigation-menu.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/navigation-menu.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "pagination",
+      "component": "pagination",
+      "officialName": "Pagination",
+      "source": "https://ui.shadcn.com/docs/components#pagination",
+      "category": "navigation",
+      "targetFile": "packages/ui-lab/src/components/ui/pagination.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--pagination",
+      "playwrightTestId": "ui-lab:pagination",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [
+        "button"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/pagination.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/pagination.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "popover",
+      "component": "popover",
+      "officialName": "Popover",
+      "source": "https://ui.shadcn.com/docs/components#popover",
+      "category": "overlay",
+      "targetFile": "packages/ui-lab/src/components/ui/popover.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--popover",
+      "playwrightTestId": "ui-lab:popover",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/popover.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/popover.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "progress",
+      "component": "progress",
+      "officialName": "Progress",
+      "source": "https://ui.shadcn.com/docs/components#progress",
+      "category": "feedback",
+      "targetFile": "packages/ui-lab/src/components/ui/progress.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--progress",
+      "playwrightTestId": "ui-lab:progress",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/progress.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/progress.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "radio-group",
+      "component": "radio-group",
+      "officialName": "Radio Group",
+      "source": "https://ui.shadcn.com/docs/components#radio-group",
+      "category": "input",
+      "targetFile": "packages/ui-lab/src/components/ui/radio-group.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--radio-group",
+      "playwrightTestId": "ui-lab:radio-group",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/radio-group.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/radio-group.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
     },
     {
       "id": "resizable",
       "component": "resizable",
+      "officialName": "Resizable",
+      "source": "https://ui.shadcn.com/docs/components#resizable",
+      "category": "layout",
+      "targetFile": "packages/ui-lab/src/components/ui/resizable.tsx",
       "variants": {
-        "density": ["compact", "default", "comfortable"],
-        "surface": ["flat", "outline", "elevated", "ghost"],
-        "state": ["default", "focus", "disabled", "invalid", "loading", "empty"],
-        "mode": ["dark", "high-contrast", "reduced-motion", "responsive"]
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
       },
-      "status": "pending",
+      "storybookStoryId": "ui-lab-full-coverage--resizable",
+      "playwrightTestId": "ui-lab:resizable",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/resizable.json",
+      "status": "forge-ready",
       "attempts": 0,
       "lastFailure": null,
-      "artifacts": [],
-      "lastUpdated": "2026-05-12T00:00:00.000Z"
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/resizable.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
     },
     {
       "id": "scroll-area",
       "component": "scroll-area",
+      "officialName": "Scroll Area",
+      "source": "https://ui.shadcn.com/docs/components#scroll-area",
+      "category": "layout",
+      "targetFile": "packages/ui-lab/src/components/ui/scroll-area.tsx",
       "variants": {
-        "density": ["compact", "default", "comfortable"],
-        "surface": ["flat", "outline", "elevated", "ghost"],
-        "state": ["default", "focus", "disabled", "invalid", "loading", "empty"],
-        "mode": ["dark", "high-contrast", "reduced-motion", "responsive"]
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
       },
-      "status": "pending",
+      "storybookStoryId": "ui-lab-full-coverage--scroll-area",
+      "playwrightTestId": "ui-lab:scroll-area",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/scroll-area.json",
+      "status": "forge-ready",
       "attempts": 0,
       "lastFailure": null,
-      "artifacts": [],
-      "lastUpdated": "2026-05-12T00:00:00.000Z"
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/scroll-area.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "select",
+      "component": "select",
+      "officialName": "Select",
+      "source": "https://ui.shadcn.com/docs/components#select",
+      "category": "input",
+      "targetFile": "packages/ui-lab/src/components/ui/select.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--select",
+      "playwrightTestId": "ui-lab:select",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/select.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/select.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
     },
     {
       "id": "separator",
       "component": "separator",
+      "officialName": "Separator",
+      "source": "https://ui.shadcn.com/docs/components#separator",
+      "category": "layout",
+      "targetFile": "packages/ui-lab/src/components/ui/separator.tsx",
       "variants": {
-        "density": ["compact", "default", "comfortable"],
-        "surface": ["flat", "outline", "elevated", "ghost"],
-        "state": ["default", "focus", "disabled", "invalid", "loading", "empty"],
-        "mode": ["dark", "high-contrast", "reduced-motion", "responsive"]
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
       },
-      "status": "pending",
+      "storybookStoryId": "ui-lab-full-coverage--separator",
+      "playwrightTestId": "ui-lab:separator",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/separator.json",
+      "status": "forge-ready",
       "attempts": 0,
       "lastFailure": null,
-      "artifacts": [],
-      "lastUpdated": "2026-05-12T00:00:00.000Z"
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/separator.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "sheet",
+      "component": "sheet",
+      "officialName": "Sheet",
+      "source": "https://ui.shadcn.com/docs/components#sheet",
+      "category": "overlay",
+      "targetFile": "packages/ui-lab/src/components/ui/sheet.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--sheet",
+      "playwrightTestId": "ui-lab:sheet",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/sheet.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/sheet.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "sidebar",
+      "component": "sidebar",
+      "officialName": "Sidebar",
+      "source": "https://ui.shadcn.com/docs/components#sidebar",
+      "category": "layout",
+      "targetFile": "packages/ui-lab/src/components/ui/sidebar.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--sidebar",
+      "playwrightTestId": "ui-lab:sidebar",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [
+        "button",
+        "separator",
+        "sheet",
+        "skeleton",
+        "tooltip"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/sidebar.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/sidebar.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "skeleton",
+      "component": "skeleton",
+      "officialName": "Skeleton",
+      "source": "https://ui.shadcn.com/docs/components#skeleton",
+      "category": "feedback",
+      "targetFile": "packages/ui-lab/src/components/ui/skeleton.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--skeleton",
+      "playwrightTestId": "ui-lab:skeleton",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/skeleton.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/skeleton.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "slider",
+      "component": "slider",
+      "officialName": "Slider",
+      "source": "https://ui.shadcn.com/docs/components#slider",
+      "category": "input",
+      "targetFile": "packages/ui-lab/src/components/ui/slider.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--slider",
+      "playwrightTestId": "ui-lab:slider",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/slider.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/slider.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "sonner",
+      "component": "sonner",
+      "officialName": "Sonner",
+      "source": "https://ui.shadcn.com/docs/components#sonner",
+      "category": "feedback",
+      "targetFile": "packages/ui-lab/src/components/ui/sonner.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--sonner",
+      "playwrightTestId": "ui-lab:sonner",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/sonner.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/sonner.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "spinner",
+      "component": "spinner",
+      "officialName": "Spinner",
+      "source": "https://ui.shadcn.com/docs/components#spinner",
+      "category": "feedback",
+      "targetFile": "packages/ui-lab/src/components/ui/spinner.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--spinner",
+      "playwrightTestId": "ui-lab:spinner",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/spinner.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/spinner.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "switch",
+      "component": "switch",
+      "officialName": "Switch",
+      "source": "https://ui.shadcn.com/docs/components#switch",
+      "category": "input",
+      "targetFile": "packages/ui-lab/src/components/ui/switch.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--switch",
+      "playwrightTestId": "ui-lab:switch",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/switch.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/switch.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "table",
+      "component": "table",
+      "officialName": "Table",
+      "source": "https://ui.shadcn.com/docs/components#table",
+      "category": "data",
+      "targetFile": "packages/ui-lab/src/components/ui/table.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--table",
+      "playwrightTestId": "ui-lab:table",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/table.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/table.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
     },
     {
       "id": "tabs",
       "component": "tabs",
+      "officialName": "Tabs",
+      "source": "https://ui.shadcn.com/docs/components#tabs",
+      "category": "navigation",
+      "targetFile": "packages/ui-lab/src/components/ui/tabs.tsx",
       "variants": {
-        "density": ["compact", "default", "comfortable"],
-        "surface": ["flat", "outline", "elevated", "ghost"],
-        "state": ["default", "focus", "disabled", "invalid", "loading", "empty"],
-        "mode": ["dark", "high-contrast", "reduced-motion", "responsive"]
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
       },
-      "status": "pending",
+      "storybookStoryId": "ui-lab-full-coverage--tabs",
+      "playwrightTestId": "ui-lab:tabs",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/tabs.json",
+      "status": "forge-ready",
       "attempts": 0,
       "lastFailure": null,
-      "artifacts": [],
-      "lastUpdated": "2026-05-12T00:00:00.000Z"
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/tabs.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
     },
     {
       "id": "textarea",
       "component": "textarea",
+      "officialName": "Textarea",
+      "source": "https://ui.shadcn.com/docs/components#textarea",
+      "category": "input",
+      "targetFile": "packages/ui-lab/src/components/ui/textarea.tsx",
       "variants": {
-        "density": ["compact", "default", "comfortable"],
-        "surface": ["flat", "outline", "elevated", "ghost"],
-        "state": ["default", "focus", "disabled", "invalid", "loading", "empty"],
-        "mode": ["dark", "high-contrast", "reduced-motion", "responsive"]
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
       },
-      "status": "pending",
+      "storybookStoryId": "ui-lab-full-coverage--textarea",
+      "playwrightTestId": "ui-lab:textarea",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/textarea.json",
+      "status": "forge-ready",
       "attempts": 0,
       "lastFailure": null,
-      "artifacts": [],
-      "lastUpdated": "2026-05-12T00:00:00.000Z"
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/textarea.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "toast",
+      "component": "toast",
+      "officialName": "Toast",
+      "source": "https://ui.shadcn.com/docs/components#toast",
+      "category": "feedback",
+      "targetFile": "packages/ui-lab/src/components/ui/toast.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--toast",
+      "playwrightTestId": "ui-lab:toast",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [
+        "sonner"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/toast.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/toast.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "toggle",
+      "component": "toggle",
+      "officialName": "Toggle",
+      "source": "https://ui.shadcn.com/docs/components#toggle",
+      "category": "action",
+      "targetFile": "packages/ui-lab/src/components/ui/toggle.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--toggle",
+      "playwrightTestId": "ui-lab:toggle",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/toggle.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/toggle.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "toggle-group",
+      "component": "toggle-group",
+      "officialName": "Toggle Group",
+      "source": "https://ui.shadcn.com/docs/components#toggle-group",
+      "category": "action",
+      "targetFile": "packages/ui-lab/src/components/ui/toggle-group.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--toggle-group",
+      "playwrightTestId": "ui-lab:toggle-group",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [
+        "toggle"
+      ],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/toggle-group.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/toggle-group.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
     },
     {
       "id": "tooltip",
       "component": "tooltip",
+      "officialName": "Tooltip",
+      "source": "https://ui.shadcn.com/docs/components#tooltip",
+      "category": "overlay",
+      "targetFile": "packages/ui-lab/src/components/ui/tooltip.tsx",
       "variants": {
-        "density": ["compact", "default", "comfortable"],
-        "surface": ["flat", "outline", "elevated", "ghost"],
-        "state": ["default", "focus", "disabled", "invalid", "loading", "empty"],
-        "mode": ["dark", "high-contrast", "reduced-motion", "responsive"]
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
       },
-      "status": "pending",
+      "storybookStoryId": "ui-lab-full-coverage--tooltip",
+      "playwrightTestId": "ui-lab:tooltip",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/tooltip.json",
+      "status": "forge-ready",
       "attempts": 0,
       "lastFailure": null,
-      "artifacts": [],
-      "lastUpdated": "2026-05-12T00:00:00.000Z"
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/tooltip.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
+    },
+    {
+      "id": "typography",
+      "component": "typography",
+      "officialName": "Typography",
+      "source": "https://ui.shadcn.com/docs/components#typography",
+      "category": "typography",
+      "targetFile": "packages/ui-lab/src/components/ui/typography.tsx",
+      "variants": {
+        "density": [
+          "compact",
+          "default",
+          "comfortable"
+        ],
+        "surface": [
+          "flat",
+          "outline",
+          "elevated",
+          "ghost"
+        ],
+        "state": [
+          "default",
+          "focus",
+          "disabled",
+          "invalid",
+          "loading",
+          "empty"
+        ],
+        "mode": [
+          "dark",
+          "high-contrast",
+          "reduced-motion",
+          "responsive"
+        ]
+      },
+      "storybookStoryId": "ui-lab-full-coverage--typography",
+      "playwrightTestId": "ui-lab:typography",
+      "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+      "registryDependencies": [],
+      "forgeEvidencePath": ".archon/bmad/evidence/ui-lab-component-runs/typography.json",
+      "status": "forge-ready",
+      "attempts": 0,
+      "lastFailure": null,
+      "artifacts": [
+        ".archon/bmad/evidence/ui-lab-component-runs/typography.json",
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        "packages/ui-lab/src/metadata/component-coverage.generated.ts",
+        "packages/ui-lab/src/stories/full-coverage.stories.tsx",
+        "packages/ui-lab/tests/storybook-catalog.test.ts",
+        ".archon/bmad/ui-lab-ui-ux-practices.json",
+        ".archon/bmad/evidence/ui-lab-ui-ux-practices.md",
+        ".archon/bmad/ui-lab-dependency-map.json",
+        ".archon/bmad/evidence/ui-lab-template-patterns.md",
+        ".archon/bmad/ui-lab-productization.queue.json",
+        ".archon/bmad/evidence/ui-lab-productization.md",
+        ".archon/bmad/evidence/ui-lab-web-adoption.md"
+      ],
+      "lastUpdated": "2026-05-13T03:02:24.243Z"
     }
   ]
 }

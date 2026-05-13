@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "command-palette-flow",
+  "type": "registry:block",
+  "title": "Command Palette Flow",
+  "description": "Search-first command palette template for workflows, projects, evidence, and templates.",
+  "registryDependencies": ["archon-ui-core"],
+  "files": [
+    {
+      "path": "src/templates/productization.tsx",
+      "type": "registry:block",
+      "target": "components/templates/productization.tsx"
+    }
+  ]
+}

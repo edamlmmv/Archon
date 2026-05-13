@@ -1,0 +1,106 @@
+name: context7-capability-forge-loop
+description: |
+  Use when: Archon needs Context7 skills, CLI/MCP docs, UI-lab, Agentic Search, prompts, or version-control capability awareness refreshed.
+  Triggers: "context7 capability pack", "refresh context7 capabilities", "context7 forge loop".
+  Does: Validates installed Context7 skills, checks MCP auth boundary, refreshes capability/Forge evidence, and reports BMAD-ready epics/stories.
+  NOT for: Storing Context7 secrets, claiming live MCP output without artifacts, or replacing UI-lab shadcn/Storybook/Playwright authority.
+
+provider: codex
+model: gpt-5.5
+modelReasoningEffort: high
+worktree:
+  enabled: false
+mutates_checkout: true
+tags: [BMAD, Context7, MCP, Forge, Agentic Search, UI Lab]
+
+nodes:
+  - id: preflight
+    bash: |
+      set -euo pipefail
+      test -f .archon/bmad/context7-capabilities.catalog.json
+      test -f .archon/bmad/capability-profile-registry.context7.json
+      test -f .archon/bmad/context7-forge.request.json
+      test -f .archon/mcp/context7-official.json
+      bun .archon/scripts/validate-context7-capabilities.ts
+
+  - id: bmad-intake
+    depends_on: [preflight]
+    command: bmad-intake
+    output_format:
+      type: object
+      additionalProperties: true
+      properties:
+        goal:
+          type: string
+        doneCondition:
+          type: string
+      required: [goal, doneCondition]
+
+  - id: capability-gap-audit
+    depends_on: [bmad-intake]
+    context: fresh
+    prompt: |
+      # Context7 Capability Pack Gap Audit
+
+      User/BMAD intake:
+      $bmad-intake.output
+
+      Read:
+      - `.archon/bmad/context7-capabilities.catalog.json`
+      - `.archon/bmad/capability-profile-registry.context7.json`
+      - `.archon/bmad/context7-forge.request.json`
+      - `.archon/bmad/evidence/context7-capability-pack.md`
+      - `.archon/bmad/ui-lab-agentic-search.index.json`
+      - `.archon/bmad/ui-lab-ui-ux-practices.json`
+
+      Return JSON only. Do not write files.
+    output_format:
+      type: object
+      additionalProperties: false
+      properties:
+        status:
+          type: string
+          enum: [ready, blocked]
+        epics:
+          type: array
+          items:
+            type: string
+        stories:
+          type: array
+          items:
+            type: string
+        missingWork:
+          type: array
+          items:
+            type: string
+        guardrails:
+          type: array
+          items:
+            type: string
+      required: [status, epics, stories, missingWork, guardrails]
+
+  - id: deterministic-validation
+    depends_on: [capability-gap-audit]
+    bash: |
+      set -euo pipefail
+      bun .archon/scripts/validate-context7-capabilities.ts
+      npx -y ctx7 skills list --universal >/dev/null
+      npx -y ctx7 skills list --global --universal >/dev/null
+      bun run cli validate workflows context7-capability-forge-loop
+      bun run cli validate commands context7-capability-sync
+
+  - id: forge-readiness-report
+    depends_on: [capability-gap-audit, deterministic-validation]
+    trigger_rule: all_done
+    context: fresh
+    prompt: |
+      Summarize the Context7 capability pack run.
+
+      Include:
+      - selected skill count and install targets
+      - MCP auth state and blocked live claims
+      - Forge request/evidence refs
+      - BMAD epics/stories from capability-gap-audit
+      - validation commands and results
+
+      Do not claim live Context7 MCP calls unless workflow artifacts prove them.

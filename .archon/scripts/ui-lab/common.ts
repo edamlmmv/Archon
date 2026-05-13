@@ -10,7 +10,7 @@ import {
 } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 
-export type QueueStatus = 'pending' | 'in_progress' | 'done' | 'blocked';
+export type QueueStatus = 'pending' | 'in_progress' | 'implemented' | 'verified' | 'forge-ready' | 'done' | 'blocked';
 
 export interface VariantMatrix {
   density: string[];
@@ -22,7 +22,16 @@ export interface VariantMatrix {
 export interface QueueItem {
   id: string;
   component: string;
+  officialName: string;
+  source: string;
+  category: string;
+  targetFile: string;
   variants: VariantMatrix;
+  storybookStoryId: string;
+  playwrightTestId: string;
+  registryItemPath: string;
+  registryDependencies: string[];
+  forgeEvidencePath: string;
   status: QueueStatus;
   attempts: number;
   lastFailure: string | null;
@@ -49,6 +58,9 @@ export interface LockDocument {
 export interface QueueCounts {
   pending: number;
   in_progress: number;
+  implemented: number;
+  verified: number;
+  'forge-ready': number;
   done: number;
   blocked: number;
   total: number;
@@ -56,7 +68,7 @@ export interface QueueCounts {
 
 export interface CompletionResult {
   component: string;
-  status: 'done' | 'blocked';
+  status: 'done' | 'forge-ready' | 'blocked';
   summary: string;
   variantMatrix: unknown;
   validation: unknown;
@@ -147,10 +159,18 @@ function parseNullableString(value: unknown, field: string): string | null {
 }
 
 function parseQueueStatus(value: unknown, field: string): QueueStatus {
-  if (value === 'pending' || value === 'in_progress' || value === 'done' || value === 'blocked') {
+  if (
+    value === 'pending' ||
+    value === 'in_progress' ||
+    value === 'implemented' ||
+    value === 'verified' ||
+    value === 'forge-ready' ||
+    value === 'done' ||
+    value === 'blocked'
+  ) {
     return value;
   }
-  throw new Error(`${field} must be pending, in_progress, done, or blocked`);
+  throw new Error(`${field} must be pending, in_progress, implemented, verified, forge-ready, done, or blocked`);
 }
 
 function parseVariantMatrix(value: unknown, field: string): VariantMatrix {
@@ -170,6 +190,15 @@ function parseQueueItem(value: unknown, index: number): QueueItem {
   if (!isObject(value)) throw new Error(`items[${index}] must be an object`);
   const id = value.id;
   const component = value.component;
+  const officialName = value.officialName;
+  const source = value.source;
+  const category = value.category;
+  const targetFile = value.targetFile;
+  const storybookStoryId = value.storybookStoryId;
+  const playwrightTestId = value.playwrightTestId;
+  const registryItemPath = value.registryItemPath;
+  const registryDependencies = value.registryDependencies;
+  const forgeEvidencePath = value.forgeEvidencePath;
   const attempts = value.attempts;
   const artifacts = value.artifacts;
   const lastUpdated = value.lastUpdated;
@@ -177,8 +206,25 @@ function parseQueueItem(value: unknown, index: number): QueueItem {
   if (typeof component !== 'string' || component.trim() === '') {
     throw new Error(`items[${index}].component must be a string`);
   }
+  for (const [field, fieldValue] of Object.entries({
+    officialName,
+    source,
+    category,
+    targetFile,
+    storybookStoryId,
+    playwrightTestId,
+    registryItemPath,
+    forgeEvidencePath,
+  })) {
+    if (typeof fieldValue !== 'string' || fieldValue.trim() === '') {
+      throw new Error(`items[${index}].${field} must be a non-empty string`);
+    }
+  }
   assertComponentId(id);
   assertComponentId(component);
+  if (!isStringArray(registryDependencies)) {
+    throw new Error(`items[${index}].registryDependencies must be string[]`);
+  }
   if (typeof attempts !== 'number' || !Number.isInteger(attempts) || attempts < 0) {
     throw new Error(`items[${index}].attempts must be a non-negative integer`);
   }
@@ -189,7 +235,16 @@ function parseQueueItem(value: unknown, index: number): QueueItem {
   return {
     id,
     component,
+    officialName,
+    source,
+    category,
+    targetFile,
     variants: parseVariantMatrix(value.variants, `items[${index}].variants`),
+    storybookStoryId,
+    playwrightTestId,
+    registryItemPath,
+    registryDependencies,
+    forgeEvidencePath,
     status: parseQueueStatus(value.status, `items[${index}].status`),
     attempts,
     lastFailure: parseNullableString(value.lastFailure, `items[${index}].lastFailure`),
@@ -222,7 +277,16 @@ export function writeQueue(queue: QueueDocument): void {
 }
 
 export function countQueue(queue: QueueDocument): QueueCounts {
-  const counts: QueueCounts = { pending: 0, in_progress: 0, done: 0, blocked: 0, total: queue.items.length };
+  const counts: QueueCounts = {
+    pending: 0,
+    in_progress: 0,
+    implemented: 0,
+    verified: 0,
+    'forge-ready': 0,
+    done: 0,
+    blocked: 0,
+    total: queue.items.length,
+  };
   for (const item of queue.items) {
     counts[item.status] += 1;
   }
@@ -338,26 +402,41 @@ export function writeRalphArtifacts(item: QueueItem, workflowId: string): RalphA
     generatedAt: nowIso(),
     workflowId,
     component: item.component,
+    officialName: item.officialName,
     queueItemId: item.id,
+    source: item.source,
+    targetFile: item.targetFile,
+    storybookStoryId: item.storybookStoryId,
+    playwrightTestId: item.playwrightTestId,
+    registryItemPath: item.registryItemPath,
+    registryDependencies: item.registryDependencies,
+    forgeEvidencePath: item.forgeEvidencePath,
     variantFamilies: item.variants,
     successCriteria: [
       'Generic shadcn/Radix wrapper preserves existing component API compatibility.',
       'Reusable variant props are added only when they are broadly useful.',
       'Storybook covers density, surface, state, and mode variant families.',
       'Playwright validates visible canvas, console cleanliness, axe accessibility, and relevant keyboard flow.',
+      'shadcn registry metadata is valid and dependencies are encoded before Forge uses this item.',
       'Queue completion artifact records validation evidence before the item is marked done.',
     ],
     validationCommands: [
       'bun --filter @archon/ui-lab type-check',
       'bun --filter @archon/ui-lab test-storybook',
       'bun --filter @archon/ui-lab test:e2e',
+      'bun --filter @archon/ui-lab registry:build',
+      'bun .archon/scripts/ui-lab/validate.ts',
     ],
   };
   const markdown = [
     `# UI-Lab Component Story: ${item.component}`,
     '',
     `Queue item: \`${item.id}\``,
+    `Official component: \`${item.officialName}\``,
     `Generated by workflow: \`${workflowId}\``,
+    `Target file: \`${item.targetFile}\``,
+    `Registry item: \`${item.registryItemPath}\``,
+    `Forge evidence: \`${item.forgeEvidencePath}\``,
     '',
     '## Variant Families',
     '',
@@ -372,6 +451,7 @@ export function writeRalphArtifacts(item: QueueItem, workflowId: string): RalphA
     '- Storybook matrix renders all variant families.',
     '- Relevant interaction and keyboard behavior is covered.',
     '- Playwright reports no console errors and no axe violations for tested stories.',
+    '- Registry metadata is valid and Forge can resolve the component from declared evidence.',
     '- Completion evidence is written before the queue item is marked done.',
     '',
   ].join('\n');
@@ -391,8 +471,8 @@ export function loadCompletionResult(resultPath: string): CompletionResult {
     throw new Error('completion result component must be a string');
   }
   assertComponentId(component);
-  if (status !== 'done' && status !== 'blocked') {
-    throw new Error('completion result status must be done or blocked');
+  if (status !== 'done' && status !== 'forge-ready' && status !== 'blocked') {
+    throw new Error('completion result status must be done, forge-ready, or blocked');
   }
   if (typeof summary !== 'string' || summary.trim() === '') {
     throw new Error('completion result summary must be a non-empty string');

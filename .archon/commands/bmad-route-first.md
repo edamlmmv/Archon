@@ -45,6 +45,7 @@ $rubric.output
 - Use `bmad-check-implementation-readiness` only when PRD/architecture/epic scope is materially ready for implementation review.
 - Use Ralph only when the goal should be broken into one-story-per-iteration implementation.
 - Use Graphify, Context7, Agentic Search, and Forge as advisory unless their runtime output is captured by this workflow.
+- Agentic Search capability awareness maps through Capability Lab trace and `agentic-search.bridge.*` profiles when the evidence map includes the Agentic Search catalog, registry, Forge request, and capability-pack evidence. Static trace refs are discovery metadata, not runtime proof.
 - For Codex provider nodes in Archon, do not claim `skills:`, `mcp:`, `agents`, or tool restrictions are loaded. Those are Claude-only in Archon evidence.
 - Carry `mcpAwareness` from intake into the route decision unchanged unless evidence proves the intake classification is malformed.
 - Carry `moduleAwareness` from intake into the route decision unchanged unless evidence proves the intake classification is malformed.

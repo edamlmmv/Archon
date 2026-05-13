@@ -1,0 +1,8 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "settings-form-workspace",
+  "title": "Settings Form Workspace",
+  "description": "Form template for configuring workspace, validation, Forge, and Agentic Search inputs.",
+  "registryDependencies": ["archon-ui-core"],
+  "type": "registry:block"
+}

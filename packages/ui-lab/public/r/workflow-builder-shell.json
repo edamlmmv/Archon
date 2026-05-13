@@ -1,0 +1,8 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "workflow-builder-shell",
+  "title": "Workflow Builder Shell",
+  "description": "Workflow graph builder shell with palette, canvas, inspector, and validation slots.",
+  "registryDependencies": ["archon-ui-core"],
+  "type": "registry:block"
+}

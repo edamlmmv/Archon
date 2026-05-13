@@ -1,15 +1,20 @@
 /**
  * Anonymous PostHog telemetry for Archon.
  *
- * Emits one event — `workflow_invoked` — each time a workflow starts. No PII,
- * no user identity. A random UUID is persisted to `${ARCHON_HOME}/telemetry-id`
- * so we can count distinct installs; `$process_person_profile: false` keeps
- * events in PostHog's anonymous tier (no person profile ever created).
+ * Disabled by default. When the user explicitly sets POSTHOG_API_KEY, emits one
+ * event — `workflow_invoked` — each time a workflow starts. No PII, no user
+ * identity. A random UUID is persisted to `${ARCHON_HOME}/telemetry-id` so we
+ * can count distinct installs; `$process_person_profile: false` keeps events
+ * in PostHog's anonymous tier (no person profile ever created).
+ *
+ * Opt-in:
+ *   - POSTHOG_API_KEY=<key>
+ *   - POSTHOG_HOST=<host>              (optional; defaults to PostHog Cloud)
  *
  * Opt-out (any one disables telemetry):
  *   - ARCHON_TELEMETRY_DISABLED=1
  *   - DO_NOT_TRACK=1                   (de facto standard)
- *   - POSTHOG_API_KEY unset *and* no embedded default
+ *   - POSTHOG_API_KEY unset            (default)
  *
  * All functions are fire-and-forget: telemetry errors are logged at debug level
  * and swallowed. Capture must never crash Archon.
@@ -38,12 +43,6 @@ interface PostHogFetchResponse {
   headers?: { get(name: string): string | null };
 }
 
-/**
- * Embedded write-only PostHog project key. Safe to ship in source: `phc_*`
- * keys can only write events, never read data. Override with POSTHOG_API_KEY
- * for self-hosted PostHog or a different project.
- */
-const EMBEDDED_POSTHOG_API_KEY = 'phc_rR7oacut9mm4upGRbuoMptnyjRium34TTbbqobiQYS7x';
 const DEFAULT_POSTHOG_HOST = 'https://us.i.posthog.com';
 
 /** Max length of workflow description sent to PostHog. Guards against unusually long YAML descriptions. */
@@ -55,8 +54,8 @@ function getLog(): ReturnType<typeof createLogger> {
   return cachedLog;
 }
 
-function getApiKey(): string {
-  return process.env.POSTHOG_API_KEY ?? EMBEDDED_POSTHOG_API_KEY;
+function getApiKey(): string | undefined {
+  return process.env.POSTHOG_API_KEY;
 }
 
 function getHost(): string {
@@ -64,7 +63,7 @@ function getHost(): string {
 }
 
 /**
- * Check whether telemetry is disabled via env vars or missing key.
+ * Check whether telemetry is disabled via env vars or missing explicit key.
  * Exported for tests and callers that want to short-circuit early.
  */
 export function isTelemetryDisabled(): boolean {
@@ -160,9 +159,11 @@ async function silentFetch(
 
 async function initClient(): Promise<PostHog | null> {
   if (isTelemetryDisabled()) return null;
+  const apiKey = getApiKey();
+  if (!apiKey) return null;
   try {
     const posthogModule = await import('posthog-node');
-    const client = new posthogModule.PostHog(getApiKey(), {
+    const client = new posthogModule.PostHog(apiKey, {
       host: getHost(),
       flushAt: 20,
       flushInterval: 10000,

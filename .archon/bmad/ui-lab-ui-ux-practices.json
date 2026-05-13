@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-05-13T03:02:24.243Z",
+  "mode": "templating-practice-profile",
+  "authority": "general-ui-ux-practices-plus-ui-lab-validation",
+  "source": {
+    "label": "general-ui-ux-practice-profile",
+    "basis": "Cross-library UI/UX heuristics plus UI-lab registry, Storybook, Playwright, and Forge evidence.",
+    "fetchedAt": "2026-05-13T03:02:24.243Z",
+    "evidenceFiles": [
+      "ui-lab full shadcn coverage queue",
+      "ui-lab Storybook full coverage stories",
+      "ui-lab Playwright catalog and keyboard tests",
+      "ui-lab shadcn registry metadata",
+      "ui-lab template pattern evidence",
+      "ui-lab dependency profile",
+      "ui-lab productization queue",
+      "ui-lab productization evidence",
+      "ui-lab Web adoption evidence",
+      "Capability Pack Forge evidence contract"
+    ]
+  },
+  "uiLab": {
+    "officialSnapshotDate": "2026-05-12",
+    "officialSource": "https://ui.shadcn.com/docs/components",
+    "registryItemPath": "packages/ui-lab/registry/new-york/archon-ui-core/registry-item.json",
+    "coverageQueuePath": ".archon/bmad/ui-lab-components.queue.json"
+  },
+  "practices": [
+    {
+      "id": "accessibility-first-interactions",
+      "name": "Accessibility first interactions",
+      "sourceRefs": [
+        "ui-ux:accessibility",
+        "ui-lab:playwright-keyboard-flows"
+      ],
+      "uiLabRule": "Every interactive surface needs keyboard, focus, label, and screen-reader behavior represented in evidence.",
+      "forgeTemplateUse": "Template generators should carry accessibility states and keyboard evidence into generated task packets."
+    },
+    {
+      "id": "bounded-variant-matrix",
+      "name": "Bounded variant matrix",
+      "sourceRefs": [
+        "ui-ux:variant-systems",
+        "ui-lab:component-coverage"
+      ],
+      "uiLabRule": "Expose reusable density, surface, state, and mode axes as bounded metadata, not one-off visual cases.",
+      "forgeTemplateUse": "Template generators should derive controls from declared variant axes instead of inspecting source internals."
+    },
+    {
+      "id": "semantic-theme-tokens",
+      "name": "Semantic theme tokens",
+      "sourceRefs": [
+        "ui-ux:theme-systems",
+        "ui-lab:styles"
+      ],
+      "uiLabRule": "Use semantic theme tokens for color, borders, focus rings, and surfaces; avoid hardcoded palette decisions.",
+      "forgeTemplateUse": "Template generators should emit theme-token-safe examples that can move across brands."
+    },
+    {
+      "id": "responsive-layout-integrity",
+      "name": "Responsive layout integrity",
+      "sourceRefs": [
+        "ui-ux:responsive-layout",
+        "ui-lab:e2e-viewports"
+      ],
+      "uiLabRule": "Components and templates must keep stable dimensions, readable text, and no incoherent overlap across mobile and desktop.",
+      "forgeTemplateUse": "Template generators should preserve responsive constraints and viewport evidence for every block."
+    },
+    {
+      "id": "clear-information-hierarchy",
+      "name": "Clear information hierarchy",
+      "sourceRefs": [
+        "ui-ux:visual-hierarchy",
+        "ui-lab:storybook-stories"
+      ],
+      "uiLabRule": "Use predictable heading, description, action, and supporting metadata structure for scanability.",
+      "forgeTemplateUse": "Template generators should keep hierarchy slots explicit when composing templates."
+    },
+    {
+      "id": "storybook-variant-evidence",
+      "name": "Storybook variant evidence",
+      "sourceRefs": [
+        "ui-lab:storybook-index",
+        "ui-lab:full-coverage-stories"
+      ],
+      "uiLabRule": "Expose default, state, mode, and variant matrix stories with stable Storybook ids.",
+      "forgeTemplateUse": "Template generators should use Storybook ids as visual evidence anchors for each template input."
+    },
+    {
+      "id": "browser-and-a11y-proof",
+      "name": "Browser and a11y proof",
+      "sourceRefs": [
+        "ui-lab:playwright",
+        "ui-lab:axe"
+      ],
+      "uiLabRule": "Record browser behavior, a11y, visible rendering, console cleanliness, and interaction evidence before marking Forge-ready.",
+      "forgeTemplateUse": "Template generators should require test evidence refs for interactive or overlay components."
+    },
+    {
+      "id": "state-complete-surfaces",
+      "name": "State complete surfaces",
+      "sourceRefs": [
+        "ui-ux:state-design",
+        "ui-lab:variant-families"
+      ],
+      "uiLabRule": "Represent default, focus, disabled, invalid, loading, and empty states where the component can reach them.",
+      "forgeTemplateUse": "Template generators should include state coverage before marking a template reusable."
+    },
+    {
+      "id": "motion-with-restraint",
+      "name": "Motion with restraint",
+      "sourceRefs": [
+        "ui-ux:motion",
+        "ui-lab:reduced-motion-mode"
+      ],
+      "uiLabRule": "Use motion only to clarify state changes, and keep reduced-motion mode in the evidence model.",
+      "forgeTemplateUse": "Template generators should avoid decorative motion and preserve reduced-motion variants."
+    },
+    {
+      "id": "composition-ready-slots",
+      "name": "Composition ready slots",
+      "sourceRefs": [
+        "ui-ux:composition",
+        "ui-lab:registry"
+      ],
+      "uiLabRule": "Keep component parts, slots, registry dependencies, and template-safe examples explicit.",
+      "forgeTemplateUse": "Template generators should compose from declared slots, dependencies, and examples."
+    }
+  ],
+  "forge": {
+    "consumption": "practice-profile-plus-registry-evidence",
+    "sourceInspectionRequired": false,
+    "templateUse": [
+      "Template generators should carry accessibility states and keyboard evidence into generated task packets.",
+      "Template generators should derive controls from declared variant axes instead of inspecting source internals.",
+      "Template generators should emit theme-token-safe examples that can move across brands.",
+      "Template generators should preserve responsive constraints and viewport evidence for every block.",
+      "Template generators should keep hierarchy slots explicit when composing templates.",
+      "Template generators should use Storybook ids as visual evidence anchors for each template input.",
+      "Template generators should require test evidence refs for interactive or overlay components.",
+      "Template generators should include state coverage before marking a template reusable.",
+      "Template generators should avoid decorative motion and preserve reduced-motion variants.",
+      "Template generators should compose from declared slots, dependencies, and examples."
+    ]
+  }
+}

@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "catalogId": "archon-agentic-search-capability-awareness",
+  "title": "Archon Agentic Search Capability Awareness",
+  "mode": "advisory-capability-index",
+  "adapterOrder": ["file-search", "skill-loading", "database-query", "web-search", "memory", "shell"],
+  "authorityRules": {
+    "source": "Local Archon/BMAD command and workflow definitions.",
+    "advisory": "Context7, memory, Agentic Search metadata, UI-lab search index, and retrieved context.",
+    "runtime-check": "Shell, test, MCP, or tool output captured by the current workflow artifact.",
+    "draft-only": "Capability Pack Forge output before human review and promotion."
+  },
+  "capabilitySources": [
+    {
+      "id": "file-search",
+      "kind": "adapter",
+      "supportState": "v1-enabled",
+      "authority": "advisory",
+      "evidenceRefs": [".archon/bmad/evidence/bmad-agentic-search.md"],
+      "blockedClaims": ["File search output is not verifier authority unless captured into declared evidence."],
+      "bmads": ["bmad-agent-analyst", "bmad-tool-leverage-review-prompt"],
+      "forgeRefs": [".archon/bmad/agentic-search-forge.request.json"]
+    },
+    {
+      "id": "skill-loading",
+      "kind": "adapter",
+      "supportState": "v1-enabled",
+      "authority": "advisory",
+      "evidenceRefs": [".agents/skills/context-engineering/SKILL.md", ".agents/skills/agentic-engineering/SKILL.md"],
+      "blockedClaims": ["Installed skill guidance does not prove Archon provider nodes loaded skills at runtime."],
+      "bmads": ["bmad-help", "bmad-agent-analyst"],
+      "forgeRefs": [".archon/bmad/context7-forge.request.json", ".archon/bmad/agentic-search-forge.request.json"]
+    },
+    {
+      "id": "database-query",
+      "kind": "adapter",
+      "supportState": "declared-deferred",
+      "authority": "runtime-check",
+      "evidenceRefs": [".archon/bmad/evidence/bmad-agentic-search.md"],
+      "blockedClaims": ["No database query authority exists without captured workflow output."],
+      "bmads": ["bmad-agent-architect"],
+      "forgeRefs": [".archon/bmad/agentic-search-forge.request.json"]
+    },
+    {
+      "id": "web-search",
+      "kind": "adapter",
+      "supportState": "declared-deferred",
+      "authority": "advisory",
+      "evidenceRefs": [".archon/bmad/evidence/bmad-agentic-search.md", ".archon/bmad/evidence/context7-capability-pack.md"],
+      "blockedClaims": ["Remote search output must be captured locally before any route or Forge claim relies on it."],
+      "bmads": ["bmad-technical-research"],
+      "forgeRefs": [".archon/bmad/agentic-search-forge.request.json"]
+    },
+    {
+      "id": "memory",
+      "kind": "adapter",
+      "supportState": "advisory-only",
+      "authority": "advisory",
+      "evidenceRefs": [".archon/bmad/evidence/bmad-agentic-search.md"],
+      "blockedClaims": ["Memory can guide routing but may be stale and must not override current repo evidence."],
+      "bmads": ["bmad-help"],
+      "forgeRefs": [".archon/bmad/agentic-search-forge.request.json"]
+    },
+    {
+      "id": "shell",
+      "kind": "adapter",
+      "supportState": "runtime-check-when-captured",
+      "authority": "runtime-check",
+      "evidenceRefs": [".archon/workflows/agentic-search-capability-loop.yaml", ".archon/scripts/validate-agentic-search-capabilities.ts"],
+      "blockedClaims": ["Shell output is authority only when captured by the current workflow artifact."],
+      "bmads": ["bmad-agent-dev", "bmad-loop"],
+      "forgeRefs": [".archon/bmad/agentic-search-forge.request.json"]
+    },
+    {
+      "id": "capability-lab",
+      "kind": "archon-tool",
+      "supportState": "configured",
+      "authority": "source",
+      "evidenceRefs": [".archon/scripts/capability-lab.ts", ".archon/commands/archon-capability-lab.md"],
+      "blockedClaims": ["Capability Lab probes refs; it does not install MCPs, grant secrets, or approve Forge output."],
+      "bmads": ["bmad-capability-pack-forge"],
+      "forgeRefs": [".archon/bmad/agentic-search-forge.request.json"]
+    },
+    {
+      "id": "context7",
+      "kind": "mcp-profile-and-skills",
+      "supportState": "cli-installed-mcp-auth-blocked",
+      "authority": "advisory",
+      "evidenceRefs": [
+        ".archon/bmad/capability-profile-registry.context7.json",
+        ".archon/bmad/context7-capabilities.catalog.json",
+        ".archon/mcp/context7-official.json"
+      ],
+      "blockedClaims": ["No live Context7 MCP call is proved until auth exists and workflow artifacts capture output."],
+      "bmads": ["bmad-tool-leverage-review-prompt"],
+      "forgeRefs": [".archon/bmad/context7-forge.request.json", ".archon/bmad/agentic-search-forge.request.json"]
+    },
+    {
+      "id": "ui-lab",
+      "kind": "capability-index",
+      "supportState": "forge-ready-index-configured",
+      "authority": "advisory",
+      "evidenceRefs": [
+        ".archon/bmad/ui-lab-agentic-search.index.json",
+        ".archon/bmad/capability-profile-registry.ui-stack.json",
+        ".archon/bmad/ui-stack-forge.request.json"
+      ],
+      "blockedClaims": ["UI-lab readiness authority stays shadcn registry, Storybook, and Playwright evidence."],
+      "bmads": ["bmad-agent-ux-designer", "bmad-loop"],
+      "forgeRefs": [".archon/bmad/ui-stack-forge.request.json", ".archon/bmad/agentic-search-forge.request.json"]
+    },
+    {
+      "id": "bmad-route-first",
+      "kind": "archon-workflow",
+      "supportState": "configured",
+      "authority": "source",
+      "evidenceRefs": [".archon/workflows/bmad-route-first.yaml", ".archon/commands/bmad-route-first.md"],
+      "blockedClaims": ["Route output is a decision packet, not live MCP/tool execution proof."],
+      "bmads": ["bmad-help", "bmad-check-implementation-readiness"],
+      "forgeRefs": [".archon/bmad/agentic-search-forge.request.json"]
+    },
+    {
+      "id": "forge",
+      "kind": "capability-pack",
+      "supportState": "metadata-only",
+      "authority": "draft-only",
+      "evidenceRefs": [".archon/bmad/evidence/bmad-forge-contract.md", ".archon/bmad/agentic-search-forge.request.json"],
+      "blockedClaims": ["Forge approval, install, or runtime authority is blocked until reviewed and promoted."],
+      "bmads": ["bmad-capability-pack-forge", "bmad-agent-tech-writer"],
+      "forgeRefs": [".archon/bmad/agentic-search-forge.request.json"]
+    },
+    {
+      "id": "mcp-awareness",
+      "kind": "route-context",
+      "supportState": "advisory-preserved",
+      "authority": "advisory",
+      "evidenceRefs": [".archon/commands/bmad-route-first.md", ".archon/codex/plugins/archon-bmad/skills/archon-bmad/SKILL.md"],
+      "blockedClaims": ["MCP install, authorization, runtime call, and Codex per-node mcp/skills/agents/hooks support are not granted by route context."],
+      "bmads": ["bmad-tool-leverage-review-prompt", "bmad-check-implementation-readiness"],
+      "forgeRefs": [".archon/bmad/agentic-search-forge.request.json"]
+    }
+  ]
+}

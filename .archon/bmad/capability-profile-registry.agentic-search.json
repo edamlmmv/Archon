@@ -1,0 +1,156 @@
+{
+  "schemaVersion": 1,
+  "profiles": [
+    {
+      "profileId": "archon.agentic-search.adapter.file-search",
+      "capabilityId": "agentic-search.adapter.file-search",
+      "toolName": "Agentic Search file-search adapter",
+      "supportState": "v1-enabled-advisory",
+      "trustBoundary": "Local file results can guide route planning, but only declared evidence artifacts can become verifier input.",
+      "evidenceRefs": [
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/evidence/bmad-agentic-search.md",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/agentic-search-capabilities.catalog.json"
+      ],
+      "repairHint": "Run bun .archon/scripts/validate-agentic-search-capabilities.ts and inspect file-search evidence refs."
+    },
+    {
+      "profileId": "archon.agentic-search.adapter.skill-loading",
+      "capabilityId": "agentic-search.adapter.skill-loading",
+      "toolName": "Agentic Search skill-loading adapter",
+      "supportState": "v1-enabled-advisory",
+      "trustBoundary": "Installed skill text can guide prompts and BMAD routing; it does not prove Archon provider nodes loaded skills at runtime.",
+      "evidenceRefs": [
+        "/Users/edam/Documents/TODA/Archon/.agents/skills/context-engineering/SKILL.md",
+        "/Users/edam/Documents/TODA/Archon/.agents/skills/agentic-engineering/SKILL.md",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/capability-profile-registry.context7.json"
+      ],
+      "repairHint": "Refresh Context7 skills and rerun the Agentic Search validator."
+    },
+    {
+      "profileId": "archon.agentic-search.adapter.database-query",
+      "capabilityId": "agentic-search.adapter.database-query",
+      "toolName": "Agentic Search database-query adapter",
+      "supportState": "declared-deferred-runtime-check",
+      "trustBoundary": "Database evidence is runtime authority only when captured by a current workflow artifact.",
+      "evidenceRefs": [
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/evidence/bmad-agentic-search.md",
+        "/Users/edam/Documents/TODA/Archon/.archon/workflows/agentic-search-capability-loop.yaml"
+      ],
+      "repairHint": "Add a captured workflow artifact before treating database output as evidence."
+    },
+    {
+      "profileId": "archon.agentic-search.adapter.web-search",
+      "capabilityId": "agentic-search.adapter.web-search",
+      "toolName": "Agentic Search web-search adapter",
+      "supportState": "declared-deferred-advisory",
+      "trustBoundary": "Remote web output is advisory unless captured locally with source, timestamp, and workflow evidence.",
+      "evidenceRefs": [
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/evidence/bmad-agentic-search.md",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/evidence/context7-capability-pack.md"
+      ],
+      "repairHint": "Capture remote research into a declared evidence file before depending on it."
+    },
+    {
+      "profileId": "archon.agentic-search.adapter.memory",
+      "capabilityId": "agentic-search.adapter.memory",
+      "toolName": "Agentic Search memory adapter",
+      "supportState": "advisory-only",
+      "trustBoundary": "Memory guides likely routes and prior decisions but may be stale; current repo evidence wins.",
+      "evidenceRefs": [
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/evidence/bmad-agentic-search.md",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/agentic-search-capabilities.catalog.json"
+      ],
+      "repairHint": "Verify memory-derived claims against current files before promoting them into evidence."
+    },
+    {
+      "profileId": "archon.agentic-search.adapter.shell",
+      "capabilityId": "agentic-search.adapter.shell",
+      "toolName": "Agentic Search shell adapter",
+      "supportState": "runtime-check-when-captured",
+      "trustBoundary": "Shell output is authoritative only for the exact command and captured artifact from the current run.",
+      "evidenceRefs": [
+        "/Users/edam/Documents/TODA/Archon/.archon/scripts/validate-agentic-search-capabilities.ts",
+        "/Users/edam/Documents/TODA/Archon/.archon/workflows/agentic-search-capability-loop.yaml"
+      ],
+      "repairHint": "Run deterministic checks and store relevant output in workflow artifacts."
+    },
+    {
+      "profileId": "archon.agentic-search.bridge.capability-lab",
+      "capabilityId": "agentic-search.bridge.capability-lab",
+      "toolName": "Archon Capability Lab bridge",
+      "supportState": "configured",
+      "trustBoundary": "Capability Lab summarizes and probes declared registries; it does not install MCPs, authorize tools, or approve Forge output.",
+      "evidenceRefs": [
+        "/Users/edam/Documents/TODA/Archon/.archon/scripts/capability-lab.ts",
+        "/Users/edam/Documents/TODA/Archon/.archon/commands/archon-capability-lab.md",
+        "/Users/edam/Documents/TODA/Archon/.archon/scripts/__tests__/capability-lab.test.ts"
+      ],
+      "repairHint": "Run bun .archon/scripts/capability-lab.ts summarize --capability agentic-search."
+    },
+    {
+      "profileId": "archon.agentic-search.bridge.context7",
+      "capabilityId": "agentic-search.bridge.context7",
+      "toolName": "Context7 docs and skills bridge",
+      "supportState": "cli-installed-mcp-auth-blocked",
+      "trustBoundary": "Context7 docs and skills are advisory unless captured as local evidence; live MCP calls require auth and artifacts.",
+      "evidenceRefs": [
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/capability-profile-registry.context7.json",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/context7-capabilities.catalog.json",
+        "/Users/edam/Documents/TODA/Archon/.archon/mcp/context7-official.json"
+      ],
+      "repairHint": "Set CONTEXT7_API_KEY and capture workflow output before claiming live Context7 MCP support."
+    },
+    {
+      "profileId": "archon.agentic-search.bridge.ui-lab",
+      "capabilityId": "agentic-search.bridge.ui-lab",
+      "toolName": "UI-lab Agentic Search index bridge",
+      "supportState": "forge-ready-index-configured",
+      "trustBoundary": "UI-lab search metadata is advisory; shadcn registry, Storybook, and Playwright evidence remain UI readiness authority.",
+      "evidenceRefs": [
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/ui-lab-agentic-search.index.json",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/capability-profile-registry.ui-stack.json",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/ui-stack-forge.request.json"
+      ],
+      "repairHint": "Run bun run check:ui-lab and regenerate UI-lab Forge evidence when UI metadata changes."
+    },
+    {
+      "profileId": "archon.agentic-search.bridge.bmad-route-first",
+      "capabilityId": "agentic-search.bridge.bmad-route-first",
+      "toolName": "BMAD route-first bridge",
+      "supportState": "configured",
+      "trustBoundary": "Route packets choose BMAD lanes and preserve MCP mentions as advisory context; they do not prove live runtime support.",
+      "evidenceRefs": [
+        "/Users/edam/Documents/TODA/Archon/.archon/workflows/bmad-route-first.yaml",
+        "/Users/edam/Documents/TODA/Archon/.archon/commands/bmad-route-first.md",
+        "/Users/edam/Documents/TODA/Archon/.archon/codex/plugins/archon-bmad/skills/archon-bmad/SKILL.md"
+      ],
+      "repairHint": "Run bun run cli validate workflows bmad-route-first and inspect route evidence."
+    },
+    {
+      "profileId": "archon.agentic-search.bridge.forge",
+      "capabilityId": "agentic-search.bridge.forge",
+      "toolName": "Capability Pack Forge bridge",
+      "supportState": "metadata-only-draft",
+      "trustBoundary": "Forge consumes catalog, registry, and evidence only; it must not inspect source internals or call live tools.",
+      "evidenceRefs": [
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/evidence/bmad-forge-contract.md",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/agentic-search-forge.request.json",
+        "/Users/edam/Documents/TODA/Archon/.archon/bmad/evidence/agentic-search-capability-pack.md"
+      ],
+      "repairHint": "Run Forge only as a draft step and review generated artifacts before promotion."
+    },
+    {
+      "profileId": "archon.agentic-search.bridge.mcp-awareness",
+      "capabilityId": "agentic-search.bridge.mcp-awareness",
+      "toolName": "MCP awareness route bridge",
+      "supportState": "advisory-preserved",
+      "trustBoundary": "MCP names remain route context unless install, authorization, runtime call, and captured output prove live support; Codex per-node mcp/skills/agents/hooks remain unsupported.",
+      "evidenceRefs": [
+        "/Users/edam/Documents/TODA/Archon/.archon/commands/bmad-route-first.md",
+        "/Users/edam/Documents/TODA/Archon/.archon/codex/plugins/archon-bmad/skills/archon-bmad/SKILL.md",
+        "/Users/edam/Documents/TODA/Archon/packages/workflows/src/validator.test.ts"
+      ],
+      "repairHint": "Keep requested MCP names in mcpAwareness and require runtime artifacts before making live claims."
+    }
+  ]
+}

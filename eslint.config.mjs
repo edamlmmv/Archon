@@ -11,6 +11,7 @@ export default tseslint.config(
       'packages/*/dist/**',
       'dist/**',
       'coverage/**',
+      '.agents/**',
       '.agents/examples/**',
       'packages/docs-web/**',
       'workspace/**',
@@ -25,6 +26,16 @@ export default tseslint.config(
       '**/src/test/**', // Test helper files (mock factories, fixtures)
       '*.d.ts', // Root-level declaration files (not in tsconfig project scope)
       '**/*.generated.d.ts', // Auto-generated declaration files (e.g. openapi-typescript output)
+      'packages/ui-lab/.storybook/**',
+      'packages/ui-lab/playwright.config.ts',
+      'packages/ui-lab/public/**',
+      'packages/ui-lab/registry/**',
+      'packages/ui-lab/src/components/ui/**', // shadcn/ui extracted generated components
+      'packages/ui-lab/src/lib/utils.ts', // shadcn/ui utility file
+      'packages/ui-lab/src/**/*.stories.tsx',
+      'packages/ui-lab/tests/**',
+      'packages/ui-lab/vite.config.ts',
+      'packages/ui-lab/vitest.config.ts',
       'packages/web/vite.config.ts', // Vite config doesn't need type-checked linting
       'packages/web/components.json',
       'packages/web/src/components/ui/**', // shadcn/ui auto-generated components

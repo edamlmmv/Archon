@@ -2,6 +2,7 @@ import { useState, useMemo, useCallback, useEffect, useRef } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router';
 import { Workflow } from 'lucide-react';
+import { DashboardShell } from '@archon/ui-lab';
 import {
   listDashboardRuns,
   cancelWorkflowRun,
@@ -311,19 +312,14 @@ export function DashboardPage(): React.ReactElement {
   const hasMore = page + 1 < totalPages;
 
   return (
-    <div className="flex flex-1 flex-col overflow-hidden">
-      <div className="flex-1 overflow-auto p-6 space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <h1 className="text-lg font-semibold text-text-primary">Mission Control</h1>
-          {dataUpdatedAt > 0 && (
-            <span className="text-xs text-text-tertiary">
-              Last updated {new Date(dataUpdatedAt).toLocaleTimeString()}
-            </span>
-          )}
-        </div>
-
-        {/* Status Summary Bar — receives real server counts */}
+    <DashboardShell
+      title="Mission Control"
+      updatedAtLabel={
+        dataUpdatedAt > 0
+          ? `Last updated ${new Date(dataUpdatedAt).toLocaleTimeString()}`
+          : undefined
+      }
+      summary={
         <StatusSummaryBar
           counts={counts}
           activeFilter={statusFilter}
@@ -337,129 +333,130 @@ export function DashboardPage(): React.ReactElement {
           codebases={codebases}
           health={health}
         />
-
-        {actionError && (
+      }
+      feedback={
+        actionError ? (
           <div className="rounded-md border border-error/30 bg-error/5 px-4 py-3 text-sm text-error">
             {actionError}
           </div>
-        )}
-
-        {isLoading ? (
-          <div className="flex items-center justify-center py-12">
-            <span className="text-sm text-text-tertiary">Loading...</span>
-          </div>
-        ) : isError ? (
-          <div className="flex flex-col items-center justify-center gap-3 py-16">
-            <p className="text-sm text-error">
-              Failed to load workflow runs
-              {fetchError instanceof Error ? `: ${fetchError.message}` : ''}
-            </p>
-          </div>
-        ) : runs.length === 0 ? (
-          <div className="flex flex-col items-center justify-center gap-3 py-16">
-            <Workflow className="h-10 w-10 text-text-tertiary" />
-            <p className="text-sm text-text-tertiary">No workflow runs found</p>
-          </div>
-        ) : (
-          <>
-            {/* Active Workflows */}
-            {activeRuns.length > 0 && (
-              <section>
-                <h2 className="mb-3 text-sm font-semibold text-text-secondary">Active Workflows</h2>
-                <div className="space-y-6">
-                  {/* Singleton runs (1 per chat or standalone) share a single grid */}
-                  {singletonRuns.length > 0 && (
-                    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                      {singletonRuns.map(run => (
-                        <WorkflowRunCard
-                          key={run.id}
-                          run={run}
-                          isDocker={health?.is_docker}
-                          onCancel={handleCancel}
-                          onResume={handleResume}
-                          onAbandon={handleAbandon}
-                          onDelete={handleDelete}
-                          onApprove={handleApprove}
-                          onReject={handleReject}
-                        />
-                      ))}
-                    </div>
-                  )}
-                  {/* Multi-run groups get their own row with a chat header */}
-                  {multiRunGroups.map(group => (
-                    <WorkflowRunGroup
-                      key={group.parentPlatformId ?? 'standalone'}
-                      parentPlatformId={group.parentPlatformId}
-                      runs={group.runs}
-                      isDocker={health?.is_docker}
-                      onCancel={handleCancel}
-                      onResume={handleResume}
-                      onAbandon={handleAbandon}
-                      onDelete={handleDelete}
-                      onApprove={handleApprove}
-                      onReject={handleReject}
-                    />
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {/* History */}
-            {historyRuns.length > 0 && (
-              <section>
-                <h2 className="mb-3 text-sm font-semibold text-text-secondary">History</h2>
-                <WorkflowHistoryTable runs={historyRuns} onDelete={handleDelete} />
-              </section>
-            )}
-
-            {/* Pagination */}
-            <div className="flex items-center justify-between pt-2">
-              <div className="flex items-center gap-3">
-                <span className="text-xs text-text-tertiary">
-                  Showing {String(page * pageSize + 1)}&ndash;
-                  {String(Math.min((page + 1) * pageSize, total))} of {String(total)} runs
-                </span>
-                <select
-                  value={pageSize}
-                  onChange={(e): void => {
-                    setPageSize(Number(e.target.value));
-                  }}
-                  className="rounded-md border border-border bg-surface-elevated px-2 py-1 text-xs text-text-primary focus:border-primary focus:outline-none"
-                >
-                  {PAGE_SIZE_OPTIONS.map(size => (
-                    <option key={size} value={size}>
-                      {String(size)} per page
-                    </option>
-                  ))}
-                </select>
+        ) : null
+      }
+    >
+      {isLoading ? (
+        <div className="flex items-center justify-center py-12">
+          <span className="text-sm text-text-tertiary">Loading...</span>
+        </div>
+      ) : isError ? (
+        <div className="flex flex-col items-center justify-center gap-3 py-16">
+          <p className="text-sm text-error">
+            Failed to load workflow runs
+            {fetchError instanceof Error ? `: ${fetchError.message}` : ''}
+          </p>
+        </div>
+      ) : runs.length === 0 ? (
+        <div className="flex flex-col items-center justify-center gap-3 py-16">
+          <Workflow className="h-10 w-10 text-text-tertiary" />
+          <p className="text-sm text-text-tertiary">No workflow runs found</p>
+        </div>
+      ) : (
+        <>
+          {/* Active Workflows */}
+          {activeRuns.length > 0 && (
+            <section>
+              <h2 className="mb-3 text-sm font-semibold text-text-secondary">Active Workflows</h2>
+              <div className="space-y-6">
+                {/* Singleton runs (1 per chat or standalone) share a single grid */}
+                {singletonRuns.length > 0 && (
+                  <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                    {singletonRuns.map(run => (
+                      <WorkflowRunCard
+                        key={run.id}
+                        run={run}
+                        isDocker={health?.is_docker}
+                        onCancel={handleCancel}
+                        onResume={handleResume}
+                        onAbandon={handleAbandon}
+                        onDelete={handleDelete}
+                        onApprove={handleApprove}
+                        onReject={handleReject}
+                      />
+                    ))}
+                  </div>
+                )}
+                {/* Multi-run groups get their own row with a chat header */}
+                {multiRunGroups.map(group => (
+                  <WorkflowRunGroup
+                    key={group.parentPlatformId ?? 'standalone'}
+                    parentPlatformId={group.parentPlatformId}
+                    runs={group.runs}
+                    isDocker={health?.is_docker}
+                    onCancel={handleCancel}
+                    onResume={handleResume}
+                    onAbandon={handleAbandon}
+                    onDelete={handleDelete}
+                    onApprove={handleApprove}
+                    onReject={handleReject}
+                  />
+                ))}
               </div>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={(): void => {
-                    setPage(page - 1);
-                  }}
-                  disabled={page === 0}
-                  className="rounded-md border border-border bg-surface-elevated px-3 py-1 text-xs text-text-secondary transition-colors hover:bg-surface disabled:opacity-40 disabled:cursor-not-allowed"
-                >
-                  Previous
-                </button>
-                <span className="text-xs text-text-tertiary">
-                  Page {String(page + 1)} of {String(Math.max(1, totalPages))}
-                </span>
-                <button
-                  onClick={(): void => {
-                    setPage(page + 1);
-                  }}
-                  disabled={!hasMore}
-                  className="rounded-md border border-border bg-surface-elevated px-3 py-1 text-xs text-text-secondary transition-colors hover:bg-surface disabled:opacity-40 disabled:cursor-not-allowed"
-                >
-                  Next
-                </button>
-              </div>
+            </section>
+          )}
+
+          {/* History */}
+          {historyRuns.length > 0 && (
+            <section>
+              <h2 className="mb-3 text-sm font-semibold text-text-secondary">History</h2>
+              <WorkflowHistoryTable runs={historyRuns} onDelete={handleDelete} />
+            </section>
+          )}
+
+          {/* Pagination */}
+          <div className="flex items-center justify-between pt-2">
+            <div className="flex items-center gap-3">
+              <span className="text-xs text-text-tertiary">
+                Showing {String(page * pageSize + 1)}&ndash;
+                {String(Math.min((page + 1) * pageSize, total))} of {String(total)} runs
+              </span>
+              <select
+                value={pageSize}
+                onChange={(e): void => {
+                  setPageSize(Number(e.target.value));
+                }}
+                className="rounded-md border border-border bg-surface-elevated px-2 py-1 text-xs text-text-primary focus:border-primary focus:outline-none"
+              >
+                {PAGE_SIZE_OPTIONS.map(size => (
+                  <option key={size} value={size}>
+                    {String(size)} per page
+                  </option>
+                ))}
+              </select>
             </div>
-          </>
-        )}
-      </div>
-    </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={(): void => {
+                  setPage(page - 1);
+                }}
+                disabled={page === 0}
+                className="rounded-md border border-border bg-surface-elevated px-3 py-1 text-xs text-text-secondary transition-colors hover:bg-surface disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                Previous
+              </button>
+              <span className="text-xs text-text-tertiary">
+                Page {String(page + 1)} of {String(Math.max(1, totalPages))}
+              </span>
+              <button
+                onClick={(): void => {
+                  setPage(page + 1);
+                }}
+                disabled={!hasMore}
+                className="rounded-md border border-border bg-surface-elevated px-3 py-1 text-xs text-text-secondary transition-colors hover:bg-surface disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                Next
+              </button>
+            </div>
+          </div>
+        </>
+      )}
+    </DashboardShell>
   );
 }

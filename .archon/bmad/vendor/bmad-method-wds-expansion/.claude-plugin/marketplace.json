@@ -1,0 +1,35 @@
+{
+  "name": "bmad-wds",
+  "owner": {
+    "name": "Mårten Angner"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/bmad-code-org/bmad-method-wds-expansion",
+  "repository": "https://github.com/bmad-code-org/bmad-method-wds-expansion",
+  "keywords": ["bmad", "design", "ux", "methodology", "wds", "design-thinking"],
+  "plugins": [
+    {
+      "name": "bmad-wds",
+      "source": "./",
+      "description": "Whiteport Design Studio — strategic design methodology with two core agents (Saga analyst, Freya UX designer) and phased workflows from project setup through design systems and product evolution. Part of the BMad Method ecosystem.",
+      "version": "0.3.1",
+      "author": {
+        "name": "Mårten Angner"
+      },
+      "skills": [
+        "./src/agents/wds-agent-freya-ux",
+        "./src/agents/wds-agent-saga-analyst",
+        "./src/workflows/wds-0-alignment-signoff",
+        "./src/workflows/wds-0-project-setup",
+        "./src/workflows/wds-1-project-brief",
+        "./src/workflows/wds-2-trigger-mapping",
+        "./src/workflows/wds-3-scenarios",
+        "./src/workflows/wds-4-ux-design",
+        "./src/workflows/wds-5-agentic-development",
+        "./src/workflows/wds-6-asset-generation",
+        "./src/workflows/wds-7-design-system",
+        "./src/workflows/wds-8-product-evolution"
+      ]
+    }
+  ]
+}

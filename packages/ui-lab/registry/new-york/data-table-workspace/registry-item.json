@@ -1,0 +1,15 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "data-table-workspace",
+  "type": "registry:block",
+  "title": "Data Table Workspace",
+  "description": "Table workspace template for queues, evidence, dependencies, and audit output.",
+  "registryDependencies": ["archon-ui-core"],
+  "files": [
+    {
+      "path": "src/templates/productization.tsx",
+      "type": "registry:block",
+      "target": "components/templates/productization.tsx"
+    }
+  ]
+}

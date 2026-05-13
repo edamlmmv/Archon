@@ -1,0 +1,73 @@
+{
+  "name": "archon-bmad",
+  "version": "0.1.0",
+  "description": "Archon-native BMAD route-first workflow launcher for Codex Desktop.",
+  "author": {
+    "name": "Local Archon BMAD"
+  },
+  "homepage": "https://github.com/coleam00/Archon",
+  "repository": "https://github.com/coleam00/Archon",
+  "license": "UNLICENSED",
+  "keywords": [
+    "archon",
+    "bmad",
+    "codex",
+    "mcp",
+    "forge",
+    "capability-pack",
+    "workflow",
+    "planning"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "defaultPrompt": [
+      "/archon-bmad:bmad plan a repo task",
+      "/archon-bmad:bmad plan with WebGL MCP context",
+      "Run Archon BMAD route planning"
+    ]
+  },
+  "x-archon-bmad": {
+    "archonRoot": "/Users/edam/Documents/TODA/archon",
+    "workflow": ".archon/workflows/bmad-route-first.yaml",
+    "command": ".archon/codex/plugins/archon-bmad/commands/bmad.md",
+    "capabilityForge": {
+      "skill": "bmad-capability-pack-forge",
+      "request": ".archon/bmad/bmad-archon-codex-pilot.request.json",
+      "artifacts": "$ARTIFACTS_DIR/forge/"
+    },
+    "mcpAwareness": {
+      "mode": "advisory-route-artifact",
+      "mentionModes": ["none", "single", "multiple"],
+      "outputField": "mcpAwareness",
+      "mappedCapabilityIds": [
+        "host.mcp.context7.google-apps-script.docs",
+        "host.mcp.context7.office-js-live.docs",
+        "host.mcp.office-js.live",
+        "host.mcp.context7.webgl-fundamentals.docs"
+      ],
+      "boundary": "MCP awareness preserves route context and BMAD capability IDs only; it is not MCP install proof, credential proof, runtime proof, or verifier authority."
+    },
+    "capabilityLab": {
+      "mode": "generic-registry-reader",
+      "script": ".archon/scripts/capability-lab.ts",
+      "command": ".archon/commands/archon-capability-lab.md",
+      "skill": "archon-capability-lab",
+      "registry": "/Users/edam/Documents/TODA/BMAD-METHOD/docs/workspace/capability-profile-registry.json",
+      "operations": ["summarize", "probe", "forge-draft"],
+      "boundary": "Capability Lab reads declared registry profiles and drafts commands; it does not call MCP servers, read secrets, install tools, mutate targets, or promote Forge drafts."
+    },
+    "moduleAwareness": {
+      "mode": "advisory-route-artifact",
+      "outputField": "moduleAwareness",
+      "vendorRoot": ".archon/bmad/vendor",
+      "refreshCommand": "bun .archon/scripts/refresh-bmad-vendor.ts",
+      "sourceManifests": [
+        ".archon/bmad/vendor/bmad-method/source.json",
+        ".archon/bmad/vendor/bmad-builder/source.json",
+        ".archon/bmad/vendor/bmad-method-test-architecture-enterprise/source.json",
+        ".archon/bmad/vendor/bmad-method-wds-expansion/source.json"
+      ],
+      "boundary": "Vendored BMAD source is route evidence only; it is not skill installation proof, runtime grant, MCP config, hook, agent, or tool-restriction authority."
+    }
+  }
+}

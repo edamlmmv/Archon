@@ -1,0 +1,32 @@
+{
+  "kind": "archon-bmad-upstream-vendor-source",
+  "schemaVersion": 1,
+  "slug": "bmad-method-wds-expansion",
+  "displayName": "WDS UX",
+  "upstream": {
+    "repository": "https://github.com/bmad-code-org/bmad-method-wds-expansion.git",
+    "url": "https://github.com/bmad-code-org/bmad-method-wds-expansion",
+    "branch": "main",
+    "commit": "35500f44eb445fe7ffd12292c58108a81e19e65e"
+  },
+  "copiedPaths": [
+    "README.md",
+    "package.json",
+    ".claude-plugin/marketplace.json",
+    "src/module.yaml",
+    "src/module-help.csv",
+    "src/agents",
+    "src/workflows"
+  ],
+  "missingPaths": [],
+  "refreshCommand": "bun .archon/scripts/refresh-bmad-vendor.ts",
+  "advisoryBoundary": "Vendored BMAD source is Archon route evidence only; it is not a skill install, runtime grant, MCP configuration, hook, agent, or tool-restriction authority.",
+  "routeFamilies": [
+    "wds",
+    "ux-strategy",
+    "trigger-map",
+    "scenarios",
+    "design-system",
+    "design-first"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "environment-variables-form",
+  "title": "Environment Variables Form",
+  "description": "Secret-safe environment variable editor template with masked values.",
+  "registryDependencies": ["archon-ui-core"],
+  "type": "registry:block"
+}

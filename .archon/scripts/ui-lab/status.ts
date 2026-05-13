@@ -11,10 +11,11 @@ function buildPayload(): StatusPayload {
   const queue = loadQueue();
   const counts = countQueue(queue);
   const lock = readLock();
+  const activeCount = counts.pending + counts.in_progress + counts.implemented + counts.verified + counts.done;
   const status =
-    counts.pending === 0 && counts.in_progress === 0 && counts.blocked === 0 && !lock
+    activeCount === 0 && counts.blocked === 0 && !lock
       ? 'complete'
-      : counts.pending === 0 && counts.in_progress === 0 && counts.blocked > 0 && !lock
+      : activeCount === 0 && counts.blocked > 0 && !lock
         ? 'drained_with_blockers'
         : 'active';
   return { status, counts, lock };
@@ -27,7 +28,13 @@ function main(): void {
   const payload = buildPayload();
 
   if (completeWhenDrained) {
-    if (payload.counts.pending === 0 && payload.counts.in_progress === 0 && !existsSync(lockPath)) {
+    const activeCount =
+      payload.counts.pending +
+      payload.counts.in_progress +
+      payload.counts.implemented +
+      payload.counts.verified +
+      payload.counts.done;
+    if (activeCount === 0 && !existsSync(lockPath)) {
       process.stdout.write(`UI_LAB_QUEUE_DRAINED\n${JSON.stringify(payload, null, 2)}\n`);
       return;
     }

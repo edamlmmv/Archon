@@ -1,0 +1,27 @@
+{
+  "kind": "archon-bmad-upstream-vendor-source",
+  "schemaVersion": 1,
+  "slug": "bmad-method",
+  "displayName": "BMAD Method",
+  "upstream": {
+    "repository": "https://github.com/bmad-code-org/BMAD-METHOD.git",
+    "url": "https://github.com/bmad-code-org/BMAD-METHOD",
+    "branch": "main",
+    "commit": "b5b33c08fa3ed094f994415887b963b56b68a292"
+  },
+  "copiedPaths": [
+    "README.md",
+    "package.json",
+    "src/core-skills",
+    "src/bmm-skills"
+  ],
+  "missingPaths": [],
+  "refreshCommand": "bun .archon/scripts/refresh-bmad-vendor.ts",
+  "advisoryBoundary": "Vendored BMAD source is Archon route evidence only; it is not a skill install, runtime grant, MCP configuration, hook, agent, or tool-restriction authority.",
+  "routeFamilies": [
+    "core-bmad",
+    "planning",
+    "implementation",
+    "review"
+  ]
+}

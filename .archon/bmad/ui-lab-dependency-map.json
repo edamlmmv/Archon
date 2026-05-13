@@ -1,0 +1,255 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-05-13T03:02:24.243Z",
+  "mode": "ui-lab-template-dependency-map",
+  "comparedPackages": [
+    "packages/ui-lab/package.json",
+    "packages/web/package.json"
+  ],
+  "authority": "package-json-plus-template-source",
+  "currentUiLabDependencies": {
+    "@base-ui/react": "^1.4.1",
+    "@hookform/resolvers": "^5.2.2",
+    "@radix-ui/react-alert-dialog": "^1.1.15",
+    "@radix-ui/react-dialog": "^1.1.15",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
+    "date-fns": "^4.1.0",
+    "embla-carousel-react": "^8.6.0",
+    "input-otp": "^1.4.2",
+    "lucide-react": "^1.14.0",
+    "next-themes": "^0.4.6",
+    "radix-ui": "^1.4.3",
+    "react": "^19.0.0",
+    "react-day-picker": "^10.0.0",
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.75.0",
+    "react-resizable-panels": "^4",
+    "recharts": "3.8.0",
+    "sonner": "^2.0.7",
+    "tailwind-merge": "^3.4.0",
+    "tw-animate-css": "^1.4.0",
+    "vaul": "^1.1.2",
+    "zod": "^4.4.3"
+  },
+  "currentUiLabDevDependencies": {
+    "@axe-core/playwright": "^4.11.0",
+    "@playwright/test": "^1.57.0",
+    "@storybook/addon-a11y": "^10.3.6",
+    "@storybook/addon-docs": "^10.3.6",
+    "@storybook/addon-mcp": "^0.6.0",
+    "@storybook/addon-vitest": "^10.3.6",
+    "@storybook/react-vite": "^10.3.6",
+    "@tailwindcss/vite": "^4.0.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.0.0",
+    "@vitest/browser-playwright": "^4.1.6",
+    "axe-core": "^4.11.4",
+    "shadcn": "^3.8.4",
+    "storybook": "^10.3.6",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.3.0",
+    "vite": "^6.0.0",
+    "vitest": "^4.1.6"
+  },
+  "sharedRuntimeDependencies": [
+    "@radix-ui/react-alert-dialog",
+    "@radix-ui/react-dialog",
+    "class-variance-authority",
+    "clsx",
+    "lucide-react",
+    "radix-ui",
+    "react",
+    "react-dom",
+    "react-resizable-panels",
+    "tailwind-merge",
+    "tw-animate-css"
+  ],
+  "templateDependencies": [
+    {
+      "name": "class-variance-authority",
+      "version": "^0.7.1",
+      "use": "variant/class composition utilities",
+      "source": "ui-lab-package-json"
+    },
+    {
+      "name": "clsx",
+      "version": "^2.1.1",
+      "use": "variant/class composition utilities",
+      "source": "ui-lab-package-json"
+    },
+    {
+      "name": "cmdk",
+      "version": "^1.1.1",
+      "use": "command palette templates",
+      "source": "ui-lab-package-json"
+    },
+    {
+      "name": "lucide-react",
+      "version": "^1.14.0",
+      "use": "central icon registry and template actions",
+      "source": "ui-lab-package-json"
+    },
+    {
+      "name": "radix-ui",
+      "version": "^1.4.3",
+      "use": "accessible primitive wrappers used by forms and overlays",
+      "source": "ui-lab-package-json"
+    },
+    {
+      "name": "react-hook-form",
+      "version": "^7.75.0",
+      "use": "validated form templates",
+      "source": "ui-lab-package-json"
+    },
+    {
+      "name": "tailwind-merge",
+      "version": "^3.4.0",
+      "use": "variant/class composition utilities",
+      "source": "ui-lab-package-json"
+    },
+    {
+      "name": "zod",
+      "version": "^4.4.3",
+      "use": "validated form templates",
+      "source": "ui-lab-package-json"
+    }
+  ],
+  "deferredRuntimeDependencies": [
+    {
+      "name": "@dagrejs/dagre",
+      "version": "^2.0.4",
+      "source": "packages/web/package.json",
+      "reason": "Add when UI-lab ships graph layout templates."
+    },
+    {
+      "name": "@tanstack/react-query",
+      "version": "^5.0.0",
+      "source": "packages/web/package.json",
+      "reason": "Add when UI-lab ships remote async query/cache templates."
+    },
+    {
+      "name": "@tanstack/react-virtual",
+      "version": "^3.0.0",
+      "source": "packages/web/package.json",
+      "reason": "Add when UI-lab ships large virtualized list/table templates."
+    },
+    {
+      "name": "@xyflow/react",
+      "version": "^12.10.1",
+      "source": "packages/web/package.json",
+      "reason": "Add when UI-lab ships editable workflow graph canvas templates."
+    },
+    {
+      "name": "escape-string-regexp",
+      "version": "^5.0.0",
+      "source": "packages/web/package.json",
+      "reason": "Keep text parsing in app/runtime package until template needs search highlighting."
+    },
+    {
+      "name": "highlight.js",
+      "version": "^11.11.1",
+      "source": "packages/web/package.json",
+      "reason": "Add with code or markdown preview templates."
+    },
+    {
+      "name": "mdast-util-find-and-replace",
+      "version": "^3.0.0",
+      "source": "packages/web/package.json",
+      "reason": "Add with markdown editing templates."
+    },
+    {
+      "name": "mdast-util-from-markdown",
+      "version": "^2.0.0",
+      "source": "packages/web/package.json",
+      "reason": "Add with markdown editing templates."
+    },
+    {
+      "name": "mdast-util-gfm",
+      "version": "^3.0.0",
+      "source": "packages/web/package.json",
+      "reason": "Add with markdown editing templates."
+    },
+    {
+      "name": "mdast-util-gfm-autolink-literal",
+      "version": "^2.0.0",
+      "source": "packages/web/package.json",
+      "reason": "Add with markdown editing templates."
+    },
+    {
+      "name": "mdast-util-gfm-footnote",
+      "version": "^2.0.0",
+      "source": "packages/web/package.json",
+      "reason": "Add with markdown editing templates."
+    },
+    {
+      "name": "mdast-util-gfm-strikethrough",
+      "version": "^2.0.0",
+      "source": "packages/web/package.json",
+      "reason": "Add with markdown editing templates."
+    },
+    {
+      "name": "mdast-util-gfm-table",
+      "version": "^2.0.0",
+      "source": "packages/web/package.json",
+      "reason": "Add with markdown editing templates."
+    },
+    {
+      "name": "mdast-util-gfm-task-list-item",
+      "version": "^2.0.0",
+      "source": "packages/web/package.json",
+      "reason": "Add with markdown editing templates."
+    },
+    {
+      "name": "mdast-util-newline-to-break",
+      "version": "^2.0.0",
+      "source": "packages/web/package.json",
+      "reason": "Add with markdown editing templates."
+    },
+    {
+      "name": "mdast-util-to-markdown",
+      "version": "^2.0.0",
+      "source": "packages/web/package.json",
+      "reason": "Add with markdown editing templates."
+    },
+    {
+      "name": "react-markdown",
+      "version": "^9.0.0",
+      "source": "packages/web/package.json",
+      "reason": "Add with markdown preview templates."
+    },
+    {
+      "name": "react-router",
+      "version": "^7.0.0",
+      "source": "packages/web/package.json",
+      "reason": "Keep routing in consuming app; registry templates stay router-agnostic."
+    },
+    {
+      "name": "rehype-highlight",
+      "version": "^7.0.0",
+      "source": "packages/web/package.json",
+      "reason": "Add with code or markdown preview templates."
+    },
+    {
+      "name": "remark-breaks",
+      "version": "^4.0.0",
+      "source": "packages/web/package.json",
+      "reason": "Add with markdown preview templates."
+    },
+    {
+      "name": "remark-gfm",
+      "version": "4",
+      "source": "packages/web/package.json",
+      "reason": "Add with markdown preview templates."
+    },
+    {
+      "name": "zustand",
+      "version": "^5.0.12",
+      "source": "packages/web/package.json",
+      "reason": "Add when template state must persist across independent blocks."
+    }
+  ]
+}

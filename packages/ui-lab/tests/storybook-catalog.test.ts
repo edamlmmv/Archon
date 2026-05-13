@@ -2,6 +2,23 @@ import AxeBuilder from '@axe-core/playwright';
 import type { AxeResults } from 'axe-core';
 import type { APIRequestContext, Page } from '@playwright/test';
 import { expect, test } from '@playwright/test';
+import { componentCoverageEntries } from '../src/metadata/component-coverage.generated';
+
+const productizationTemplateIds = [
+  'agent-command-center',
+  'workflow-review',
+  'settings-form-workspace',
+  'dashboard-shell',
+  'project-settings-form',
+  'environment-variables-form',
+  'workflow-builder-shell',
+  'workflow-execution-review',
+  'command-palette-flow',
+  'data-table-workspace',
+  'onboarding-empty-state',
+  'modal-drawer-crud',
+  'sidebar-app-shell',
+] as const;
 
 interface StorybookIndexEntry {
   id: string;
@@ -30,9 +47,13 @@ async function analyzeStoryAxe(page: Page): Promise<AxeResults> {
         .analyze();
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
-      if (!message.includes('Axe is already running') || attempt === 4) {
+      const retryable =
+        message.includes('Axe is already running') ||
+        message.includes('Execution context was destroyed');
+      if (!retryable || attempt === 4) {
         throw error;
       }
+      await page.waitForLoadState('domcontentloaded').catch(() => undefined);
       await page.waitForTimeout(300);
     }
   }
@@ -40,8 +61,82 @@ async function analyzeStoryAxe(page: Page): Promise<AxeResults> {
 }
 
 test.describe('Storybook catalog', () => {
-  test('renders every story and passes axe without console errors', async ({ page, request }) => {
+  test('exposes every Forge-ready shadcn component story with variant metadata', async ({
+    page,
+    request,
+  }, testInfo) => {
+    testInfo.setTimeout(120_000);
     const stories = await loadStorybookStories(request);
+    const storyIds = new Set(stories.map(story => story.id));
+    expect(componentCoverageEntries).toHaveLength(59);
+
+    for (const entry of componentCoverageEntries) {
+      expect(storyIds.has(entry.storybookStoryId), `${entry.id} story id`).toBeTruthy();
+      await page.goto(
+        `/iframe.html?id=${encodeURIComponent(entry.storybookStoryId)}&viewMode=story`,
+        {
+          waitUntil: 'domcontentloaded',
+        }
+      );
+
+      const component = page.getByTestId(entry.playwrightTestId);
+      await expect(component, `${entry.id} component card`).toBeVisible();
+      await expect(component, `${entry.id} Agentic Search marker`).toHaveAttribute(
+        'data-agentic-search',
+        'indexed'
+      );
+      await expect(component, `${entry.id} registry path`).toHaveAttribute(
+        'data-registry-item-path',
+        entry.registryItemPath
+      );
+      await expect(component, `${entry.id} story id`).toHaveAttribute(
+        'data-storybook-story-id',
+        entry.storybookStoryId
+      );
+      await expect(component, `${entry.id} practice profile`).toHaveAttribute(
+        'data-practice-profile-path',
+        entry.practiceProfilePath
+      );
+      await expect(component, `${entry.id} practice evidence`).toHaveAttribute(
+        'data-practice-evidence-path',
+        entry.practiceEvidencePath
+      );
+      await expect(component, `${entry.id} UI/UX practices`).toHaveAttribute(
+        'data-ui-ux-practices',
+        entry.uiUxPractices.join(',')
+      );
+      await expect(component, `${entry.id} density variants`).toHaveAttribute(
+        'data-variant-density',
+        entry.variants.density.join(',')
+      );
+      await expect(component, `${entry.id} surface variants`).toHaveAttribute(
+        'data-variant-surface',
+        entry.variants.surface.join(',')
+      );
+      await expect(component, `${entry.id} state variants`).toHaveAttribute(
+        'data-variant-state',
+        entry.variants.state.join(',')
+      );
+      await expect(component, `${entry.id} mode variants`).toHaveAttribute(
+        'data-variant-mode',
+        entry.variants.mode.join(',')
+      );
+      await expect(
+        component.locator('[data-slot="card-title"]').filter({ hasText: entry.officialName })
+      ).toBeVisible();
+    }
+  });
+
+  test('renders every story and passes axe without console errors', async ({
+    page,
+    request,
+  }, testInfo) => {
+    testInfo.setTimeout(180_000);
+    const stories = (await loadStorybookStories(request)).filter(
+      story =>
+        !story.id.startsWith('ui-lab-full-coverage--') ||
+        story.id === 'ui-lab-full-coverage--all-components'
+    );
     expect(stories.length).toBeGreaterThan(0);
 
     const consoleErrors: string[] = [];
@@ -105,5 +200,45 @@ test.describe('Storybook catalog', () => {
     await expect(tooltipContent).toBeVisible();
     await page.keyboard.press('Escape');
     await expect(tooltipContent).toBeHidden();
+  });
+
+  test('exposes form template evidence and editable controls', async ({ page }) => {
+    await page.goto('/iframe.html?id=ui-lab-templates--settings-form-workspace&viewMode=story');
+
+    const template = page.getByTestId('ui-lab-template:settings-form-workspace');
+    await expect(template).toBeVisible();
+    await expect(template).toHaveAttribute('data-template-kind', 'form-workspace');
+    await expect(template).toHaveAttribute(
+      'data-registry-item-path',
+      'packages/ui-lab/registry/new-york/settings-form-workspace/registry-item.json'
+    );
+    await expect(template).toHaveAttribute(
+      'data-dependency-profile',
+      '.archon/bmad/ui-lab-dependency-map.json'
+    );
+    await expect(template).toHaveAttribute('data-ui-ux-practices', /bounded-variant-matrix/);
+
+    await page.getByLabel('Workspace name').fill('UI-lab template pack');
+    await page.getByLabel('Default branch').fill('dev');
+    await page.getByRole('button', { name: /save settings/i }).click();
+    await expect(page.getByText(/Saved UI-lab template pack/i)).toBeVisible();
+  });
+
+  test('exposes productization template registry and variant metadata', async ({ page }) => {
+    for (const templateId of productizationTemplateIds) {
+      const storyId = `ui-lab-templates--${templateId}`;
+      await page.goto(`/iframe.html?id=${encodeURIComponent(storyId)}&viewMode=story`);
+
+      const template = page.getByTestId(`ui-lab-template:${templateId}`);
+      await expect(template, `${templateId} template`).toBeVisible();
+      await expect(template, `${templateId} template id`).toHaveAttribute(
+        'data-template-id',
+        templateId
+      );
+      await expect(template, `${templateId} registry path`).toHaveAttribute(
+        'data-registry-item-path',
+        `packages/ui-lab/registry/new-york/${templateId}/registry-item.json`
+      );
+    }
   });
 });

@@ -18,6 +18,7 @@ import {
   type LockDocument,
   type QueueDocument,
   type QueueItem,
+  type QueueStatus,
 } from './common';
 
 interface SelectionPayload {
@@ -76,13 +77,19 @@ function resumeOwnedLock(
   return payload;
 }
 
-function pickPendingItem(
+const selectableStatuses: ReadonlySet<QueueStatus> = new Set(['pending', 'implemented', 'verified', 'done']);
+
+function isSelectableItem(item: QueueItem): boolean {
+  return selectableStatuses.has(item.status);
+}
+
+function pickNextItem(
   queue: QueueDocument,
   workflowId: string,
   artifactsDir: string | null,
   dryRun: boolean
 ): SelectionPayload {
-  const item = queue.items.find(entry => entry.status === 'pending') ?? null;
+  const item = queue.items.find(isSelectableItem) ?? null;
   if (!item) {
     return {
       status: 'empty',
@@ -113,7 +120,7 @@ function pickPendingItem(
   createLock(workflowId, artifactsDir);
   try {
     const lockedQueue = loadQueue();
-    const lockedItem = lockedQueue.items.find(entry => entry.status === 'pending');
+    const lockedItem = lockedQueue.items.find(isSelectableItem);
     if (!lockedItem) {
       releaseLock(workflowId);
       return {
@@ -173,7 +180,7 @@ function main(): void {
 
   const payload = lock
     ? resumeOwnedLock(workflowId, lock, queue, artifactsDir)
-    : pickPendingItem(queue, workflowId, artifactsDir, dryRun);
+    : pickNextItem(queue, workflowId, artifactsDir, dryRun);
 
   process.stdout.write(`${JSON.stringify(payload, null, 2)}\n`);
 }

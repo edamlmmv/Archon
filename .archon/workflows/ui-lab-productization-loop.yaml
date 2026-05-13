@@ -1,0 +1,155 @@
+name: ui-lab-productization-loop
+description: |
+  Use when: UI-lab has shadcn coverage and needs productization work persisted through Archon.
+  Triggers: "ui-lab productization", "productize ui-lab", "run ui-lab productization loop".
+  Does: Runs BMAD route intake, audits UI/UX and architecture gaps, keeps productization queue/evidence current, runs one-story Ralph-style iteration, syncs Forge evidence, and validates the registry.
+  NOT for: Custom UI-lab MCP creation, production Web app rewrites without a queue item, or non-UI-lab feature work.
+
+provider: codex
+model: gpt-5.5
+modelReasoningEffort: high
+worktree:
+  enabled: false
+mutates_checkout: true
+tags: [BMAD, UI Lab, Productization, Forge, Ralph]
+
+nodes:
+  - id: preflight
+    bash: |
+      set -euo pipefail
+      test -d packages/ui-lab
+      test -f packages/ui-lab/registry.json
+      test -f .archon/bmad/ui-lab-components.queue.json
+      bun .archon/scripts/ui-lab/status.ts --require-all-done
+      bun run check:ui-lab
+
+  - id: bmad-intake
+    depends_on: [preflight]
+    command: bmad-intake
+    output_format:
+      type: object
+      additionalProperties: true
+      properties:
+        goal:
+          type: string
+        doneCondition:
+          type: string
+      required: [goal, doneCondition]
+
+  - id: ux-architecture-gap-audit
+    depends_on: [bmad-intake]
+    context: fresh
+    prompt: |
+      # UI-lab Productization BMAD Gap Audit
+
+      User/BMAD intake:
+      $bmad-intake.output
+
+      Read these local evidence refs:
+      - `.archon/bmad/ui-lab-components.queue.json`
+      - `.archon/bmad/ui-lab-agentic-search.index.json`
+      - `.archon/bmad/ui-lab-dependency-map.json`
+      - `.archon/bmad/evidence/ui-lab-template-patterns.md`
+      - `.archon/bmad/evidence/ui-lab-productization.md`
+      - `packages/ui-lab/registry.json`
+      - `packages/web/src/components/ui/`
+
+      Return JSON only. Do not write files.
+    output_format:
+      type: object
+      additionalProperties: false
+      properties:
+        status:
+          type: string
+          enum: [ready, blocked]
+        epics:
+          type: array
+          items:
+            type: string
+        stories:
+          type: array
+          items:
+            type: string
+        missingWork:
+          type: array
+          items:
+            type: string
+        guardrails:
+          type: array
+          items:
+            type: string
+      required: [status, epics, stories, missingWork, guardrails]
+
+  - id: productization-queue-sync
+    depends_on: [ux-architecture-gap-audit]
+    when: "$ux-architecture-gap-audit.output.status == 'ready'"
+    bash: |
+      set -euo pipefail
+      bun run ui-lab:forge-ready
+      bun .archon/scripts/ui-lab/productization-status.ts
+
+  - id: ralph-productization-loop
+    depends_on: [productization-queue-sync]
+    loop:
+      prompt: |
+        # UI-lab Productization Ralph Iteration
+
+        Process exactly one current-gate productization story if
+        `.archon/bmad/ui-lab-productization.queue.json` shows the current gate is blocked.
+        Future Web adoption children may remain `pending` / `not-proven`.
+        If the current gate is complete, output `UI_LAB_PRODUCTIZATION_DRAINED` and stop.
+
+        Constraints:
+        - Use BMAD route evidence from `ux-architecture-gap-audit`.
+        - Keep Forge authority on registry/evidence metadata.
+        - Keep Web app data/state in `packages/web`; shared UI belongs in `@archon/ui-lab`.
+        - Do not create a custom UI-lab MCP.
+
+        Required validation for any changed story:
+        - `bun run ui-lab:forge-ready`
+        - `bun run check:ui-lab`
+        - `bun --filter @archon/ui-lab type-check`
+        - targeted Storybook/Playwright check when a template changes
+      until: UI_LAB_PRODUCTIZATION_DRAINED
+      until_bash: |
+        bun .archon/scripts/ui-lab/productization-status.ts --require-current-gate
+      max_iterations: 20
+      fresh_context: true
+
+  - id: forge-sync
+    depends_on: [ralph-productization-loop]
+    trigger_rule: all_done
+    bash: |
+      set -euo pipefail
+      bun run ui-lab:forge-ready
+      bun --filter @archon/ui-lab registry:build
+      bun run check:ui-lab
+      bun .archon/scripts/ui-lab/productization-status.ts --require-current-gate
+
+  - id: final-gate
+    depends_on: [forge-sync]
+    bash: |
+      set -euo pipefail
+      bun --filter @archon/ui-lab type-check
+      bun --filter @archon/ui-lab test-storybook
+      bun --filter @archon/ui-lab test:e2e
+      bun run cli validate workflows ui-lab-productization-loop
+      bun run cli validate commands ui-lab-productization-loop
+
+  - id: final-report
+    depends_on: [ux-architecture-gap-audit, forge-sync, final-gate]
+    trigger_rule: all_done
+    context: fresh
+    prompt: |
+      Summarize the UI-lab productization run.
+
+      Read:
+      - `.archon/bmad/ui-lab-productization.queue.json`
+      - `.archon/bmad/evidence/ui-lab-productization.md`
+      - `.archon/bmad/evidence/ui-lab-web-adoption.md`
+      - `.archon/bmad/ui-lab-agentic-search.index.json`
+      - `packages/ui-lab/registry.json`
+
+      Include queue counts by kind/status, templates covered, Forge evidence refs,
+      validation commands, and remaining blockers. Report current-gate success only when
+      Settings is `web-adopted`; future Web adoption children may remain pending.

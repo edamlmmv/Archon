@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "bmad-method-test-architecture-enterprise",
+  "version": "1.17.0",
+  "description": "Master Test Architect for quality strategy, test automation, and release gates",
+  "keywords": [
+    "bmad",
+    "test-architect",
+    "testing",
+    "quality",
+    "automation",
+    "playwright",
+    "test-engineering"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bmad-code-org/bmad-method-test-architecture-enterprise.git"
+  },
+  "license": "MIT",
+  "author": "Murat K Ozcan (TEA Creator) & Brian (BMad) Madison",
+  "main": "",
+  "bin": {},
+  "scripts": {
+    "docs:build": "node tools/build-docs.js",
+    "docs:dev": "npm --prefix website run dev",
+    "docs:fix-links": "node tools/fix-doc-links.js --write",
+    "docs:preview": "npm --prefix website run preview",
+    "docs:validate-links": "node tools/validate-doc-links.js",
+    "format:check": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "format:fix:staged": "prettier --write",
+    "lint": "eslint . --max-warnings 0",
+    "lint:fix": "eslint . --fix",
+    "lint:md": "markdownlint-cli2 '**/*.md'",
+    "prepare": "command -v husky >/dev/null 2>&1 && husky || exit 0",
+    "release:major": "gh workflow run publish.yaml -f channel=latest -f bump=major",
+    "release:minor": "gh workflow run publish.yaml -f channel=latest -f bump=minor",
+    "release:next": "gh workflow run publish.yaml -f channel=next",
+    "release:patch": "gh workflow run publish.yaml -f channel=latest -f bump=patch",
+    "test": "npm run test:schemas && npm run test:install && npm run test:knowledge && npm run test:release-metadata && npm run test:tea-workflow-descriptions && npm run validate:schemas && npm run lint && npm run lint:md && npm run format:check",
+    "test:coverage": "c8 npm test",
+    "test:install": "node test/test-installation-components.js",
+    "test:knowledge": "node test/test-knowledge-base.js",
+    "test:release-metadata": "node test/test-release-metadata.js",
+    "test:schemas": "node test/test-agent-schema.js",
+    "test:tea-workflow-descriptions": "node tools/validate-tea-workflow-descriptions.js",
+    "validate:schemas": "node tools/validate-agent-schema.js",
+    "validate:tea-workflow-descriptions": "node tools/validate-tea-workflow-descriptions.js"
+  },
+  "lint-staged": {
+    "*.{js,cjs,mjs}": [
+      "eslint --fix",
+      "prettier --write --ignore-unknown"
+    ],
+    "*.yaml": [
+      "eslint --fix",
+      "prettier --write --ignore-unknown"
+    ],
+    "*.json": [
+      "prettier --write --ignore-unknown"
+    ],
+    "*.md": [
+      "markdownlint-cli2 --fix",
+      "prettier --write --ignore-unknown"
+    ]
+  },
+  "c8": {
+    "all": true,
+    "reporter": [
+      "text",
+      "html"
+    ],
+    "reports-dir": "coverage"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.11.0",
+    "boxen": "^5.1.2",
+    "cli-table3": "^0.6.5",
+    "commander": "^14.0.0",
+    "csv-parse": "^6.1.0",
+    "glob": "^11.0.3",
+    "ignore": "^7.0.5",
+    "js-yaml": "^4.1.0",
+    "ora": "^5.4.1",
+    "semver": "^7.6.3",
+    "wrap-ansi": "^7.0.0",
+    "xml2js": "^0.6.2",
+    "yaml": "^2.7.0"
+  },
+  "devDependencies": {
+    "@astrojs/sitemap": "^3.6.0",
+    "@astrojs/starlight": "^0.37.0",
+    "@eslint/js": "^9.33.0",
+    "archiver": "^7.0.1",
+    "astro": "^5.16.0",
+    "c8": "^10.1.3",
+    "eslint": "^9.33.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-n": "^17.21.3",
+    "eslint-plugin-unicorn": "^60.0.0",
+    "eslint-plugin-yml": "^1.18.0",
+    "husky": "^9.1.7",
+    "jest": "^30.0.4",
+    "lint-staged": "^16.1.1",
+    "markdownlint-cli2": "^0.19.1",
+    "prettier": "^3.7.4",
+    "prettier-plugin-packagejson": "^2.5.19",
+    "sharp": "^0.33.5",
+    "yaml-eslint-parser": "^1.2.3",
+    "yaml-lint": "^1.7.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

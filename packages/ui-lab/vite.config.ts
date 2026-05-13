@@ -5,6 +5,9 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  optimizeDeps: {
+    include: ['cmdk', 'react-hook-form', 'zod/v4'],
+  },
   resolve: {
     alias: {
       '@': path.resolve(import.meta.dirname, './src'),

@@ -1,6 +1,7 @@
 import { describe, test, expect, beforeEach, afterEach } from 'bun:test';
 import { mkdtemp, mkdir, writeFile, rm } from 'fs/promises';
-import { join } from 'path';
+import { existsSync, readFileSync } from 'fs';
+import { join, resolve } from 'path';
 import { tmpdir } from 'os';
 import { registerBuiltinProviders, clearRegistry } from '@archon/providers';
 
@@ -22,12 +23,28 @@ import type { WorkflowDefinition, DagNode } from './schemas';
 // =============================================================================
 
 let tmpDir: string;
+let previousArchonHome: string | undefined;
+let previousArchonDocker: string | undefined;
 
 beforeEach(async () => {
   tmpDir = await mkdtemp(join(tmpdir(), 'validator-test-'));
+  previousArchonHome = process.env.ARCHON_HOME;
+  previousArchonDocker = process.env.ARCHON_DOCKER;
+  process.env.ARCHON_HOME = join(tmpDir, 'archon-home');
+  delete process.env.ARCHON_DOCKER;
 });
 
 afterEach(async () => {
+  if (previousArchonHome === undefined) {
+    delete process.env.ARCHON_HOME;
+  } else {
+    process.env.ARCHON_HOME = previousArchonHome;
+  }
+  if (previousArchonDocker === undefined) {
+    delete process.env.ARCHON_DOCKER;
+  } else {
+    process.env.ARCHON_DOCKER = previousArchonDocker;
+  }
   await rm(tmpDir, { recursive: true, force: true });
 });
 
@@ -38,6 +55,13 @@ function makeWorkflow(name: string, nodes: DagNode[], provider?: string): Workfl
     nodes,
     ...(provider && { provider }),
   } as WorkflowDefinition;
+}
+
+function asRecord(value: unknown, label: string): Record<string, unknown> {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) {
+    throw new Error(`${label} must be an object`);
+  }
+  return value as Record<string, unknown>;
 }
 
 async function createCommandFile(name: string, content = '# Do something'): Promise<void> {
@@ -442,5 +466,199 @@ describe('validateWorkflowResources — agents capability', () => {
     const issues = await validateWorkflowResources(workflow, tmpDir);
     const warning = issues.find(i => i.level === 'warning' && i.field === 'agents');
     expect(warning).toBeUndefined();
+  });
+});
+
+// =============================================================================
+// Archon BMAD Codex Desktop integration contract
+// =============================================================================
+
+describe('Archon BMAD Codex Desktop integration contract', () => {
+  const repoRoot = resolve(import.meta.dir, '..', '..', '..');
+  const workflowPath = join(repoRoot, '.archon', 'workflows', 'bmad-route-first.yaml');
+  const marketplacePath = join(
+    repoRoot,
+    '.archon',
+    'codex',
+    '.agents',
+    'plugins',
+    'marketplace.json'
+  );
+  const pluginRoot = join(repoRoot, '.archon', 'codex', 'plugins', 'archon-bmad');
+  const pluginManifestPath = join(pluginRoot, '.codex-plugin', 'plugin.json');
+  const commandPath = join(pluginRoot, 'commands', 'bmad.md');
+  const readmePath = join(pluginRoot, 'README.md');
+  const skillPath = join(pluginRoot, 'skills', 'archon-bmad', 'SKILL.md');
+  const jsonCommandPaths = [
+    join(repoRoot, '.archon', 'commands', 'bmad-intake.md'),
+    join(repoRoot, '.archon', 'commands', 'bmad-evidence-map.md'),
+    join(repoRoot, '.archon', 'commands', 'bmad-karpathy-brain.md'),
+    join(repoRoot, '.archon', 'commands', 'bmad-route-first.md'),
+  ];
+
+  test('ships a local Codex plugin marketplace with an enabled-command package shape', () => {
+    expect(existsSync(marketplacePath)).toBe(true);
+    expect(existsSync(pluginManifestPath)).toBe(true);
+    expect(existsSync(commandPath)).toBe(true);
+    expect(existsSync(skillPath)).toBe(true);
+
+    const marketplace = JSON.parse(readFileSync(marketplacePath, 'utf8'));
+    expect(marketplace.name).toBe('archon-bmad');
+    expect(marketplace.plugins).toHaveLength(1);
+    expect(marketplace.plugins[0].name).toBe('archon-bmad');
+    expect(marketplace.plugins[0].source.path).toBe('./plugins/archon-bmad');
+
+    const manifest = JSON.parse(readFileSync(pluginManifestPath, 'utf8'));
+    expect(manifest.name).toBe('archon-bmad');
+    expect(manifest.skills).toBe('./skills/');
+    expect(manifest['x-archon-bmad'].workflow).toBe('.archon/workflows/bmad-route-first.yaml');
+    expect(manifest.keywords).toContain('mcp');
+    expect(manifest.keywords).toContain('capability-pack');
+    expect(manifest['x-archon-bmad'].capabilityForge.skill).toBe('bmad-capability-pack-forge');
+    expect(manifest['x-archon-bmad'].mcpAwareness.mentionModes).toEqual([
+      'none',
+      'single',
+      'multiple',
+    ]);
+  });
+
+  test('Codex slash command is a thin Archon workflow launcher with Forge and MCP awareness', () => {
+    const command = readFileSync(commandPath, 'utf8');
+
+    expect(command).toContain(
+      'description: Run Archon-native BMAD route planning from Codex Desktop'
+    );
+    expect(command).toContain('$ARGUMENTS');
+    expect(command).toContain(
+      'bun --cwd /Users/edam/Documents/TODA/archon run cli workflow run bmad-route-first --no-worktree "$ARGUMENTS"'
+    );
+    expect(command).toContain('/Users/edam/Documents/TODA/archon');
+    expect(command).toContain('bmad-route.json');
+    expect(command).toContain('bmad-plan.md');
+    expect(command).toContain('bmad-capability-pack-forge');
+    expect(command).toContain('mcpAwareness.mentionMode = "none"');
+    expect(command).toContain('WebGL');
+    expect(command).toContain('Google, Office and others');
+    expect(command).toContain('Do not claim Codex loaded Archon `skills:`');
+  });
+
+  test('Codex plugin docs and skill preserve no, one, and multiple MCP prompt modes', () => {
+    const docs = [
+      readFileSync(readmePath, 'utf8'),
+      readFileSync(skillPath, 'utf8'),
+      readFileSync(commandPath, 'utf8'),
+    ].join('\n');
+
+    expect(docs).toContain('No MCP mention');
+    expect(docs).toContain('One MCP mention');
+    expect(docs).toContain('Multiple MCP mentions');
+    expect(docs).toContain('WebGL');
+    expect(docs).toContain('Google');
+    expect(docs).toContain('Office');
+    expect(docs).toContain('Outlook add-ins');
+    expect(docs).toContain('advisory route context');
+  });
+
+  test('Archon BMAD workflow remains Codex-compatible and artifact-only for v1', () => {
+    const workflow = Bun.YAML.parse(readFileSync(workflowPath, 'utf8')) as WorkflowDefinition;
+
+    expect(workflow.name).toBe('bmad-route-first');
+    expect(workflow.provider).toBe('codex');
+    expect(workflow.worktree?.enabled).toBe(false);
+    expect(workflow.additionalDirectories).toContain('/Users/edam/Documents/TODA/BMAD-METHOD');
+
+    const nodes = workflow.nodes ?? [];
+    expect(nodes.map(node => node.id)).toEqual([
+      'intake',
+      'deterministic-scan',
+      'evidence-scan',
+      'rubric',
+      'route-classify',
+      'optional-forge',
+      'report',
+    ]);
+
+    const commandNodes = nodes.filter(node => 'command' in node);
+    expect(commandNodes.map(node => node.command)).toEqual([
+      'bmad-intake',
+      'bmad-karpathy-brain',
+      'bmad-route-first',
+      'bmad-plan-report',
+    ]);
+
+    const evidenceScan = nodes.find(node => node.id === 'evidence-scan');
+    expect(evidenceScan).toBeDefined();
+    if (!evidenceScan || !('script' in evidenceScan)) {
+      throw new Error('evidence-scan must be a deterministic script node');
+    }
+    expect(evidenceScan.runtime).toBe('bun');
+    expect(evidenceScan.script).toContain('JSON.stringify');
+    expect(evidenceScan.script).toContain('blockedClaims');
+    expect(evidenceScan.script).toContain('mcpAwareness');
+    expect(evidenceScan.script).toContain('OfficeJS/Outlook add-in');
+    expect(evidenceScan.script).toContain('requested MCPs are installed');
+
+    const intake = nodes.find(node => node.id === 'intake');
+    if (!intake || !('output_format' in intake)) {
+      throw new Error('intake must define output_format');
+    }
+    const intakeFormat = asRecord(intake.output_format, 'intake output_format');
+    const intakeProperties = asRecord(intakeFormat.properties, 'intake properties');
+    const intakeMcpAwareness = asRecord(intakeProperties.mcpAwareness, 'intake mcpAwareness');
+    const intakeMcpProperties = asRecord(
+      intakeMcpAwareness.properties,
+      'intake mcpAwareness properties'
+    );
+    expect(asRecord(intakeMcpProperties.mentionMode, 'intake mentionMode').enum).toEqual([
+      'none',
+      'single',
+      'multiple',
+    ]);
+
+    const routeClassify = nodes.find(node => node.id === 'route-classify');
+    if (!routeClassify || !('output_format' in routeClassify)) {
+      throw new Error('route-classify must define output_format');
+    }
+    const routeFormat = asRecord(routeClassify.output_format, 'route output_format');
+    const routeProperties = asRecord(routeFormat.properties, 'route properties');
+    expect(routeProperties.mcpAwareness).toBeDefined();
+
+    const forbiddenCodexNodeFields = ['agents', 'skills', 'mcp', 'hooks'] as const;
+    for (const node of nodes) {
+      for (const field of forbiddenCodexNodeFields) {
+        expect(node).not.toHaveProperty(field);
+      }
+    }
+  });
+
+  test('BMAD route workflow validates all local command references', async () => {
+    const workflow = Bun.YAML.parse(readFileSync(workflowPath, 'utf8')) as WorkflowDefinition;
+    const issues = await validateWorkflowResources(workflow, repoRoot, {
+      loadDefaultCommands: false,
+    });
+
+    expect(issues.filter(issue => issue.level === 'error')).toEqual([]);
+  });
+
+  test('JSON-output BMAD commands forbid provisional multi-object output', () => {
+    for (const jsonCommandPath of jsonCommandPaths) {
+      const command = readFileSync(jsonCommandPath, 'utf8');
+
+      expect(command).toContain('Do not emit progress notes, provisional JSON');
+      expect(command).toContain('final response must be exactly one JSON');
+      expect(command).toContain('object and no other text');
+    }
+  });
+
+  test('OfficeJS route rule forbids template-only runtime proof', () => {
+    const routeCommand = readFileSync(
+      join(repoRoot, '.archon', 'commands', 'bmad-route-first.md'),
+      'utf8'
+    );
+
+    expect(routeCommand).toContain('host.mcp.office-js.live');
+    expect(routeCommand).toContain('support: "advisory"');
+    expect(routeCommand).toContain('captured live MCP output');
+    expect(routeCommand).toContain('operator-evidence templates are not runtime-check evidence');
   });
 });

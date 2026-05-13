@@ -48,10 +48,17 @@ describe('telemetry opt-out detection', () => {
     resetTelemetryForTests();
   });
 
-  test('enabled by default when no opt-out env vars set', () => {
+  test('disabled by default when no opt-in env vars set', () => {
     delete process.env.ARCHON_TELEMETRY_DISABLED;
     delete process.env.DO_NOT_TRACK;
     delete process.env.POSTHOG_API_KEY;
+    expect(isTelemetryDisabled()).toBe(true);
+  });
+
+  test('POSTHOG_API_KEY enables telemetry when no opt-out env vars set', () => {
+    delete process.env.ARCHON_TELEMETRY_DISABLED;
+    delete process.env.DO_NOT_TRACK;
+    process.env.POSTHOG_API_KEY = 'phc_test';
     expect(isTelemetryDisabled()).toBe(false);
   });
 
@@ -65,9 +72,10 @@ describe('telemetry opt-out detection', () => {
     expect(isTelemetryDisabled()).toBe(true);
   });
 
-  test('ARCHON_TELEMETRY_DISABLED=0 does not disable (strict "1" match)', () => {
+  test('ARCHON_TELEMETRY_DISABLED=0 does not disable when opt-in key is set', () => {
     process.env.ARCHON_TELEMETRY_DISABLED = '0';
     delete process.env.DO_NOT_TRACK;
+    process.env.POSTHOG_API_KEY = 'phc_test';
     expect(isTelemetryDisabled()).toBe(false);
   });
 

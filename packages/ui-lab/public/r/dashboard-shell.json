@@ -1,0 +1,8 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "dashboard-shell",
+  "title": "Dashboard Shell",
+  "description": "Operational dashboard template for workflow status, filters, and run health.",
+  "registryDependencies": ["archon-ui-core"],
+  "type": "registry:block"
+}
