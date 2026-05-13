@@ -62,7 +62,8 @@ function CoverageCard({ componentId }: { componentId: ComponentCoverageId }) {
       <UiCardHeader>
         <UiCardTitle>{entry.officialName}</UiCardTitle>
         <UiCardDescription>
-          Generic shadcn registry component with bounded variant metadata, Playwright id, and Forge evidence refs.
+          Generic shadcn registry component with bounded variant metadata, Playwright id, and Forge
+          evidence refs.
         </UiCardDescription>
         <UiCardAction>
           <UiBadge>{entry.category}</UiBadge>
