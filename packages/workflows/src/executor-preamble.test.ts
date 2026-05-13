@@ -97,7 +97,7 @@ function makeStore(overrides: Partial<IWorkflowStore> = {}): IWorkflowStore {
     getWorkflowRunStatus: mock(async () => 'completed' as const),
     createWorkflowEvent: mock(async () => {}),
     findResumableRun: mock(async () => null),
-    getCompletedDagNodeOutputs: mock(async () => new Map<string, string>()),
+    getCompletedDagNodeOutputs: mock(async () => new Map()),
     resumeWorkflowRun: mock(async () => makeRun()),
     getCodebase: mock(async () => null),
     getCodebaseEnvVars: mock(async () => ({})),
@@ -319,7 +319,9 @@ describe('executeWorkflow preamble', () => {
   describe('workflow resume', () => {
     it('resumes a prior failed DAG run when completed nodes exist', async () => {
       const failedRun = makeRun({ id: 'prior-run', status: 'failed' });
-      const priorNodes = new Map([['node-a', 'output from node-a']]);
+      const priorNodes = new Map([
+        ['node-a', { state: 'completed' as const, output: 'output from node-a' }],
+      ]);
       const resumedRun = makeRun({ id: 'prior-run', status: 'running' });
 
       const store = makeStore({
@@ -359,7 +361,9 @@ describe('executeWorkflow preamble', () => {
 
     it('auto-resumes a prior failed DAG run when completed nodes exist (second test)', async () => {
       const interruptedRun = makeRun({ id: 'prior-int', status: 'failed' });
-      const priorNodes = new Map([['node-a', 'output from node-a']]);
+      const priorNodes = new Map([
+        ['node-a', { state: 'completed' as const, output: 'output from node-a' }],
+      ]);
       const resumedRun = makeRun({ id: 'prior-int', status: 'running' });
 
       const store = makeStore({
@@ -398,7 +402,7 @@ describe('executeWorkflow preamble', () => {
 
     it('returns error when DAG resumeWorkflowRun throws', async () => {
       const failedRun = makeRun({ id: 'prior-run', status: 'failed' });
-      const priorNodes = new Map([['node1', 'output1']]);
+      const priorNodes = new Map([['node1', { state: 'completed' as const, output: 'output1' }]]);
       const store = makeStore({
         findResumableRun: mock(async () => failedRun),
         getCompletedDagNodeOutputs: mock(async () => priorNodes),

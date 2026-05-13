@@ -93,7 +93,7 @@ function createMockStore(): IWorkflowStore {
     pauseWorkflowRun: mock(() => Promise.resolve()),
     cancelWorkflowRun: mock(() => Promise.resolve()),
     createWorkflowEvent: mock(() => Promise.resolve()),
-    getCompletedDagNodeOutputs: mock(() => Promise.resolve(new Map<string, string>())),
+    getCompletedDagNodeOutputs: mock(() => Promise.resolve(new Map())),
     getCodebase: mock(() => Promise.resolve(null)),
     getCodebaseEnvVars: mock(() => Promise.resolve({})),
   };
@@ -182,9 +182,24 @@ function node(id: string, depends_on?: string[], opts?: Partial<DagNode>): DagNo
   return { id, command: id, ...(depends_on?.length ? { depends_on } : {}), ...opts };
 }
 
-function makeOutput(state: NodeOutput['state'], output = ''): NodeOutput {
-  if (state === 'failed') return { state, output, error: 'error' };
-  return { state, output } as NodeOutput;
+function makeOutput(
+  state: NodeOutput['state'],
+  output = '',
+  structuredOutput?: unknown
+): NodeOutput {
+  if (state === 'failed') {
+    return {
+      state,
+      output,
+      error: 'error',
+      ...(structuredOutput !== undefined ? { structuredOutput } : {}),
+    };
+  }
+  return {
+    state,
+    output,
+    ...(structuredOutput !== undefined ? { structuredOutput } : {}),
+  } as NodeOutput;
 }
 
 function makeWorkflowRun(id = 'dag-test-run-id', overrides?: Partial<WorkflowRun>): WorkflowRun {
@@ -541,9 +556,10 @@ nodes:
 
     const result = await discoverWorkflows(testDir, { loadDefaults: false });
     expect(result.errors).toHaveLength(0);
-    expect(result.workflows).toHaveLength(1);
+    const projectWorkflows = result.workflows.filter(workflow => workflow.source === 'project');
+    expect(projectWorkflows).toHaveLength(1);
 
-    const wf = result.workflows[0].workflow;
+    const wf = projectWorkflows[0].workflow;
     expect(wf.nodes).toHaveLength(4);
     expect(wf.nodes[0].id).toBe('classify');
     expect(wf.nodes[0].output_format).toBeDefined();
@@ -571,9 +587,10 @@ nodes:
 
     const result = await discoverWorkflows(testDir, { loadDefaults: false });
     expect(result.errors).toHaveLength(0);
-    expect(result.workflows).toHaveLength(1);
+    const projectWorkflows = result.workflows.filter(workflow => workflow.source === 'project');
+    expect(projectWorkflows).toHaveLength(1);
 
-    const wf = result.workflows[0].workflow;
+    const wf = projectWorkflows[0].workflow;
     expect(wf.nodes).toBeDefined();
     expect(wf.nodes[0].prompt).toBe('Output exactly: hello from A');
     expect(wf.nodes[1].depends_on).toEqual(['step-a']);
@@ -600,8 +617,9 @@ prompt: "do something"
 
     const result = await discoverWorkflows(testDir, { loadDefaults: false });
     expect(result.errors).toHaveLength(0);
-    expect(result.workflows).toHaveLength(1);
-    expect(result.workflows[0].workflow.name).toBe('extra-fields');
+    const projectWorkflows = result.workflows.filter(workflow => workflow.source === 'project');
+    expect(projectWorkflows).toHaveLength(1);
+    expect(projectWorkflows[0].workflow.name).toBe('extra-fields');
   });
 
   it('rejects node with invalid trigger_rule', async () => {
@@ -689,6 +707,21 @@ describe('substituteNodeOutputRefs', () => {
   it('dot notation extracts JSON field', () => {
     const outputs = new Map([['a', makeOutput('completed', JSON.stringify({ type: 'BUG' }))]]);
     expect(substituteNodeOutputRefs('Fix $a.output.type issue', outputs)).toBe('Fix BUG issue');
+  });
+
+  it('dot notation reads structuredOutput when raw output is prose-prefixed', () => {
+    const outputs = new Map([
+      [
+        'a',
+        makeOutput('completed', 'Reasoning...\n```json\n{"type":"BUG"}\n```', {
+          type: 'BUG',
+          files: ['a.ts', 'b.ts'],
+        }),
+      ],
+    ]);
+
+    expect(substituteNodeOutputRefs('Fix $a.output.type issue', outputs)).toBe('Fix BUG issue');
+    expect(substituteNodeOutputRefs('$a.output.files', outputs)).toBe('["a.ts","b.ts"]');
   });
 
   it('dot notation on invalid JSON returns empty string', () => {
@@ -1470,6 +1503,22 @@ describe('executeDagWorkflow -- output_format structured output', () => {
     // The test node's when condition should evaluate to false (run_tests == 'false', not 'true')
     // So sendQuery should be called for classify + review = 2 times (not 3)
     expect(mockSendQueryDag.mock.calls.length).toBe(2);
+
+    const eventCalls = (mockDeps.store.createWorkflowEvent as ReturnType<typeof mock>).mock.calls;
+    const completedClassifyEvent = eventCalls
+      .map(
+        (call: unknown[]) => call[0] as { step_name?: string; event_type?: string; data?: unknown }
+      )
+      .find(event => event.step_name === 'classify' && event.event_type === 'node_completed');
+    expect(completedClassifyEvent).toBeDefined();
+    expect(
+      (completedClassifyEvent?.data as { node_output?: string; structured_output?: unknown })
+        .node_output
+    ).toContain('Let me analyze the PR scope');
+    expect(
+      (completedClassifyEvent?.data as { node_output?: string; structured_output?: unknown })
+        .structured_output
+    ).toEqual(structuredJson);
   });
 
   it('does NOT override nodeOutputText with structuredOutput when output_format is absent', async () => {
@@ -2900,7 +2949,7 @@ describe('executeDagWorkflow -- resume with priorCompletedNodes', () => {
     const platform = createMockPlatform();
     const workflowRun = makeWorkflowRun();
 
-    const priorCompletedNodes = new Map([['step1', 'prior step1 output']]);
+    const priorCompletedNodes = new Map([['step1', makeOutput('completed', 'prior step1 output')]]);
 
     await executeDagWorkflow(
       mockDeps,
@@ -2944,7 +2993,9 @@ describe('executeDagWorkflow -- resume with priorCompletedNodes', () => {
       yield { type: 'result', sessionId: 'session-id' };
     });
 
-    const priorCompletedNodes = new Map([['step1', 'hello from prior run']]);
+    const priorCompletedNodes = new Map([
+      ['step1', makeOutput('completed', 'hello from prior run')],
+    ]);
 
     await executeDagWorkflow(
       mockDeps,
@@ -2981,7 +3032,7 @@ describe('executeDagWorkflow -- resume with priorCompletedNodes', () => {
     const platform = createMockPlatform();
     const workflowRun = makeWorkflowRun('resume-run-id');
 
-    const priorCompletedNodes = new Map([['step1', 'prior output']]);
+    const priorCompletedNodes = new Map([['step1', makeOutput('completed', 'prior output')]]);
 
     await executeDagWorkflow(
       mockDeps,

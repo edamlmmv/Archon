@@ -59,8 +59,8 @@ export type NodeState = z.infer<typeof nodeStateSchema>;
 
 /**
  * Captured output from a completed DAG node.
- * `output` is the concatenated assistant text (or JSON-encoded string from the SDK
- * when output_format is set). Empty string for failed/skipped nodes.
+ * `output` is the literal concatenated assistant text. Empty string for failed/skipped nodes.
+ * `structuredOutput` is the provider-parsed output_format payload, when available.
  * `error` is required when state is 'failed', absent on all other states.
  */
 export const nodeOutputSchema = z.discriminatedUnion('state', [
@@ -68,12 +68,14 @@ export const nodeOutputSchema = z.discriminatedUnion('state', [
     state: z.enum(['completed', 'running']),
     output: z.string(),
     sessionId: z.string().optional(),
+    structuredOutput: z.unknown().optional(),
   }),
   z.object({
     state: z.literal('failed'),
     output: z.string(),
     sessionId: z.string().optional(),
     error: z.string(),
+    structuredOutput: z.unknown().optional(),
   }),
   z.object({
     state: z.enum(['pending', 'skipped']),

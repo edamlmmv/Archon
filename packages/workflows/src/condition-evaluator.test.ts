@@ -23,10 +23,22 @@ import type { NodeOutput } from './schemas';
 
 function makeOutput(
   output: string,
-  state: 'completed' | 'failed' | 'skipped' = 'completed'
+  state: 'completed' | 'failed' | 'skipped' = 'completed',
+  structuredOutput?: unknown
 ): NodeOutput {
-  if (state === 'failed') return { state, output, error: 'error' };
-  return { state, output };
+  if (state === 'failed') {
+    return {
+      state,
+      output,
+      error: 'error',
+      ...(structuredOutput !== undefined ? { structuredOutput } : {}),
+    };
+  }
+  return {
+    state,
+    output,
+    ...(structuredOutput !== undefined ? { structuredOutput } : {}),
+  };
 }
 
 describe('evaluateCondition', () => {
@@ -147,6 +159,21 @@ describe('evaluateCondition', () => {
     );
     expect(evaluateCondition("$classify.output.run_tests == 'true'", outputs).result).toBe(false);
     expect(evaluateCondition("$classify.output.run_tests == 'false'", outputs).result).toBe(true);
+  });
+
+  it('dot notation: reads structuredOutput when raw output is prose-prefixed', () => {
+    const outputs = new Map([
+      [
+        'classify',
+        makeOutput('Reasoning...\n```json\n{"type":"BUG"}\n```', 'completed', {
+          type: 'BUG',
+          confidence: 0.92,
+        }),
+      ],
+    ]);
+
+    expect(evaluateCondition("$classify.output.type == 'BUG'", outputs).result).toBe(true);
+    expect(evaluateCondition("$classify.output.confidence >= '0.9'", outputs).result).toBe(true);
   });
 
   // --- Numeric comparison operators ---

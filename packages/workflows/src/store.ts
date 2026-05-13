@@ -91,14 +91,14 @@ export interface IWorkflowStore {
   }): Promise<void>;
 
   /**
-   * Return a map of nodeId → output for all node_completed events
+   * Return a map of nodeId → completed output for all node_completed events
    * from a prior DAG workflow run. Used for DAG resume: the executor
    * pre-populates nodeOutputs so completed nodes are skipped on re-run.
    *
    * Returns an empty map when no completed nodes exist.
    * Throws on DB error — caller (executor.ts) owns the degradation policy.
    */
-  getCompletedDagNodeOutputs(workflowRunId: string): Promise<Map<string, string>>;
+  getCompletedDagNodeOutputs(workflowRunId: string): Promise<Map<string, WorkflowRunNodeOutput>>;
 
   // Per-codebase env vars for workflow node injection
   getCodebaseEnvVars(codebaseId: string): Promise<Record<string, string>>;
@@ -110,4 +110,10 @@ export interface IWorkflowStore {
     repository_url: string | null;
     default_cwd: string;
   } | null>;
+}
+
+export interface WorkflowRunNodeOutput {
+  state: 'completed';
+  output: string;
+  structuredOutput?: unknown;
 }

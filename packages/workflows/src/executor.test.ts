@@ -382,7 +382,9 @@ describe('executeWorkflow', () => {
       const updateSpy = mock(async () => {});
       const store = makeStore({
         findResumableRun: mock(async () => resumable),
-        getCompletedDagNodeOutputs: mock(async () => new Map([['node1', 'output1']])),
+        getCompletedDagNodeOutputs: mock(
+          async () => new Map([['node1', { state: 'completed' as const, output: 'output1' }]])
+        ),
         resumeWorkflowRun: mock(async () => makeRun({ id: 'failed-prior-run', status: 'running' })),
         updateWorkflowRun: updateSpy,
       });
@@ -421,7 +423,9 @@ describe('executeWorkflow', () => {
       });
       const store = makeStore({
         findResumableRun: mock(async () => resumable),
-        getCompletedDagNodeOutputs: mock(async () => new Map([['node1', 'output1']])),
+        getCompletedDagNodeOutputs: mock(
+          async () => new Map([['node1', { state: 'completed' as const, output: 'output1' }]])
+        ),
         resumeWorkflowRun: mock(async () => makeRun({ id: 'failed-prior-run', status: 'running' })),
         updateWorkflowRun: updateSpy,
       });
@@ -644,7 +648,7 @@ describe('executeWorkflow', () => {
 
     it('returns error when resumeWorkflowRun throws', async () => {
       const failedRun = makeRun({ id: 'prior-run', status: 'failed' });
-      const priorNodes = new Map([['node1', 'output1']]);
+      const priorNodes = new Map([['node1', { state: 'completed' as const, output: 'output1' }]]);
       const store = makeStore({
         findResumableRun: mock(async () => failedRun),
         getCompletedDagNodeOutputs: mock(async () => priorNodes),
@@ -814,7 +818,9 @@ describe('executeWorkflow', () => {
       const updateSpy = mock(async () => {});
       const store = makeStore({
         findResumableRun: mock(async () => resumable),
-        getCompletedDagNodeOutputs: mock(async () => new Map([['node1', 'out1']])),
+        getCompletedDagNodeOutputs: mock(
+          async () => new Map([['node1', { state: 'completed' as const, output: 'out1' }]])
+        ),
         resumeWorkflowRun: mock(async () => {
           throw new Error('DB blew up during resume activation');
         }),

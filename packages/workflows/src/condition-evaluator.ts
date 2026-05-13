@@ -15,6 +15,7 @@
  */
 import type { NodeOutput } from './schemas';
 import { createLogger } from '@archon/paths';
+import { resolveNodeOutputField } from './node-output-utils';
 
 /** Lazy-initialized logger (deferred so test mocks can intercept createLogger) */
 let cachedLog: ReturnType<typeof createLogger> | undefined;
@@ -38,25 +39,16 @@ function resolveOutputRef(
     getLog().warn({ nodeId }, 'condition_output_ref_unknown_node');
     return '';
   }
-  if (!nodeOutput.output) return '';
-
   if (!field) return nodeOutput.output;
 
-  // Dot notation: parse JSON and access field
-  try {
-    const parsed = JSON.parse(nodeOutput.output) as Record<string, unknown>;
-    const value = parsed[field];
-    if (typeof value === 'string') return value;
-    if (typeof value === 'number' || typeof value === 'boolean') return String(value);
-    if (Array.isArray(value) || typeof value === 'object') return JSON.stringify(value);
-    return ''; // null, undefined, symbol, bigint → empty
-  } catch {
+  const resolved = resolveNodeOutputField(nodeOutput, field);
+  if (resolved.source === 'parse-error') {
     getLog().warn(
       { nodeId, field, outputPreview: nodeOutput.output.slice(0, 100) },
       'condition_json_parse_failed'
     );
-    return '';
   }
+  return resolved.value;
 }
 
 /**

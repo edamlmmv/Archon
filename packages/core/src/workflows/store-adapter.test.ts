@@ -33,7 +33,7 @@ mock.module('../db/workflows', () => ({
 }));
 
 const mockCreateWorkflowEvent = mock(() => Promise.resolve());
-const mockGetCompletedDagNodeOutputs = mock(() => Promise.resolve(new Map<string, string>()));
+const mockGetCompletedDagNodeOutputs = mock(() => Promise.resolve(new Map()));
 mock.module('../db/workflow-events', () => ({
   createWorkflowEvent: mockCreateWorkflowEvent,
   getCompletedDagNodeOutputs: mockGetCompletedDagNodeOutputs,

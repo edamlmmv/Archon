@@ -307,7 +307,9 @@ export async function executeWorkflow(
   }
 
   // Resume detection and concurrent-run checks
-  let dagPriorCompletedNodes: Map<string, string> | undefined;
+  let dagPriorCompletedNodes:
+    | Awaited<ReturnType<WorkflowDeps['store']['getCompletedDagNodeOutputs']>>
+    | undefined;
   let workflowRun: WorkflowRun | undefined = preCreatedRun;
 
   // Resume detection: check for prior failed run on same workflow + worktree
@@ -334,7 +336,7 @@ export async function executeWorkflow(
     // Step 2: Activate the resume — propagate as error if this fails
     if (resumableRun) {
       // Load completed node outputs from the prior run's events.
-      let priorNodes: Map<string, string>;
+      let priorNodes: Awaited<ReturnType<WorkflowDeps['store']['getCompletedDagNodeOutputs']>>;
       try {
         priorNodes = await deps.store.getCompletedDagNodeOutputs(resumableRun.id);
       } catch (error) {
@@ -619,8 +621,10 @@ export async function executeWorkflow(
       conversationId: conversationDbId,
     });
 
-    // Fire-and-forget anonymous usage telemetry. No PII: only workflow name +
-    // description (authored by the user in their YAML) + platform + version.
+    // Telemetry is disabled by default. If the user explicitly sets
+    // POSTHOG_API_KEY, this emits fire-and-forget anonymous usage telemetry.
+    // No PII: only workflow name + description (authored by the user in their
+    // YAML) + platform + version.
     // Opt out via ARCHON_TELEMETRY_DISABLED=1 or DO_NOT_TRACK=1.
     captureWorkflowInvoked({
       workflowName: workflow.name,

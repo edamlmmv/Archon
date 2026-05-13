@@ -53,6 +53,7 @@ import { formatToolCall } from './utils/tool-formatter';
 import { createLogger } from '@archon/paths';
 import { getWorkflowEventEmitter } from './event-emitter';
 import { evaluateCondition } from './condition-evaluator';
+import { resolveNodeOutputField } from './node-output-utils';
 import {
   logNodeStart,
   logNodeComplete,
@@ -299,27 +300,27 @@ export function substituteNodeOutputRefs(
       if (!field) {
         return escapedForBash ? shellQuote(nodeOutput.output) : nodeOutput.output;
       }
-      try {
-        const parsed = JSON.parse(nodeOutput.output) as Record<string, unknown>;
-        const value = parsed[field];
-        if (typeof value === 'string') return escapedForBash ? shellQuote(value) : value;
-        // numbers and booleans from JSON.parse are shell-safe without quoting:
-        // JSON disallows NaN/Infinity, so String(number) contains only digits, sign, and '.'.
-        // String(boolean) is 'true' or 'false' — no shell metacharacters.
-        if (typeof value === 'number' || typeof value === 'boolean') return String(value);
-        // arrays and objects: JSON-stringify. Bash passes substitution as a single
-        // argument, so downstream tools (jq, etc.) receive a JSON literal they can parse.
-        if (Array.isArray(value) || typeof value === 'object') {
-          return escapedForBash ? shellQuote(JSON.stringify(value)) : JSON.stringify(value);
-        }
-        return escapedForBash ? "''" : ''; // undefined, symbol, bigint → empty (null is caught above by typeof check)
-      } catch (jsonErr) {
+
+      const resolved = resolveNodeOutputField(nodeOutput, field);
+      if (resolved.source === 'parse-error') {
         getLog().warn(
-          { nodeId, field, outputPreview: nodeOutput.output.slice(0, 100), err: jsonErr as Error },
+          {
+            nodeId,
+            field,
+            outputPreview: nodeOutput.output.slice(0, 100),
+            err: resolved.error as Error,
+          },
           'dag_node_output_ref_json_parse_failed'
         );
         return escapedForBash ? "''" : '';
       }
+      if (
+        escapedForBash &&
+        (typeof resolved.rawValue === 'number' || typeof resolved.rawValue === 'boolean')
+      ) {
+        return resolved.value;
+      }
+      return escapedForBash ? shellQuote(resolved.value) : resolved.value;
     }
   );
 }
@@ -985,24 +986,22 @@ async function executeNodeInternal(
       // rate_limit chunks: already log.warn'd in claude.ts; not surfaced to SSE per design
     }
 
-    // When output_format is set and the provider returned structured_output,
-    // use it instead of the concatenated assistant text (which includes prose).
-    // Each provider normalizes its own structured output onto the result chunk —
-    // no provider-specific branching here.
+    const nodeStructuredOutput =
+      nodeOptions?.outputFormat && structuredOutput !== undefined ? structuredOutput : undefined;
+
+    // When output_format is set, providers normalize parsed payloads onto the result chunk.
+    // Preserve literal assistant text in `output`; downstream field refs use structuredOutput.
     if (nodeOptions?.outputFormat) {
       if (structuredOutput !== undefined) {
         try {
-          nodeOutputText =
-            typeof structuredOutput === 'string'
-              ? structuredOutput
-              : JSON.stringify(structuredOutput);
+          JSON.stringify(structuredOutput);
         } catch (serializeErr) {
           const err = serializeErr as Error;
           throw new Error(
             `Node '${node.id}': failed to serialize structured_output to JSON: ${err.message}`
           );
         }
-        getLog().debug({ nodeId: node.id, streamingMode }, 'dag.structured_output_override');
+        getLog().debug({ nodeId: node.id, streamingMode }, 'dag.structured_output_received');
       } else {
         // Provider did not populate structuredOutput — warn the user.
         // If the provider detected invalid output, it already yielded a system warning.
@@ -1071,10 +1070,7 @@ async function executeNodeInternal(
     }
 
     if (streamingMode === 'batch' && batchMessages.length > 0) {
-      const batchContent =
-        structuredOutput !== undefined && nodeOptions?.outputFormat
-          ? nodeOutputText
-          : batchMessages.join('\n\n');
+      const batchContent = batchMessages.join('\n\n');
       await safeSendMessage(platform, conversationId, batchContent, nodeContext);
     }
 
@@ -1172,6 +1168,9 @@ async function executeNodeInternal(
         data: {
           duration_ms: duration,
           node_output: nodeOutputText,
+          ...(nodeStructuredOutput !== undefined
+            ? { structured_output: nodeStructuredOutput }
+            : {}),
           ...(nodeCostUsd !== undefined ? { cost_usd: nodeCostUsd } : {}),
           ...(nodeStopReason ? { stop_reason: nodeStopReason } : {}),
           ...(nodeNumTurns !== undefined ? { num_turns: nodeNumTurns } : {}),
@@ -1204,6 +1203,7 @@ async function executeNodeInternal(
       state: 'completed',
       output: nodeOutputText,
       sessionId: newSessionId,
+      ...(nodeStructuredOutput !== undefined ? { structuredOutput: nodeStructuredOutput } : {}),
       costUsd: nodeCostUsd,
     };
   } catch (error) {
@@ -2504,7 +2504,7 @@ export async function executeDagWorkflow(
   config: WorkflowConfig,
   configuredCommandFolder?: string,
   issueContext?: string,
-  priorCompletedNodes?: Map<string, string>
+  priorCompletedNodes?: Map<string, Extract<NodeOutput, { state: 'completed' | 'running' }>>
 ): Promise<string | undefined> {
   const dagStartTime = Date.now();
   const workflowLevelOptions = {
@@ -2521,7 +2521,7 @@ export async function executeDagWorkflow(
   // treated as done for trigger-rule and $nodeId.output substitution purposes.
   if (priorCompletedNodes && priorCompletedNodes.size > 0) {
     for (const [nodeId, output] of priorCompletedNodes) {
-      nodeOutputs.set(nodeId, { state: 'completed', output });
+      nodeOutputs.set(nodeId, output);
     }
     getLog().info(
       { workflowRunId: workflowRun.id, priorCompletedCount: priorCompletedNodes.size },
